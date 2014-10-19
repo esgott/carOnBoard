@@ -20,6 +20,7 @@ public class Canvas {
         canvas = new GLCanvas(capabilities);
         Renderer renderer = new Renderer();
         canvas.addGLEventListener(renderer);
+        canvas.addKeyListener(renderer);
         Animator animator = new Animator(canvas);
         animator.start();
     }

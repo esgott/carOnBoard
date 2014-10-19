@@ -12,6 +12,7 @@ public class MainWindow {
     private static final int WINDOW_HEIGHT = 720;
 
     private Frame frame = new Frame("CarOnBoard");
+    private GLCanvas canvas;
 
     public MainWindow() {
         System.setProperty("sun.awt.noerasebackground", "true");
@@ -27,11 +28,16 @@ public class MainWindow {
     }
 
     public void addGlCanvas(final GLCanvas canvas) {
+        this.canvas = canvas;
         frame.add(canvas);
     }
 
     public void display() {
         frame.setVisible(true);
+        frame.requestFocus();
+        if (canvas != null) {
+            canvas.requestFocusInWindow();
+        }
     }
 
 }

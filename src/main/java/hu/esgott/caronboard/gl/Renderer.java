@@ -3,6 +3,8 @@ package hu.esgott.caronboard.gl;
 import hu.esgott.caronboard.gl.object.ColorTriangle;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,14 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-public class Renderer implements GLEventListener {
+public class Renderer implements GLEventListener, KeyListener {
+
+    private static final float CAMERA_SPEED = 0.05f;
 
     private GLU glu = new GLU();
     private List<DrawableObject> objects = new ArrayList<>();
+    private float cameraX = 0;
+    private float cameraY = 0;
 
     public Renderer() {
         long time = System.currentTimeMillis();
@@ -37,7 +43,16 @@ public class Renderer implements GLEventListener {
     private void render(final GL2 gl) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
-        objects.stream().forEach(object -> object.draw(gl));
+        gl.glPushMatrix();
+        gl.glTranslatef(cameraX, cameraY, 0.0f);
+
+        objects.stream().forEach(object -> {
+            gl.glPushMatrix();
+            object.draw(gl);
+            gl.glPopMatrix();
+        });
+
+        gl.glPopMatrix();
     }
 
     @Override
@@ -68,6 +83,38 @@ public class Renderer implements GLEventListener {
         } else {
             glu.gluOrtho2D(-1.0, 1.0, -1.0 / aspect, 1.0 / aspect);
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent event) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent event) {
+        switch (event.getKeyCode()) {
+        case KeyEvent.VK_ESCAPE:
+        case KeyEvent.VK_Q:
+            System.exit(0);
+            break;
+        case KeyEvent.VK_LEFT:
+            cameraX -= CAMERA_SPEED;
+            break;
+        case KeyEvent.VK_RIGHT:
+            cameraX += CAMERA_SPEED;
+            break;
+        case KeyEvent.VK_UP:
+            cameraY += CAMERA_SPEED;
+            break;
+        case KeyEvent.VK_DOWN:
+            cameraY -= CAMERA_SPEED;
+            break;
+        default:
+            System.out.println("Not expected key");
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent event) {
     }
 
 }

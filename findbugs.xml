@@ -3,4 +3,9 @@
     <Match>
         <Bug code="SIC" />
     </Match>
+    <Match>
+        <Class name="hu.esgott.caronboard.gl.Renderer" />
+        <Method name="keyPressed" params="java.awt.event.KeyEvent" returns="void" />
+        <Bug code="Dm" />
+    </Match>
 </FindBugsFilter>
