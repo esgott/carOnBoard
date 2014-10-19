@@ -3,7 +3,7 @@ package hu.esgott.caronboard.gl.object;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
-public class ColorTriangle implements DrawableObject {
+public class ColorTriangle extends DrawableObject {
 
     private static final float SPEED = 0.001f;
 
@@ -11,8 +11,6 @@ public class ColorTriangle implements DrawableObject {
     private float theta = 0;
     private double s = 0;
     private double c = 0;
-    private float posX = 0;
-    private float posY = 0;
 
     public ColorTriangle(final long time) {
         previousTime = time;
@@ -29,7 +27,7 @@ public class ColorTriangle implements DrawableObject {
 
     @Override
     public void draw(final GL2 gl) {
-        gl.glTranslatef(posX, posY, 0);
+        gl.glTranslatef(X(), Y(), 0);
 
         gl.glBegin(GL.GL_TRIANGLES);
         gl.glColor3f(1, 0, 0);
@@ -39,11 +37,6 @@ public class ColorTriangle implements DrawableObject {
         gl.glColor3f(0, 0, 1);
         gl.glVertex2d(s, -s);
         gl.glEnd();
-    }
-
-    public void move(final float x, final float y) {
-        posX += x;
-        posY += y;
     }
 
     @Override

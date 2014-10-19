@@ -1,6 +1,5 @@
 package hu.esgott.caronboard.gl;
 
-import hu.esgott.caronboard.gl.object.Camera;
 import hu.esgott.caronboard.gl.object.ColorTriangle;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.Text;
