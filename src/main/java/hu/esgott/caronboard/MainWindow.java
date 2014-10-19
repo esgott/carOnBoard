@@ -14,6 +14,8 @@ public class MainWindow {
     private Frame frame = new Frame("CarOnBoard");
 
     public MainWindow() {
+        System.setProperty("sun.awt.noerasebackground", "true");
+
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         frame.addWindowListener(new WindowAdapter() {

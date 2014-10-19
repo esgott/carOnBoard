@@ -4,6 +4,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.glu.GLU;
 
 public class Renderer implements GLEventListener {
 
@@ -12,6 +13,7 @@ public class Renderer implements GLEventListener {
     private double theta = 0;
     private double s = 0;
     private double c = 0;
+    private GLU glu = new GLU();
 
     @Override
     public void display(final GLAutoDrawable drawable) {
@@ -51,6 +53,22 @@ public class Renderer implements GLEventListener {
     @Override
     public void reshape(final GLAutoDrawable drawable, final int x,
             final int y, final int width, final int height) {
+        final float nonZeroHeight;
+        if (height == 0) {
+            nonZeroHeight = 1;
+        } else {
+            nonZeroHeight = height;
+        }
+        GL2 gl = drawable.getGL().getGL2();
+        float aspect = (float) width / nonZeroHeight;
+        gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glLoadIdentity();
+        if (width > height) {
+            glu.gluOrtho2D(-1.0 * aspect, 1.0 * aspect, -1.0, 1.0);
+        } else {
+            glu.gluOrtho2D(-1.0, 1.0, -1.0 / aspect, 1.0 / aspect);
+        }
     }
 
 }
