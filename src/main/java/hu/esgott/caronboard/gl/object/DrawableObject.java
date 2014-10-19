@@ -8,4 +8,8 @@ public interface DrawableObject {
 
     void draw(final GL2 gl);
 
+    void move(final float x, final float y);
+
+    String getName();
+
 }

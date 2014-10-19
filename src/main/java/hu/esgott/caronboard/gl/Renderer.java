@@ -17,9 +17,11 @@ import javax.media.opengl.glu.GLU;
 public class Renderer implements GLEventListener, KeyListener {
 
     private static final float CAMERA_SPEED = 0.05f;
+    private static final float MOVE_SPEED = 0.05f;
 
     private GLU glu = new GLU();
     private List<DrawableObject> objects = new ArrayList<>();
+    private int selectedObject = 0;
     private float cameraX = 0;
     private float cameraY = 0;
 
@@ -108,9 +110,45 @@ public class Renderer implements GLEventListener, KeyListener {
         case KeyEvent.VK_DOWN:
             cameraY -= CAMERA_SPEED;
             break;
+        case KeyEvent.VK_PAGE_DOWN:
+            selectNextObject();
+            break;
+        case KeyEvent.VK_PAGE_UP:
+            selectPreviousObject();
+            break;
+        case KeyEvent.VK_W:
+            objects.get(selectedObject).move(0, MOVE_SPEED);
+            break;
+        case KeyEvent.VK_S:
+            objects.get(selectedObject).move(0, -MOVE_SPEED);
+            break;
+        case KeyEvent.VK_A:
+            objects.get(selectedObject).move(-MOVE_SPEED, 0);
+            break;
+        case KeyEvent.VK_D:
+            objects.get(selectedObject).move(MOVE_SPEED, 0);
+            break;
         default:
             System.out.println("Not expected key");
         }
+    }
+
+    private void selectNextObject() {
+        if (selectedObject < objects.size() - 1) {
+            selectedObject++;
+        } else {
+            selectedObject = 0;
+        }
+        System.out.println(objects.get(selectedObject).getName());
+    }
+
+    private void selectPreviousObject() {
+        if (selectedObject > 0) {
+            selectedObject--;
+        } else {
+            selectedObject = objects.size() - 1;
+        }
+        System.out.println(objects.get(selectedObject).getName());
     }
 
     @Override

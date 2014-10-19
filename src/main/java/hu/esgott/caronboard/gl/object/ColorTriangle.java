@@ -11,6 +11,8 @@ public class ColorTriangle implements DrawableObject {
     private float theta = 0;
     private double s = 0;
     private double c = 0;
+    private float posX = 0;
+    private float posY = 0;
 
     public ColorTriangle(final long time) {
         previousTime = time;
@@ -27,6 +29,8 @@ public class ColorTriangle implements DrawableObject {
 
     @Override
     public void draw(final GL2 gl) {
+        gl.glTranslatef(posX, posY, 0);
+
         gl.glBegin(GL.GL_TRIANGLES);
         gl.glColor3f(1, 0, 0);
         gl.glVertex2d(-c, -c);
@@ -35,6 +39,16 @@ public class ColorTriangle implements DrawableObject {
         gl.glColor3f(0, 0, 1);
         gl.glVertex2d(s, -s);
         gl.glEnd();
+    }
+
+    public void move(final float x, final float y) {
+        posX += x;
+        posY += y;
+    }
+
+    @Override
+    public String getName() {
+        return "triangle";
     }
 
 }
