@@ -8,12 +8,13 @@ import javax.media.opengl.awt.GLCanvas;
 
 public class MainWindow {
 
-    private static final int WINDOW_SIZE = 300;
+    private static final int WINDOW_WIDTH = 1280;
+    private static final int WINDOW_HEIGHT = 720;
 
     private Frame frame = new Frame("CarOnBoard");
 
     public MainWindow() {
-        frame.setSize(WINDOW_SIZE, WINDOW_SIZE);
+        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setVisible(true);
 
         frame.addWindowListener(new WindowAdapter() {
