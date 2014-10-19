@@ -24,7 +24,7 @@ public class Canvas {
         animator.start();
     }
 
-    public GLCanvas getCanvas() {
+    public final GLCanvas getCanvas() {
         return canvas;
     }
 

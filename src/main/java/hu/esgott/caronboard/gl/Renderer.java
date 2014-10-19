@@ -7,24 +7,26 @@ import javax.media.opengl.GLEventListener;
 
 public class Renderer implements GLEventListener {
 
+    private static final float STEP = 0.01f;
+
     private double theta = 0;
     private double s = 0;
     private double c = 0;
 
     @Override
-    public void display(GLAutoDrawable drawable) {
+    public void display(final GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         update();
         render(gl);
     }
 
     private void update() {
-        theta += 0.01;
+        theta += STEP;
         s = Math.sin(theta);
         c = Math.cos(theta);
     }
 
-    private void render(GL2 gl) {
+    private void render(final GL2 gl) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
         gl.glBegin(GL.GL_TRIANGLES);
@@ -38,17 +40,17 @@ public class Renderer implements GLEventListener {
     }
 
     @Override
-    public void dispose(GLAutoDrawable drawable) {
+    public void dispose(final GLAutoDrawable drawable) {
     }
 
     @Override
-    public void init(GLAutoDrawable drawable) {
+    public void init(final GLAutoDrawable drawable) {
         drawable.getGL().setSwapInterval(1);
     }
 
     @Override
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-            int height) {
+    public void reshape(final GLAutoDrawable drawable, final int x,
+            final int y, final int width, final int height) {
     }
 
 }

@@ -24,7 +24,7 @@ public class MainWindow {
         });
     }
 
-    public void addGlCanvas(GLCanvas canvas) {
+    public void addGlCanvas(final GLCanvas canvas) {
         frame.add(canvas);
     }
 
