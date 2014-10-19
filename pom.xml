@@ -75,6 +75,15 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.3.2</version>
+                <configuration>
+                    <mainClass>hu.esgott.caronboard.Main</mainClass>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
