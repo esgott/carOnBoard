@@ -12,6 +12,7 @@ final class Main {
         Canvas canvas = new Canvas();
         MainWindow mainWindow = new MainWindow();
         mainWindow.addGlCanvas(canvas.getCanvas());
+        mainWindow.display();
     }
 
 }

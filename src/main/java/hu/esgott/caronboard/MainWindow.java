@@ -15,7 +15,6 @@ public class MainWindow {
 
     public MainWindow() {
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        frame.setVisible(true);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -27,6 +26,10 @@ public class MainWindow {
 
     public void addGlCanvas(GLCanvas canvas) {
         frame.add(canvas);
+    }
+
+    public void display() {
+        frame.setVisible(true);
     }
 
 }
