@@ -16,14 +16,12 @@ import javax.media.opengl.glu.GLU;
 
 public class Renderer implements GLEventListener, KeyListener {
 
-    private static final float CAMERA_SPEED = 0.05f;
     private static final float MOVE_SPEED = 0.05f;
 
     private GLU glu = new GLU();
     private List<DrawableObject> objects = new ArrayList<>();
     private int selectedObject = 0;
-    private float cameraX = 0;
-    private float cameraY = 0;
+    private Camera camera = new Camera();
 
     public Renderer() {
         long time = System.currentTimeMillis();
@@ -46,7 +44,7 @@ public class Renderer implements GLEventListener, KeyListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
         gl.glPushMatrix();
-        gl.glTranslatef(cameraX, cameraY, 0.0f);
+        camera.move(gl);
 
         objects.stream().forEach(object -> {
             gl.glPushMatrix();
@@ -99,16 +97,16 @@ public class Renderer implements GLEventListener, KeyListener {
             System.exit(0);
             break;
         case KeyEvent.VK_LEFT:
-            cameraX -= CAMERA_SPEED;
+            camera.left();
             break;
         case KeyEvent.VK_RIGHT:
-            cameraX += CAMERA_SPEED;
+            camera.right();
             break;
         case KeyEvent.VK_UP:
-            cameraY += CAMERA_SPEED;
+            camera.up();
             break;
         case KeyEvent.VK_DOWN:
-            cameraY -= CAMERA_SPEED;
+            camera.down();
             break;
         case KeyEvent.VK_PAGE_DOWN:
             selectNextObject();
