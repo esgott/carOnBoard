@@ -48,12 +48,12 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <configuration>
-                            <effort>Max</effort>
-                            <threshold>Low</threshold>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Low</threshold>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -68,12 +68,12 @@
                             <goal>check</goal>
                             <goal>cpd-check</goal>
                         </goals>
-                        <configuration>
-                            <printFailingErrors>true</printFailingErrors>
-                            <verbose>true</verbose>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <printFailingErrors>true</printFailingErrors>
+                    <verbose>true</verbose>
+                </configuration>
             </plugin>
 
             <plugin>
