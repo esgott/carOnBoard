@@ -27,14 +27,14 @@
                             <goals>
                                 <goal>check</goal>
                             </goals>
-                        <configuration>
-                            <configLocation>checkstyle.xml</configLocation>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <linkXRef>false</linkXRef>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
             </plugin>
 
             <plugin>
