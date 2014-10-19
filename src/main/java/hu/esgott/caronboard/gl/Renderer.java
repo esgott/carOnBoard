@@ -48,7 +48,7 @@ public class Renderer implements GLEventListener {
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-            int length) {
+            int height) {
     }
 
 }
