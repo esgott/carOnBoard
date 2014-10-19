@@ -1,8 +1,23 @@
 package hu.esgott.caronboard;
 
-class Main {
+/**
+ * Everything starts here.
+ */
+final class Main {
 
-    public static void main(String[] arguments) {
+    /**
+     * This class can't be created.
+     */
+    private Main() {
+    }
+
+    /**
+     * Entry point for execution.
+     *
+     * @param arguments
+     *            Arguments from command line.
+     */
+    public static void main(final String[] arguments) {
         System.out.println("Hello World!");
     }
 
