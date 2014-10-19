@@ -65,6 +65,7 @@
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Low</threshold>
+                    <excludeFilterFile>findbugs.xml</excludeFilterFile>
                 </configuration>
             </plugin>
 
