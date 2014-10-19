@@ -1,7 +1,9 @@
 package hu.esgott.caronboard.gl;
 
+import hu.esgott.caronboard.gl.object.Camera;
 import hu.esgott.caronboard.gl.object.ColorTriangle;
 import hu.esgott.caronboard.gl.object.DrawableObject;
+import hu.esgott.caronboard.gl.object.Text;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,6 +28,7 @@ public class Renderer implements GLEventListener, KeyListener {
     public Renderer() {
         long time = System.currentTimeMillis();
         objects.add(new ColorTriangle(time));
+        objects.add(new Text("test"));
     }
 
     @Override
