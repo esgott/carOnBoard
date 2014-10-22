@@ -8,12 +8,14 @@ import com.jogamp.opengl.util.awt.TextRenderer;
 
 public class Text extends DrawableObject {
 
+    private static final float SCALE = 0.001f;
+
     private String text;
     private TextRenderer textRenderer;
 
-    public Text(String text) {
+    public Text(String text, int size) {
         this.text = text;
-        textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 36));
+        textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, size));
     }
 
     @Override
@@ -26,7 +28,7 @@ public class Text extends DrawableObject {
         gl.glColor3f(0.5f, 0.5f, 0.5f);
 
         textRenderer.begin3DRendering();
-        textRenderer.draw3D(text, X(), Y(), 0, 0.005f);
+        textRenderer.draw3D(text, 0, 0, 0, SCALE);
         textRenderer.end3DRendering();
     }
 
