@@ -75,6 +75,9 @@
                 <configuration>
                     <printFailingErrors>true</printFailingErrors>
                     <verbose>true</verbose>
+                    <rulesets>
+                        <ruleset>pmd.xml</ruleset>
+                    </rulesets>
                 </configuration>
             </plugin>
 
