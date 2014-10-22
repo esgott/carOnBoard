@@ -18,7 +18,7 @@ import javax.media.opengl.glu.GLU;
 
 public class Renderer implements GLEventListener, KeyListener {
 
-    private static final float MOVE_SPEED = 0.05f;
+    private static final float MOVE_SPEED = 0.02f;
 
     private GLU glu = new GLU();
     private List<DrawableObject> objects = new ArrayList<>();
