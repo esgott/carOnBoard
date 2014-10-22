@@ -20,14 +20,13 @@ public class Renderer implements GLEventListener, KeyListener {
     private static final float MOVE_SPEED = 0.02f;
 
     private GLU glu = new GLU();
+    private DrawableList list = new DrawableList(3.4f, 1.8f);
     private List<DrawableObject> objects = new ArrayList<>();
     private int selectedObject = 0;
     private Camera camera = new Camera();
 
     public Renderer() {
-        long time = System.currentTimeMillis();
-        objects.add(new ColorTriangle(time));
-        DrawableList list = new DrawableList(3.4f, 1.8f);
+        objects.add(new ColorTriangle());
         list.move(-1.7f, -0.9f);
         objects.add(list);
     }
@@ -129,6 +128,9 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case KeyEvent.VK_D:
             objects.get(selectedObject).move(MOVE_SPEED, 0);
+            break;
+        case KeyEvent.VK_P:
+            list.forward();
             break;
         default:
             System.out.println("Not expected key");

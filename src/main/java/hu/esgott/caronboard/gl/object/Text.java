@@ -19,7 +19,7 @@ public class Text extends DrawableObject {
     }
 
     @Override
-    public void update(long time) {
+    public void updateObject() {
     }
 
     @Override

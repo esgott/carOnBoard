@@ -7,22 +7,19 @@ public class ColorTriangle extends DrawableObject {
 
     private static final float SPEED = 0.001f;
 
-    private long previousTime;
     private float theta = 0;
     private double s = 0;
     private double c = 0;
 
-    public ColorTriangle(final long time) {
-        previousTime = time;
+    public ColorTriangle() {
     }
 
     @Override
-    public void update(final long time) {
-        float delta = (time - previousTime) * SPEED;
+    public void updateObject() {
+        float delta = elapsedTime() * SPEED;
         theta += delta;
         s = Math.sin(theta);
         c = Math.cos(theta);
-        previousTime = time;
     }
 
     @Override

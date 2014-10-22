@@ -1,33 +1,57 @@
 package hu.esgott.caronboard.gl.object;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 
 public class DrawableList extends DrawableObject {
 
+    private static final float DIFF = 0.575f;
+
     private float width = 0.0f;
     private float height = 0.0f;
     private List<Text> items = new ArrayList<>();
+    private List<Float> positions = new ArrayList<>();
 
     public DrawableList(float width, float height) {
         this.width = width;
         this.height = height;
+
+        positions.add(0.2f - DIFF);
+        positions.add(0.2f);
+        positions.add(0.2f + DIFF);
+        positions.add(0.2f + 2 * DIFF);
+        positions.add(0.2f + 3 * DIFF);
+
+        addItem(0);
+        addItem(1);
+        addItem(2);
+        addItem(3);
+        addItem(4);
+    }
+
+    private void addItem(int num) {
         final int size = 350;
-        Text item1 = new Text("item1", size);
-        item1.move(0.2f, 0.2f);
-        items.add(item1);
-        Text item2 = new Text("item2", size);
-        item2.move(0.2f, 0.75f);
-        items.add(item2);
-        Text item3 = new Text("item3", size);
-        item3.move(0.2f, 1.35f);
-        items.add(item3);
+        Text item = new Text("item" + num, size);
+        item.move(0.2f, positions.get(num));
+        items.add(item);
     }
 
     @Override
-    public void update(long time) {
+    public void updateChildren(final long time) {
+        items.forEach(item -> {
+            item.update(time);
+        });
+    }
+
+    @Override
+    public void updateObject() {
+        Iterator<Float> pos = positions.iterator();
+        items.stream().forEachOrdered(item -> {
+            item.moveTowards(0.2f, pos.next());
+        });
     }
 
     @Override
@@ -39,7 +63,8 @@ public class DrawableList extends DrawableObject {
         gl.glColor3f(0, 0, 1);
         drawRectangle(gl, 0.1f, 0.1f, width - 0.1f, height - 0.1f);
 
-        items.stream().forEach(item -> {
+        List<Text> visibleItems = items.subList(1, 4);
+        visibleItems.stream().forEachOrdered(item -> {
             gl.glPushMatrix();
             item.draw(gl);
             gl.glPopMatrix();
@@ -60,6 +85,12 @@ public class DrawableList extends DrawableObject {
     @Override
     public String getName() {
         return "list";
+    }
+
+    public void forward() {
+        Text first = items.remove(0);
+        items.add(first);
+        first.moveTo(0.2f, positions.get(4));
     }
 
 }
