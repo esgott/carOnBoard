@@ -102,7 +102,14 @@ public class DrawableList extends DrawableObject {
     public void forward() {
         Text first = items.remove(0);
         items.add(first);
-        first.moveTo(0.2f, positions.get(4));
+        float lastPosition = positions.get(positions.size() - 1);
+        first.moveTo(0.2f, lastPosition);
+    }
+
+    public void backward() {
+        Text last = items.remove(items.size() - 1);
+        items.add(0, last);
+        last.moveTo(0.2f, positions.get(0));
     }
 
 }

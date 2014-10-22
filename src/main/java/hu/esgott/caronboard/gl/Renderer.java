@@ -132,6 +132,9 @@ public class Renderer implements GLEventListener, KeyListener {
         case KeyEvent.VK_P:
             list.forward();
             break;
+        case KeyEvent.VK_O:
+            list.backward();
+            break;
         default:
             System.out.println("Not expected key");
         }
