@@ -1,6 +1,5 @@
 package hu.esgott.caronboard.gl;
 
-import hu.esgott.caronboard.gl.object.ColorTriangle;
 import hu.esgott.caronboard.gl.object.DrawableList;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 
@@ -26,7 +25,6 @@ public class Renderer implements GLEventListener, KeyListener {
     private Camera camera = new Camera();
 
     public Renderer() {
-        objects.add(new ColorTriangle());
         list.move(-1.7f, -0.9f);
         objects.add(list);
     }
