@@ -58,17 +58,22 @@ public class DrawableList extends DrawableObject {
     public void draw(GL2 gl) {
         gl.glTranslatef(X(), Y(), 0);
 
-        gl.glColor3f(1, 0, 0);
-        drawRectangle(gl, 0, 0, width, height);
         gl.glColor3f(0, 0, 1);
-        drawRectangle(gl, 0.1f, 0.1f, width - 0.1f, height - 0.1f);
+        drawRectangle(gl, 0, 0, width, height);
 
         List<Text> visibleItems = items.subList(1, 4);
-        visibleItems.stream().forEachOrdered(item -> {
-            gl.glPushMatrix();
-            item.draw(gl);
-            gl.glPopMatrix();
+        Iterator<Float> pos = positions.iterator();
+        items.stream().forEachOrdered(item -> {
+            float position = pos.next();
+            if (visibleItems.contains(item) || !item.at(0.2f, position)) {
+                gl.glPushMatrix();
+                item.draw(gl);
+                gl.glPopMatrix();
+            }
         });
+
+        gl.glColor3f(1, 0, 0);
+        drawFrame(gl);
     }
 
     private void drawRectangle(GL2 gl, final float bottomLeftX,
@@ -80,6 +85,13 @@ public class DrawableList extends DrawableObject {
         gl.glVertex2f(topRightX, topRightY);
         gl.glVertex2f(bottomLeftX, topRightY);
         gl.glEnd();
+    }
+
+    private void drawFrame(GL2 gl) {
+        drawRectangle(gl, 0, 0, width, 0.1f);
+        drawRectangle(gl, width - 0.1f, 0, width, height);
+        drawRectangle(gl, 0, height - 0.1f, width, height);
+        drawRectangle(gl, 0, 0, 0.1f, height);
     }
 
     @Override

@@ -71,6 +71,10 @@ public abstract class DrawableObject {
         }
     }
 
+    public boolean at(final float x, final float y) {
+        return Math.abs(x - posX) < 0.001f && Math.abs(y - posY) < 0.001f;
+    }
+
     public float X() {
         return posX;
     }
