@@ -67,7 +67,9 @@ public class DrawableList extends DrawableObject {
             float position = pos.next();
             if (visibleItems.contains(item) || !item.at(0.2f, position)) {
                 gl.glPushMatrix();
+                enableClip(item, gl);
                 item.draw(gl);
+                gl.glDisable(GL2.GL_CLIP_PLANE0);
                 gl.glPopMatrix();
             }
         });
@@ -87,7 +89,24 @@ public class DrawableList extends DrawableObject {
         gl.glEnd();
     }
 
-    private void drawFrame(GL2 gl) {
+    private void enableClip(final Text item, final GL2 gl) {
+        double[] yPlane = { 0, 1, 0, 0 };
+        boolean needed = false;
+        if (item.Y() < 0) {
+            yPlane[3] = item.Y();
+            needed = true;
+        } else if (item.Y() + item.height() > height) {
+            yPlane[3] = (height - item.Y());
+            yPlane[1] = -1;
+            needed = true;
+        }
+        if (needed) {
+            gl.glClipPlane(GL2.GL_CLIP_PLANE0, yPlane, 0);
+            gl.glEnable(GL2.GL_CLIP_PLANE0);
+        }
+    }
+
+    private void drawFrame(final GL2 gl) {
         drawRectangle(gl, 0, 0, width, 0.1f);
         drawRectangle(gl, width - 0.1f, 0, width, height);
         drawRectangle(gl, 0, height - 0.1f, width, height);

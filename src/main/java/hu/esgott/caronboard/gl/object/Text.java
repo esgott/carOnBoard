@@ -1,6 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
 import java.awt.Font;
+import java.awt.geom.Rectangle2D;
 
 import javax.media.opengl.GL2;
 
@@ -35,6 +36,11 @@ public class Text extends DrawableObject {
     @Override
     public String getName() {
         return text;
+    }
+
+    public float height() {
+        Rectangle2D rect = textRenderer.getBounds(text);
+        return (float) rect.getHeight() * SCALE;
     }
 
 }
