@@ -55,17 +55,12 @@ public class DrawableList extends DrawableObject {
         gl.glColor3f(0, 0, 1);
         drawRectangle(gl, 0, 0, width, height);
 
-        List<Text> visibleItems = itemHandler.getRenderedItems().subList(1, 4);
-        Iterator<Float> pos = positions.iterator();
         itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
-            float position = pos.next();
-            if (visibleItems.contains(item) || !item.at(0.2f, position)) {
-                gl.glPushMatrix();
-                enableClip(item, gl);
-                item.draw(gl);
-                gl.glDisable(GL2.GL_CLIP_PLANE0);
-                gl.glPopMatrix();
-            }
+            gl.glPushMatrix();
+            enableClip(item, gl);
+            item.draw(gl);
+            gl.glDisable(GL2.GL_CLIP_PLANE0);
+            gl.glPopMatrix();
         });
 
         gl.glColor3f(1, 0, 0);
