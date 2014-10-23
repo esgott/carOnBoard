@@ -4,7 +4,7 @@ import javax.media.opengl.GL2;
 
 public abstract class DrawableObject {
 
-    private static final float MAX_SPEED = 0.001f;
+    private static final float MAX_SPEED = 0.002f;
 
     private float posX = 0;
     private float posY = 0;
