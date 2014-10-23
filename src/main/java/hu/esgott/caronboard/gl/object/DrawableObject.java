@@ -8,7 +8,6 @@ public abstract class DrawableObject {
 
     private float posX = 0;
     private float posY = 0;
-    // private float speed = 0;
     private long previousTime;
     private long currentTime;
     private long elapsedTime;
