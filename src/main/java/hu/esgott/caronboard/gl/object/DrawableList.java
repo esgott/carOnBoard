@@ -12,36 +12,30 @@ public class DrawableList extends DrawableObject {
 
     private float width = 0.0f;
     private float height = 0.0f;
-    private List<Text> items = new ArrayList<>();
+    private final ItemHandler itemHandler = new ItemHandler(350);
     private List<Float> positions = new ArrayList<>();
 
     public DrawableList(float width, float height) {
         this.width = width;
         this.height = height;
 
-        positions.add(0.2f - DIFF);
-        positions.add(0.2f);
-        positions.add(0.2f + DIFF);
-        positions.add(0.2f + 2 * DIFF);
-        positions.add(0.2f + 3 * DIFF);
+        for (int i = -1; i < 4; i++) {
+            positions.add(0.2f + (i * DIFF));
+        }
 
-        addItem(0);
-        addItem(1);
-        addItem(2);
-        addItem(3);
-        addItem(4);
-    }
+        for (int i = 0; i < 5; i++) {
+            itemHandler.addItem("item" + (i + 1));
+        }
 
-    private void addItem(int num) {
-        final int size = 350;
-        Text item = new Text("item" + num, size);
-        item.move(0.2f, positions.get(num));
-        items.add(item);
+        Iterator<Float> pos = positions.iterator();
+        itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
+            item.move(0.2f, pos.next());
+        });
     }
 
     @Override
     public void updateChildren(final long time) {
-        items.forEach(item -> {
+        itemHandler.getRenderedItems().forEach(item -> {
             item.update(time);
         });
     }
@@ -49,7 +43,7 @@ public class DrawableList extends DrawableObject {
     @Override
     public void updateObject() {
         Iterator<Float> pos = positions.iterator();
-        items.stream().forEachOrdered(item -> {
+        itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
             item.moveTowards(0.2f, pos.next());
         });
     }
@@ -61,9 +55,9 @@ public class DrawableList extends DrawableObject {
         gl.glColor3f(0, 0, 1);
         drawRectangle(gl, 0, 0, width, height);
 
-        List<Text> visibleItems = items.subList(1, 4);
+        List<Text> visibleItems = itemHandler.getRenderedItems().subList(1, 4);
         Iterator<Float> pos = positions.iterator();
-        items.stream().forEachOrdered(item -> {
+        itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
             float position = pos.next();
             if (visibleItems.contains(item) || !item.at(0.2f, position)) {
                 gl.glPushMatrix();
@@ -119,16 +113,14 @@ public class DrawableList extends DrawableObject {
     }
 
     public void forward() {
-        Text first = items.remove(0);
-        items.add(first);
+        Text newItem = itemHandler.next();
         float lastPosition = positions.get(positions.size() - 1);
-        first.moveTo(0.2f, lastPosition);
+        newItem.moveTo(0.2f, lastPosition);
     }
 
     public void backward() {
-        Text last = items.remove(items.size() - 1);
-        items.add(0, last);
-        last.moveTo(0.2f, positions.get(0));
+        Text newItem = itemHandler.prev();
+        newItem.moveTo(0.2f, positions.get(0));
     }
 
 }
