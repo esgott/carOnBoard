@@ -1,6 +1,8 @@
-eclipse:eclipse    generates Eclipse project
-exec:java          runs executable
+eclipse:eclipse                        generates Eclipse project
+exec:java                              runs executable
+versions:display-dependency-updates    check for updated dependencies
+versions:display-plugin-updates        check for updated plugins
 
-compile            compiles source
-test               runs tests
-verify             runs static analysers
+compile                                compiles source
+test                                   runs tests
+verify                                 runs static analysers
