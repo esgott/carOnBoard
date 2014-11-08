@@ -1,5 +1,5 @@
 eclipse:eclipse                        generates Eclipse project
-exec:java                              runs executable
+exec:exec                              runs executable
 versions:display-dependency-updates    check for updated dependencies
 versions:display-plugin-updates        check for updated plugins
 
