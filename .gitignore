@@ -4,6 +4,10 @@
 # Maven output directory
 target
 
+# sound files
+*.mp3
+*.wav
+
 # Eclipse project files
 .classpath
 .project
