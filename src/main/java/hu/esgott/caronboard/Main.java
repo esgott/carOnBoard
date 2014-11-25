@@ -4,7 +4,11 @@ import hu.esgott.caronboard.gl.Canvas;
 import hu.esgott.caronboard.leap.LeapListener;
 import hu.esgott.caronboard.leap.SpeechPlayer;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -25,6 +29,7 @@ final class Main {
     }
 
     public static void main(final String[] arguments) {
+        initLogger();
         processArguments(arguments);
         Controller controller = new Controller();
         controller.addListener(listener);
@@ -41,6 +46,20 @@ final class Main {
         controller.removeListener(listener);
         listener.dispose();
         player.dispose();
+    }
+
+    private static void initLogger() {
+        Logger logger = Logger.getLogger("");
+        try {
+            FileHandler file = new FileHandler("log.txt");
+            logger.addHandler(file);
+            SimpleFormatter formatter = new SimpleFormatter();
+            file.setFormatter(formatter);
+            logger.info("Application started");
+        } catch (SecurityException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("static-access")
