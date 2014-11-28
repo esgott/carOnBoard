@@ -17,7 +17,7 @@ public class LeapListener extends Listener {
         controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
         controller.enableGesture(Gesture.Type.TYPE_SWIPE);
         controller.config().setFloat("Gesture.Swipe.MinLength", 25.0f);
-        controller.config().setFloat("Gesture.Circle.MinArc", 10.0f);
+        controller.config().setFloat("Gesture.Circle.MinArc", 5.0f);
         controller.config().save();
     }
 
