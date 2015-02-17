@@ -23,6 +23,7 @@ final class Main {
 
     private static LeapListener listener = new LeapListener();
     private static boolean withGui = false;
+    private static Logger logger;
 
     private Main() {
         throw new AssertionError("Shall not initialize this");
@@ -39,17 +40,19 @@ final class Main {
             Canvas canvas = new Canvas();
             MainWindow mainWindow = new MainWindow();
             mainWindow.addGlCanvas(canvas.getCanvas());
+            logger.info("Starting GUI");
             mainWindow.display();
         } else {
             new Scanner(System.in).nextLine();
         }
+        logger.info("Shutting down");
         controller.removeListener(listener);
         listener.dispose();
         player.dispose();
     }
 
     private static void initLogger() {
-        Logger logger = Logger.getLogger("");
+        logger = Logger.getLogger("");
         try {
             FileHandler file = new FileHandler("log.txt");
             logger.addHandler(file);
