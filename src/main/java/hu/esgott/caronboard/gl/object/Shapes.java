@@ -7,7 +7,7 @@ public class Shapes {
     public static void drawRectangle(GL2 gl, final float bottomLeftX,
             final float bottomLeftY, final float topRightX,
             final float topRightY) {
-        gl.glBegin(GL2.GL_POLYGON);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2f(bottomLeftX, bottomLeftY);
         gl.glVertex2f(topRightX, bottomLeftY);
         gl.glVertex2f(topRightX, topRightY);
