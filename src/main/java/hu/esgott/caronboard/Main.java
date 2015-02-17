@@ -22,7 +22,7 @@ import com.leapmotion.leap.Controller;
 final class Main {
 
     private static LeapListener listener = new LeapListener();
-    private static boolean withGui = false;
+    private static boolean withGui = true;
     private static Logger logger;
 
     private Main() {
