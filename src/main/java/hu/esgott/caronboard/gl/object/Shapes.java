@@ -15,4 +15,21 @@ public class Shapes {
         gl.glEnd();
     }
 
+    public static void drawTriangle(GL2 gl, final float posX, final float posY,
+            final float rotation, final float scale) {
+        gl.glPushMatrix();
+
+        gl.glTranslatef(posX, posY, 0);
+        gl.glScalef(scale, scale, 1.0f);
+        gl.glRotatef(rotation, 0.0f, 0.0f, 1.0f);
+
+        gl.glBegin(GL2.GL_TRIANGLES);
+        gl.glVertex2f(0.0f, 1.0f);
+        gl.glVertex2f(-1.0f, -1.0f);
+        gl.glVertex2f(1.0f, -1.0f);
+        gl.glEnd();
+
+        gl.glPopMatrix();
+    }
+
 }
