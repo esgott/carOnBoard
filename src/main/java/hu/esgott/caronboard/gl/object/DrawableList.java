@@ -9,6 +9,7 @@ import javax.media.opengl.GL2;
 public class DrawableList extends DrawableObject {
 
     private static final float DIFF = 0.575f;
+    private static final float FRAME_THICKNESS = 0.07f;
 
     private float width = 0.0f;
     private float height = 0.0f;
@@ -96,10 +97,10 @@ public class DrawableList extends DrawableObject {
     }
 
     private void drawFrame(final GL2 gl) {
-        drawRectangle(gl, 0, 0, width, 0.1f);
-        drawRectangle(gl, width - 0.1f, 0, width, height);
-        drawRectangle(gl, 0, height - 0.1f, width, height);
-        drawRectangle(gl, 0, 0, 0.1f, height);
+        drawRectangle(gl, 0, 0, width, FRAME_THICKNESS);
+        drawRectangle(gl, width - FRAME_THICKNESS, 0, width, height);
+        drawRectangle(gl, 0, height - FRAME_THICKNESS, width, height);
+        drawRectangle(gl, 0, 0, FRAME_THICKNESS, height);
     }
 
     @Override
