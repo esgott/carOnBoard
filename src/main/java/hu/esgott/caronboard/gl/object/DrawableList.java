@@ -54,7 +54,7 @@ public class DrawableList extends DrawableObject {
         gl.glTranslatef(X(), Y(), 0);
 
         gl.glColor3f(0, 0, 1);
-        drawRectangle(gl, 0, 0, width, height);
+        Shapes.drawRectangle(gl, 0, 0, width, height);
 
         itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
             gl.glPushMatrix();
@@ -66,17 +66,6 @@ public class DrawableList extends DrawableObject {
 
         gl.glColor3f(1, 0, 0);
         drawFrame(gl);
-    }
-
-    private void drawRectangle(GL2 gl, final float bottomLeftX,
-            final float bottomLeftY, final float topRightX,
-            final float topRightY) {
-        gl.glBegin(GL2.GL_POLYGON);
-        gl.glVertex2f(bottomLeftX, bottomLeftY);
-        gl.glVertex2f(topRightX, bottomLeftY);
-        gl.glVertex2f(topRightX, topRightY);
-        gl.glVertex2f(bottomLeftX, topRightY);
-        gl.glEnd();
     }
 
     private void enableClip(final Text item, final GL2 gl) {
@@ -97,10 +86,10 @@ public class DrawableList extends DrawableObject {
     }
 
     private void drawFrame(final GL2 gl) {
-        drawRectangle(gl, 0, 0, width, FRAME_THICKNESS);
-        drawRectangle(gl, width - FRAME_THICKNESS, 0, width, height);
-        drawRectangle(gl, 0, height - FRAME_THICKNESS, width, height);
-        drawRectangle(gl, 0, 0, FRAME_THICKNESS, height);
+        Shapes.drawRectangle(gl, 0, 0, width, FRAME_THICKNESS);
+        Shapes.drawRectangle(gl, width - FRAME_THICKNESS, 0, width, height);
+        Shapes.drawRectangle(gl, 0, height - FRAME_THICKNESS, width, height);
+        Shapes.drawRectangle(gl, 0, 0, FRAME_THICKNESS, height);
     }
 
     @Override
