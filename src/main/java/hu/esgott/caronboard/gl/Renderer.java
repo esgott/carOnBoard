@@ -19,13 +19,13 @@ public class Renderer implements GLEventListener, KeyListener {
     private static final float MOVE_SPEED = 0.02f;
 
     private GLU glu = new GLU();
-    private DrawableList list = new DrawableList(3.4f, 1.8f);
+    private DrawableList list = new DrawableList(3.4f, 1.3f);
     private List<DrawableObject> objects = new ArrayList<>();
     private int selectedObject = 0;
     private Camera camera = new Camera();
 
     public Renderer() {
-        list.move(-1.7f, -0.9f);
+        list.move(-1.7f, -0.4f);
         objects.add(list);
     }
 

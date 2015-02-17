@@ -8,12 +8,12 @@ import javax.media.opengl.GL2;
 
 public class DrawableList extends DrawableObject {
 
-    private static final float DIFF = 0.575f;
+    private static final float DIFF = 0.4f;
     private static final float FRAME_THICKNESS = 0.07f;
 
     private float width = 0.0f;
     private float height = 0.0f;
-    private final ItemHandler itemHandler = new ItemHandler(350);
+    private final ItemHandler itemHandler = new ItemHandler(250);
     private List<Float> positions = new ArrayList<>();
 
     public DrawableList(float width, float height) {
