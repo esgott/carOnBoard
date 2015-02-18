@@ -16,8 +16,6 @@ import javax.media.opengl.glu.GLU;
 
 public class Renderer implements GLEventListener, KeyListener {
 
-    private static final float MOVE_SPEED = 0.02f;
-
     private GLU glu = new GLU();
     private MediaScreen mediaScreen = new MediaScreen();
     private List<DrawableObject> objects = new ArrayList<>();
@@ -113,18 +111,6 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case KeyEvent.VK_PAGE_UP:
             selectPreviousObject();
-            break;
-        case KeyEvent.VK_W:
-            objects.get(selectedObject).move(0, MOVE_SPEED);
-            break;
-        case KeyEvent.VK_S:
-            objects.get(selectedObject).move(0, -MOVE_SPEED);
-            break;
-        case KeyEvent.VK_A:
-            objects.get(selectedObject).move(-MOVE_SPEED, 0);
-            break;
-        case KeyEvent.VK_D:
-            objects.get(selectedObject).move(MOVE_SPEED, 0);
             break;
         case KeyEvent.VK_P:
             mediaScreen.forwardAction();
