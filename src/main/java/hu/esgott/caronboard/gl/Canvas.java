@@ -13,6 +13,7 @@ public class Canvas {
     }
 
     private GLCanvas canvas;
+    private Animator animator;
 
     public Canvas() {
         GLProfile profile = GLProfile.getDefault();
@@ -21,12 +22,16 @@ public class Canvas {
         Renderer renderer = new Renderer();
         canvas.addGLEventListener(renderer);
         canvas.addKeyListener(renderer);
-        Animator animator = new Animator(canvas);
+        animator = new Animator(canvas);
         animator.start();
     }
 
     public final GLCanvas getCanvas() {
         return canvas;
+    }
+
+    public void stop() {
+        animator.stop();
     }
 
 }

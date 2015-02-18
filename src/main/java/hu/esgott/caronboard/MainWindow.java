@@ -1,18 +1,23 @@
 package hu.esgott.caronboard;
 
+import hu.esgott.caronboard.gl.Canvas;
+
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.media.opengl.awt.GLCanvas;
+import java.util.logging.Logger;
 
 public class MainWindow {
+
+    private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 720;
 
-    private Frame frame = new Frame("CarOnBoard");
-    private GLCanvas canvas;
+    private static Object lock = new Object();
+
+    private static Frame frame = new Frame("CarOnBoard");
+    private static Canvas canvas;
 
     public MainWindow() {
         System.setProperty("sun.awt.noerasebackground", "true");
@@ -22,21 +27,40 @@ public class MainWindow {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent event) {
-                System.exit(0);
+                log.info("Shutting down GUI after exit button");
+                exit();
             }
         });
     }
 
-    public void addGlCanvas(final GLCanvas canvas) {
-        this.canvas = canvas;
-        frame.add(canvas);
+    public static void exit() {
+        synchronized (lock) {
+            canvas.stop();
+            frame.setVisible(false);
+            frame.dispose();
+            lock.notify();
+        }
+    }
+
+    public void addCanvas(final Canvas canvas) {
+        MainWindow.canvas = canvas;
+        frame.add(canvas.getCanvas());
     }
 
     public void display() {
         frame.setVisible(true);
         frame.requestFocus();
         if (canvas != null) {
-            canvas.requestFocusInWindow();
+            canvas.getCanvas().requestFocusInWindow();
+        }
+        log.info("GUI started");
+        synchronized (lock) {
+            while (frame.isVisible())
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
         }
     }
 

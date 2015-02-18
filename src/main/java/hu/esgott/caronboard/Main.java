@@ -22,6 +22,8 @@ import com.leapmotion.leap.Controller;
 final class Main {
 
     private static LeapListener listener = new LeapListener();
+    private static Controller controller;
+    private static SpeechPlayer player;
     private static boolean withGui = true;
     private static Logger logger;
 
@@ -32,23 +34,18 @@ final class Main {
     public static void main(final String[] arguments) {
         initLogger();
         processArguments(arguments);
-        Controller controller = new Controller();
-        controller.addListener(listener);
-        SpeechPlayer player = new SpeechPlayer();
+        startLeap();
 
         if (withGui) {
-            Canvas canvas = new Canvas();
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.addGlCanvas(canvas.getCanvas());
             logger.info("Starting GUI");
-            mainWindow.display();
+            runGUI();
+            logger.info("GUI exited");
         } else {
+            logger.info("Press Enter to exit");
             new Scanner(System.in).nextLine();
         }
-        logger.info("Shutting down");
-        controller.removeListener(listener);
-        listener.dispose();
-        player.dispose();
+        stopLeap();
+        logger.info("Bye");
     }
 
     private static void initLogger() {
@@ -78,6 +75,29 @@ final class Main {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void startLeap() {
+        logger.info("Starting Leap");
+        controller = new Controller();
+        controller.addListener(listener);
+        player = new SpeechPlayer();
+        logger.info("Leap started");
+    }
+
+    private static void runGUI() {
+        Canvas canvas = new Canvas();
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.addCanvas(canvas);
+        mainWindow.display();
+    }
+
+    private static void stopLeap() {
+        logger.info("Shutting down Leap");
+        controller.removeListener(listener);
+        listener.dispose();
+        player.dispose();
+        logger.info("Leap stopped");
     }
 
 }

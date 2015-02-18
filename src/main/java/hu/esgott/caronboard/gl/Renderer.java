@@ -1,5 +1,6 @@
 package hu.esgott.caronboard.gl;
 
+import hu.esgott.caronboard.MainWindow;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
 
@@ -7,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
@@ -15,6 +17,8 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
 public class Renderer implements GLEventListener, KeyListener {
+
+    private final Logger log = Logger.getLogger(getClass().getName());
 
     private GLU glu = new GLU();
     private MediaScreen mediaScreen = new MediaScreen();
@@ -91,7 +95,8 @@ public class Renderer implements GLEventListener, KeyListener {
         switch (event.getKeyCode()) {
         case KeyEvent.VK_ESCAPE:
         case KeyEvent.VK_Q:
-            System.exit(0);
+            log.info("Shutting down GUI after Q button");
+            MainWindow.exit();
             break;
         case KeyEvent.VK_LEFT:
             camera.left();
