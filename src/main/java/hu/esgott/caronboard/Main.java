@@ -19,6 +19,18 @@ import org.apache.commons.cli.PosixParser;
 
 import com.leapmotion.leap.Controller;
 
+// TODO command queue, amibe a GUI utasitasokat lehet tenni (kesobb kulon queue
+//      lejatszashoz es egyeb reszegysegekhez), queue-ba mindeki regisztralja
+//      sajat actionjeit (Screenek egyelore)
+// TODO Leap osszekotese
+// TODO wav-ok takaritasa, audio feedback keszites
+// TODO hangefelismeres integralasa
+// TODO nyelvtan keszitese
+// TODO hangfelismeres osszekotese
+// TODO medialejatszo backend
+// TODO hangero szabolyozas (V gesztus)
+// TODO texturazas
+
 final class Main {
 
     private static LeapListener listener = new LeapListener();
