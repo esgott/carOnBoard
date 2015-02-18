@@ -24,7 +24,16 @@ public class MediaScreen extends DrawableObject {
         trackList.setNeighbours(playbackControl, sourceList);
         playbackControl.setNeighbours(sourceList, trackList);
 
-        selected = trackList;
+        select(trackList);
+    }
+
+    private void select(DrawableObject newSelection) {
+        if (selected != null) {
+            selected.setSelected(false);
+        }
+        newSelection.setSelected(true);
+        selected = newSelection;
+        log.info("Selected: " + selected.getName());
     }
 
     @Override
@@ -59,13 +68,11 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void selectNext() {
-        selected = selected.getNext();
-        log.info("Selected" + selected.getName());
+        select(selected.getNext());
     }
 
     @Override
     public void selectPrevious() {
-        selected = selected.getPrevious();
-        log.info("Selected: " + selected.getName());
+        select(selected.getPrevious());
     }
 }

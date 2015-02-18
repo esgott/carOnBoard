@@ -13,6 +13,7 @@ public abstract class DrawableObject {
     private long elapsedTime;
     private DrawableObject next;
     private DrawableObject previous;
+    private boolean selected = false;
 
     public DrawableObject() {
         currentTime = System.currentTimeMillis();
@@ -111,6 +112,14 @@ public abstract class DrawableObject {
 
     public DrawableObject getPrevious() {
         return previous;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean selected() {
+        return selected;
     }
 
 }
