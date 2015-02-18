@@ -31,7 +31,8 @@ public abstract class DrawableObject {
     public void updateChildren(final long time) {
     }
 
-    public abstract void updateObject();
+    public void updateObject() {
+    }
 
     public abstract void draw(final GL2 gl);
 

@@ -20,10 +20,6 @@ public class Text extends DrawableObject {
     }
 
     @Override
-    public void updateObject() {
-    }
-
-    @Override
     public void draw(final GL2 gl) {
         gl.glTranslatef(X(), Y(), 0);
         gl.glColor3f(0.5f, 0.5f, 0.5f);
