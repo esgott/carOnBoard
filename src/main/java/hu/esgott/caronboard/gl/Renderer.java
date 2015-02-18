@@ -19,7 +19,6 @@ public class Renderer implements GLEventListener, KeyListener {
     private GLU glu = new GLU();
     private MediaScreen mediaScreen = new MediaScreen();
     private List<DrawableObject> objects = new ArrayList<>();
-    private int selectedObject = 0;
     private Camera camera = new Camera();
 
     public Renderer() {
@@ -106,39 +105,37 @@ public class Renderer implements GLEventListener, KeyListener {
         case KeyEvent.VK_DOWN:
             camera.down();
             break;
-        case KeyEvent.VK_PAGE_DOWN:
-            selectNextObject();
+        case KeyEvent.VK_L:
+            selectNext();
             break;
-        case KeyEvent.VK_PAGE_UP:
-            selectPreviousObject();
+        case KeyEvent.VK_K:
+            selectPrevious();
             break;
         case KeyEvent.VK_P:
-            mediaScreen.forwardAction();
+            forwardAction();
             break;
         case KeyEvent.VK_O:
-            mediaScreen.backwardAction();
+            backwardAction();
             break;
         default:
             System.out.println("Not expected key");
         }
     }
 
-    private void selectNextObject() {
-        if (selectedObject < objects.size() - 1) {
-            selectedObject++;
-        } else {
-            selectedObject = 0;
-        }
-        System.out.println(objects.get(selectedObject).getName());
+    public void selectNext() {
+        mediaScreen.selectNext();
     }
 
-    private void selectPreviousObject() {
-        if (selectedObject > 0) {
-            selectedObject--;
-        } else {
-            selectedObject = objects.size() - 1;
-        }
-        System.out.println(objects.get(selectedObject).getName());
+    public void selectPrevious() {
+        mediaScreen.selectPrevious();
+    }
+
+    public void forwardAction() {
+        mediaScreen.forwardAction();
+    }
+
+    public void backwardAction() {
+        mediaScreen.backwardAction();
     }
 
     @Override

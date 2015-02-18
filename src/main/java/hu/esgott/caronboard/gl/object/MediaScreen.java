@@ -1,19 +1,30 @@
 package hu.esgott.caronboard.gl.object;
 
+import java.util.logging.Logger;
+
 import javax.media.opengl.GL2;
 
 public class MediaScreen extends DrawableObject {
+
+    private final Logger log = Logger.getLogger(getClass().getName());
 
     private final DrawableList sourceList = new DrawableList(3.4f, 0.35f, 200,
             0.25f, -0.15f);
     private final DrawableList trackList = new DrawableList(3.4f, 0.9f, 200,
             0.25f, 0.15f);
     private final PlaybackControl playbackControl = new PlaybackControl(0.2f);
+    private DrawableObject selected;
 
     public MediaScreen() {
         sourceList.move(-1.7f, 0.6f);
         trackList.move(-1.7f, -0.4f);
         playbackControl.move(0.0f, -0.7f);
+
+        sourceList.setNeighbours(trackList, playbackControl);
+        trackList.setNeighbours(playbackControl, sourceList);
+        playbackControl.setNeighbours(sourceList, trackList);
+
+        selected = trackList;
     }
 
     @Override
@@ -46,4 +57,15 @@ public class MediaScreen extends DrawableObject {
         sourceList.forwardAction();
     }
 
+    @Override
+    public void selectNext() {
+        selected = selected.getNext();
+        log.info("Selected" + selected.getName());
+    }
+
+    @Override
+    public void selectPrevious() {
+        selected = selected.getPrevious();
+        log.info("Selected: " + selected.getName());
+    }
 }

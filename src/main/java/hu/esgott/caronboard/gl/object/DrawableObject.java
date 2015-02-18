@@ -11,6 +11,8 @@ public abstract class DrawableObject {
     private long previousTime;
     private long currentTime;
     private long elapsedTime;
+    private DrawableObject next;
+    private DrawableObject previous;
 
     public DrawableObject() {
         currentTime = System.currentTimeMillis();
@@ -90,4 +92,25 @@ public abstract class DrawableObject {
 
     public void forwardAction() {
     }
+
+    public void selectNext() {
+    }
+
+    public void selectPrevious() {
+    }
+
+    public void setNeighbours(final DrawableObject next,
+            final DrawableObject previous) {
+        this.next = next;
+        this.previous = previous;
+    }
+
+    public DrawableObject getNext() {
+        return next;
+    }
+
+    public DrawableObject getPrevious() {
+        return previous;
+    }
+
 }
