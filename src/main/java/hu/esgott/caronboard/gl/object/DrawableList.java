@@ -57,6 +57,12 @@ public class DrawableList extends DrawableObject {
 
         gl.glTranslatef(X(), Y(), 0);
 
+        if (selected()) {
+            gl.glColor3f(1, 1, 0);
+            Shapes.drawRectangle(gl, -0.01f, -0.01f, width + 0.01f,
+                    height + 0.01f);
+        }
+
         gl.glColor3f(0, 0, 1);
         Shapes.drawRectangle(gl, 0, 0, width, height);
 
