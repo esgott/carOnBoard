@@ -8,20 +8,22 @@ import javax.media.opengl.GL2;
 
 public class DrawableList extends DrawableObject {
 
-    private static final float DIFF = 0.4f;
-    private static final float FRAME_THICKNESS = 0.07f;
+    private static final float FRAME_THICKNESS = 0.06f;
 
-    private float width = 0.0f;
-    private float height = 0.0f;
-    private final ItemHandler itemHandler = new ItemHandler(250);
+    private final float width;
+    private final float height;
+    private final ItemHandler itemHandler;
     private List<Float> positions = new ArrayList<>();
 
-    public DrawableList(float width, float height) {
+    public DrawableList(final float width, final float height,
+            final int fontSize, final float diffBetweenLines,
+            final float lineOffset) {
         this.width = width;
         this.height = height;
+        itemHandler = new ItemHandler(fontSize);
 
         for (int i = -1; i < 4; i++) {
-            positions.add(0.2f + (i * DIFF));
+            positions.add(lineOffset + (i * diffBetweenLines));
         }
 
         for (int i = 0; i < 5; i++) {
@@ -51,6 +53,8 @@ public class DrawableList extends DrawableObject {
 
     @Override
     public void draw(GL2 gl) {
+        gl.glPushMatrix();
+
         gl.glTranslatef(X(), Y(), 0);
 
         gl.glColor3f(0, 0, 1);
@@ -66,6 +70,8 @@ public class DrawableList extends DrawableObject {
 
         gl.glColor3f(1, 0, 0);
         drawFrame(gl);
+
+        gl.glPopMatrix();
     }
 
     private void enableClip(final Text item, final GL2 gl) {
@@ -97,13 +103,15 @@ public class DrawableList extends DrawableObject {
         return "list";
     }
 
-    public void forward() {
+    @Override
+    public void forwardAction() {
         Text newItem = itemHandler.next();
         float lastPosition = positions.get(positions.size() - 1);
         newItem.moveTo(0.2f, lastPosition);
     }
 
-    public void backward() {
+    @Override
+    public void backwardAction() {
         Text newItem = itemHandler.prev();
         newItem.moveTo(0.2f, positions.get(0));
     }

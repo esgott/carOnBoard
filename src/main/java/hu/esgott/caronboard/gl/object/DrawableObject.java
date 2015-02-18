@@ -85,4 +85,9 @@ public abstract class DrawableObject {
 
     public abstract String getName();
 
+    public void backwardAction() {
+    }
+
+    public void forwardAction() {
+    }
 }

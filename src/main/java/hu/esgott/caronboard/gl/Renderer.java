@@ -1,7 +1,7 @@
 package hu.esgott.caronboard.gl;
 
-import hu.esgott.caronboard.gl.object.DrawableList;
 import hu.esgott.caronboard.gl.object.DrawableObject;
+import hu.esgott.caronboard.gl.object.MediaScreen;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,14 +19,13 @@ public class Renderer implements GLEventListener, KeyListener {
     private static final float MOVE_SPEED = 0.02f;
 
     private GLU glu = new GLU();
-    private DrawableList list = new DrawableList(3.4f, 1.3f);
+    private MediaScreen mediaScreen = new MediaScreen();
     private List<DrawableObject> objects = new ArrayList<>();
     private int selectedObject = 0;
     private Camera camera = new Camera();
 
     public Renderer() {
-        list.move(-1.7f, -0.4f);
-        objects.add(list);
+        objects.add(mediaScreen);
     }
 
     @Override
@@ -128,10 +127,10 @@ public class Renderer implements GLEventListener, KeyListener {
             objects.get(selectedObject).move(MOVE_SPEED, 0);
             break;
         case KeyEvent.VK_P:
-            list.forward();
+            mediaScreen.forwardAction();
             break;
         case KeyEvent.VK_O:
-            list.backward();
+            mediaScreen.backwardAction();
             break;
         default:
             System.out.println("Not expected key");
