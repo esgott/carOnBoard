@@ -56,14 +56,12 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void backwardAction() {
-        trackList.backwardAction();
-        sourceList.backwardAction();
+        selected.backwardAction();
     }
 
     @Override
     public void forwardAction() {
-        trackList.forwardAction();
-        sourceList.forwardAction();
+        selected.forwardAction();
     }
 
     @Override
