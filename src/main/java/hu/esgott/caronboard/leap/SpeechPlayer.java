@@ -17,7 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SpeechPlayer {
 
     public enum A {
-        ONE, TWO, THREE, FOUR, FIVE, SWIPE, LEFT, RIGHT, UP, DOWN, WITH, FINGERS, CIRCLE, VICTORY, VICTORY_OFF
+        BTN_BEEP
     }
 
     private static BlockingQueue<A> queue = new LinkedBlockingQueue<>();
@@ -26,21 +26,7 @@ public class SpeechPlayer {
 
     public SpeechPlayer() {
         try {
-            addClip(A.ONE, "one.wav");
-            addClip(A.TWO, "two.wav");
-            addClip(A.THREE, "three.wav");
-            addClip(A.FOUR, "four.wav");
-            addClip(A.FIVE, "five.wav");
-            addClip(A.SWIPE, "swipe.wav");
-            addClip(A.LEFT, "left.wav");
-            addClip(A.RIGHT, "right.wav");
-            addClip(A.UP, "up.wav");
-            addClip(A.DOWN, "down.wav");
-            addClip(A.WITH, "with.wav");
-            addClip(A.FINGERS, "fingers.wav");
-            addClip(A.CIRCLE, "circle.wav");
-            addClip(A.VICTORY, "victory.wav");
-            addClip(A.VICTORY_OFF, "victory_off.wav");
+            addClip(A.BTN_BEEP, "btn_beep.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,21 +81,6 @@ public class SpeechPlayer {
             queue.put(next);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static A num(int number) {
-        switch (number) {
-        case 1:
-            return A.ONE;
-        case 2:
-            return A.TWO;
-        case 3:
-            return A.THREE;
-        case 4:
-            return A.FOUR;
-        default:
-            return A.FIVE;
         }
     }
 

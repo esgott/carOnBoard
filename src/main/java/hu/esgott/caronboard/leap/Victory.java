@@ -18,7 +18,7 @@ public class Victory {
 
     public Victory() {
         Runnable task = () -> {
-            SpeechPlayer.play(SpeechPlayer.A.VICTORY);
+            SpeechPlayer.play(SpeechPlayer.A.BTN_BEEP);
             log.info("Victory");
             executing = true;
             startHeight = lastHeight;
@@ -27,7 +27,7 @@ public class Victory {
             if (executing) {
                 executing = false;
                 log.info("No victory");
-                SpeechPlayer.play(SpeechPlayer.A.VICTORY_OFF);
+                SpeechPlayer.play(SpeechPlayer.A.BTN_BEEP);
             }
         };
         timer = new GestureTimer(0.5f, 30, task, null, onStop);

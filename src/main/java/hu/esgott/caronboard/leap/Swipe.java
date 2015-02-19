@@ -46,29 +46,23 @@ public class Swipe implements GestureWrapper {
     @Override
     public String toString() {
         String str = "Swipe";
-        SpeechPlayer.play(SpeechPlayer.A.SWIPE);
         if (left()) {
             str += " left";
-            SpeechPlayer.play(SpeechPlayer.A.LEFT);
         }
         if (right()) {
             str += " right";
-            SpeechPlayer.play(SpeechPlayer.A.RIGHT);
         }
         if (up()) {
             str += " up";
-            SpeechPlayer.play(SpeechPlayer.A.UP);
         }
         if (down()) {
             str += " down";
-            SpeechPlayer.play(SpeechPlayer.A.DOWN);
         }
         if (str.length() == 5) {
             str += " unknown";
         }
         str += " with fingers " + fingers;
-        SpeechPlayer.play(SpeechPlayer.num(fingers));
-        SpeechPlayer.play(SpeechPlayer.A.FINGERS);
+        SpeechPlayer.play(SpeechPlayer.A.BTN_BEEP);
         return str + " id: " + gesture.id();
     }
 
