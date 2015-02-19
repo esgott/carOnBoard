@@ -1,13 +1,20 @@
 package hu.esgott.caronboard.leap;
 
+import hu.esgott.caronboard.CommandQueue;
+
+import java.util.logging.Logger;
+
 import com.leapmotion.leap.CircleGesture;
 import com.leapmotion.leap.Gesture;
 
 public class Circle implements GestureWrapper {
 
+    private final Logger log = Logger.getLogger(getClass().getName());
+
     private CircleGesture gesture;
     private float lastProgress;
     private boolean executed = false;
+    private CommandQueue queue = CommandQueue.getInstance();
 
     public Circle(Gesture gesture) {
         update(gesture);
@@ -40,7 +47,8 @@ public class Circle implements GestureWrapper {
     @Override
     public String toString() {
         SpeechPlayer.play(SpeechPlayer.A.CIRCLE);
-        return "Circle " + gesture.id();
+        String clockwiseness = clockwise() ? "Clockwise" : "Counterclockwise";
+        return clockwiseness + " circle " + gesture.id();
     }
 
     @Override
@@ -49,7 +57,16 @@ public class Circle implements GestureWrapper {
     }
 
     public void execute() {
-        // TODO
+        log.info("Executing gesture " + this);
+        if (clockwise()) {
+            queue.notifyGui(CommandQueue.CommandId.STEP_FORWARD);
+        } else {
+            queue.notifyGui(CommandQueue.CommandId.STEP_BACKWARD);
+        }
+    }
+
+    private boolean clockwise() {
+        return gesture.pointable().direction().angleTo(gesture.normal()) <= (Math.PI / 2);
     }
 
 }

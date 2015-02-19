@@ -56,6 +56,12 @@ public class Renderer implements GLEventListener, KeyListener {
         case SELECT_PREVIOUS_ELEMENT:
             selectPrevious();
             break;
+        case STEP_FORWARD:
+            forwardAction();
+            break;
+        case STEP_BACKWARD:
+            backwardAction();
+            break;
         default:
             log.warning("Unknown command");
         }
