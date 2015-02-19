@@ -19,7 +19,6 @@ import org.apache.commons.cli.PosixParser;
 
 import com.leapmotion.leap.Controller;
 
-// TODO Leap osszekotese
 // TODO wav-ok takaritasa, audio feedback keszites
 // TODO swipe javitasa
 // TODO hangefelismeres integralasa
@@ -27,6 +26,7 @@ import com.leapmotion.leap.Controller;
 // TODO hangfelismeres osszekotese
 // TODO medialejatszo backend
 // TODO hangero szabolyozas (V gesztus)
+// TODO tekeres
 // TODO texturazas
 
 final class Main {
