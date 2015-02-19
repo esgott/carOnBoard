@@ -14,7 +14,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SpeechPlayer {
+public class AudioFeedback {
 
     public enum A {
         BTN_BEEP
@@ -24,7 +24,7 @@ public class SpeechPlayer {
     private boolean running = true;
     private Map<A, Clip> samples = new HashMap<>();
 
-    public SpeechPlayer() {
+    public AudioFeedback() {
         try {
             addClip(A.BTN_BEEP, "btn_beep.wav");
         } catch (Exception e) {

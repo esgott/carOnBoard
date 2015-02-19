@@ -2,7 +2,7 @@ package hu.esgott.caronboard;
 
 import hu.esgott.caronboard.gl.Canvas;
 import hu.esgott.caronboard.leap.LeapListener;
-import hu.esgott.caronboard.leap.SpeechPlayer;
+import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -33,7 +33,7 @@ final class Main {
 
     private static LeapListener listener = new LeapListener();
     private static Controller controller;
-    private static SpeechPlayer player;
+    private static AudioFeedback player;
     private static boolean withGui = true;
     private static Logger logger;
 
@@ -91,7 +91,7 @@ final class Main {
         logger.info("Starting Leap");
         controller = new Controller();
         controller.addListener(listener);
-        player = new SpeechPlayer();
+        player = new AudioFeedback();
         logger.info("Leap started");
     }
 

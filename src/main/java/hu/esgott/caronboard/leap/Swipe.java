@@ -62,7 +62,7 @@ public class Swipe implements GestureWrapper {
             str += " unknown";
         }
         str += " with fingers " + fingers;
-        SpeechPlayer.play(SpeechPlayer.A.BTN_BEEP);
+        AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         return str + " id: " + gesture.id();
     }
 
