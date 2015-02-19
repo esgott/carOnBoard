@@ -1,8 +1,8 @@
 package hu.esgott.caronboard;
 
 import hu.esgott.caronboard.gl.Canvas;
-import hu.esgott.caronboard.leap.LeapListener;
 import hu.esgott.caronboard.leap.AudioFeedback;
+import hu.esgott.caronboard.leap.LeapListener;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -19,7 +19,7 @@ import org.apache.commons.cli.PosixParser;
 
 import com.leapmotion.leap.Controller;
 
-// TODO wav-ok takaritasa, audio feedback keszites
+// TODO correct vagasa
 // TODO swipe javitasa
 // TODO hangefelismeres integralasa
 // TODO nyelvtan keszitese
