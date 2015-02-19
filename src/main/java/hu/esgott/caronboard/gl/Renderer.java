@@ -143,7 +143,7 @@ public class Renderer implements GLEventListener, KeyListener {
             backwardAction();
             break;
         default:
-            System.out.println("Not expected key");
+            log.info("Not expected key");
         }
     }
 

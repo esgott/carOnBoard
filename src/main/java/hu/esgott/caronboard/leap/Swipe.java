@@ -110,7 +110,7 @@ public class Swipe implements GestureWrapper {
         if (otherHands.count() == 1 && thisHands.count() == 1) {
             return otherHands.get(0).equals(thisHands.get(0));
         } else {
-            System.err.println("multiple hands in swipe gesture");
+            log.severe("multiple hands in swipe gesture");
             return false;
         }
     }

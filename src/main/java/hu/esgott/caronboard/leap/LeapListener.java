@@ -19,6 +19,12 @@ public class LeapListener extends Listener {
         controller.config().setFloat("Gesture.Swipe.MinLength", 25.0f);
         controller.config().setFloat("Gesture.Circle.MinArc", 5.0f);
         controller.config().save();
+        log.info("Leap Motion Controller connected");
+    }
+
+    @Override
+    public void onDisconnect(Controller paramController) {
+        log.info("Leap Motion Controller disconnected");
     }
 
     @Override
