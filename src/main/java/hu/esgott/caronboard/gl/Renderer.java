@@ -1,5 +1,6 @@
 package hu.esgott.caronboard.gl;
 
+import hu.esgott.caronboard.CommandQueue;
 import hu.esgott.caronboard.MainWindow;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
@@ -20,10 +21,11 @@ public class Renderer implements GLEventListener, KeyListener {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private GLU glu = new GLU();
-    private MediaScreen mediaScreen = new MediaScreen();
-    private List<DrawableObject> objects = new ArrayList<>();
-    private Camera camera = new Camera();
+    private final GLU glu = new GLU();
+    private final MediaScreen mediaScreen = new MediaScreen();
+    private final List<DrawableObject> objects = new ArrayList<>();
+    private final Camera camera = new Camera();
+    private final CommandQueue queue = CommandQueue.getInstance();
 
     public Renderer() {
         objects.add(mediaScreen);
@@ -38,7 +40,25 @@ public class Renderer implements GLEventListener, KeyListener {
     }
 
     private void update(final long time) {
+        processNextCommmand();
         objects.stream().forEach(object -> object.update(time));
+    }
+
+    private void processNextCommmand() {
+        CommandQueue.CommandId nextCommand = queue.nextGuiCommand();
+        if (nextCommand == null) {
+            return;
+        }
+        switch (nextCommand) {
+        case SELECT_NEXT_ELEMENT:
+            selectNext();
+            break;
+        case SELECT_PREVIOUS_ELEMENT:
+            selectPrevious();
+            break;
+        default:
+            log.warning("Unknown command");
+        }
     }
 
     private void render(final GL2 gl) {

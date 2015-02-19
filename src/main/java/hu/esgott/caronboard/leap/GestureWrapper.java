@@ -8,8 +8,10 @@ public interface GestureWrapper {
 
     int getGestureId();
 
-    boolean toPrint();
+    boolean executed();
 
-    void setPrinted();
+    void setExecuted();
+
+    void execute();
 
 }

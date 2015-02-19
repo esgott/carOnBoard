@@ -7,7 +7,7 @@ public class Circle implements GestureWrapper {
 
     private CircleGesture gesture;
     private float lastProgress;
-    private boolean printed = false;
+    private boolean executed = false;
 
     public Circle(Gesture gesture) {
         update(gesture);
@@ -21,11 +21,11 @@ public class Circle implements GestureWrapper {
     }
 
     @Override
-    public boolean toPrint() {
-        if (printed) {
+    public boolean executed() {
+        if (executed) {
             return fullCircleCompleted();
         }
-        return true;
+        return false;
     }
 
     private boolean fullCircleCompleted() {
@@ -33,8 +33,8 @@ public class Circle implements GestureWrapper {
     }
 
     @Override
-    public void setPrinted() {
-        printed = true;
+    public void setExecuted() {
+        executed = true;
     }
 
     @Override
@@ -46,6 +46,10 @@ public class Circle implements GestureWrapper {
     @Override
     public int getGestureId() {
         return gesture.id();
+    }
+
+    public void execute() {
+        // TODO
     }
 
 }

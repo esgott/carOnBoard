@@ -25,17 +25,17 @@ public class LeapListener extends Listener {
     public void onFrame(Controller controller) {
         frame.update(controller.frame());
 
-        boolean unprintedGesturesExists = frame.gestures().anyMatch(
-                gesture -> gesture.toPrint());
+        boolean unexecutedGesturesExists = frame.gestures().anyMatch(
+                gesture -> !gesture.executed());
 
-        if (unprintedGesturesExists) {
+        if (unexecutedGesturesExists) {
             log.info("--- Frame " + frame.f.id() + " ---");
         }
 
-        frame.gestures().filter(gesture -> gesture.toPrint())
+        frame.gestures().filter(gesture -> !gesture.executed())
                 .forEach(gesture -> {
-                    log.info(gesture.toString());
-                    gesture.setPrinted();
+                    gesture.execute();
+                    gesture.setExecuted();
                 });
     }
 

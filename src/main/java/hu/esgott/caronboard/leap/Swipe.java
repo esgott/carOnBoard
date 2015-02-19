@@ -1,5 +1,9 @@
 package hu.esgott.caronboard.leap;
 
+import hu.esgott.caronboard.CommandQueue;
+
+import java.util.logging.Logger;
+
 import com.leapmotion.leap.Gesture;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.HandList;
@@ -8,11 +12,14 @@ import com.leapmotion.leap.Vector;
 
 public class Swipe implements GestureWrapper {
 
+    private final Logger log = Logger.getLogger(getClass().getName());
+
     private static final float MAX_ANGLE_DIFF = 1.0f;
 
     private SwipeGesture gesture;
-    private boolean printed = false;
+    private boolean executed = false;
     private int fingers;
+    private CommandQueue queue = CommandQueue.getInstance();
 
     public Swipe(Gesture gesture, int fingers) {
         this.fingers = fingers;
@@ -28,12 +35,12 @@ public class Swipe implements GestureWrapper {
         }
     }
 
-    public boolean toPrint() {
-        return !printed;
+    public boolean executed() {
+        return executed;
     }
 
-    public void setPrinted() {
-        printed = true;
+    public void setExecuted() {
+        executed = true;
     }
 
     @Override
@@ -111,6 +118,28 @@ public class Swipe implements GestureWrapper {
     @Override
     public int getGestureId() {
         return gesture.id();
+    }
+
+    public void execute() {
+        if (fingers == 1) {
+            if (left()) {
+                addToQueue(true);
+                return;
+            } else if (right()) {
+                addToQueue(false);
+                return;
+            }
+        }
+        log.info("Discarded gesture " + this);
+    }
+
+    private void addToQueue(boolean left) {
+        log.info("Executing gesture " + this);
+        if (left) {
+            queue.notifyGui(CommandQueue.CommandId.SELECT_PREVIOUS_ELEMENT);
+        } else {
+            queue.notifyGui(CommandQueue.CommandId.SELECT_NEXT_ELEMENT);
+        }
     }
 
 }
