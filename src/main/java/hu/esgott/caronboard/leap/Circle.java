@@ -1,6 +1,7 @@
 package hu.esgott.caronboard.leap;
 
 import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.CommandId;
 
 import java.util.logging.Logger;
 
@@ -59,9 +60,9 @@ public class Circle implements GestureWrapper {
     public void execute() {
         log.info("Executing gesture " + this);
         if (clockwise()) {
-            queue.notifyGui(CommandQueue.CommandId.STEP_FORWARD);
+            queue.notifyGui(CommandId.STEP_FORWARD);
         } else {
-            queue.notifyGui(CommandQueue.CommandId.STEP_BACKWARD);
+            queue.notifyGui(CommandId.STEP_BACKWARD);
         }
     }
 

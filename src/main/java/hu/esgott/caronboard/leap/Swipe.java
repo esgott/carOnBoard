@@ -1,6 +1,7 @@
 package hu.esgott.caronboard.leap;
 
 import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.CommandId;
 
 import java.util.logging.Logger;
 
@@ -130,9 +131,9 @@ public class Swipe implements GestureWrapper {
     private void addToQueue(boolean left) {
         log.info("Executing gesture " + this);
         if (left) {
-            queue.notifyGui(CommandQueue.CommandId.SELECT_PREVIOUS_ELEMENT);
+            queue.notifyGui(CommandId.SELECT_PREVIOUS_ELEMENT);
         } else {
-            queue.notifyGui(CommandQueue.CommandId.SELECT_NEXT_ELEMENT);
+            queue.notifyGui(CommandId.SELECT_NEXT_ELEMENT);
         }
     }
 
