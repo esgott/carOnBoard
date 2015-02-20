@@ -63,7 +63,6 @@ public class Swipe implements GestureWrapper {
             str += " unknown";
         }
         str += " with fingers " + fingers;
-        AudioFeedback.play(AudioFeedback.A.CORRECT);
         return str + " id: " + gesture.id();
     }
 
@@ -129,6 +128,7 @@ public class Swipe implements GestureWrapper {
     }
 
     private void addToQueue(boolean left) {
+        AudioFeedback.play(AudioFeedback.A.CORRECT);
         log.info("Executing gesture " + this);
         if (left) {
             queue.notifyGui(CommandId.SELECT_PREVIOUS_ELEMENT);
