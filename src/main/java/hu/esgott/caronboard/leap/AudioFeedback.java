@@ -17,7 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class AudioFeedback {
 
     public enum A {
-        BTN_BEEP, CORRECT
+        BTN_BEEP, CORRECT, CLICK
     }
 
     private static BlockingQueue<A> queue = new LinkedBlockingQueue<>();
@@ -28,6 +28,7 @@ public class AudioFeedback {
         try {
             addClip(A.BTN_BEEP, "btn_beep.wav");
             addClip(A.CORRECT, "correct.wav");
+            addClip(A.CLICK, "click.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }
