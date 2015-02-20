@@ -73,4 +73,14 @@ public class MediaScreen extends DrawableObject {
     public void selectPrevious() {
         select(selected.getPrevious());
     }
+
+    public void selectionOn() {
+        selected.setSelected(true);
+        log.info("Selection ON");
+    }
+
+    public void selectionOff() {
+        selected.setSelected(false);
+        log.info("Selection OFF");
+    }
 }

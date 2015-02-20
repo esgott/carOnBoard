@@ -62,6 +62,12 @@ public class Renderer implements GLEventListener, KeyListener {
         case STEP_BACKWARD:
             backwardAction();
             break;
+        case SELECTION_ON:
+            selectionOn();
+            break;
+        case SELECTION_OFF:
+            selectionOff();
+            break;
         default:
             log.warning("Unknown command");
         }
@@ -167,6 +173,14 @@ public class Renderer implements GLEventListener, KeyListener {
 
     public void backwardAction() {
         mediaScreen.backwardAction();
+    }
+
+    public void selectionOn() {
+        mediaScreen.selectionOn();
+    }
+
+    public void selectionOff() {
+        mediaScreen.selectionOff();
     }
 
     @Override

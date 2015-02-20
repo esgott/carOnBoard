@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class CommandQueue {
 
     public enum CommandId {
-        SELECT_NEXT_ELEMENT, SELECT_PREVIOUS_ELEMENT, STEP_FORWARD, STEP_BACKWARD
+        SELECT_NEXT_ELEMENT, SELECT_PREVIOUS_ELEMENT, STEP_FORWARD, STEP_BACKWARD, SELECTION_ON, SELECTION_OFF
     }
 
     private static CommandQueue instanse = new CommandQueue();
