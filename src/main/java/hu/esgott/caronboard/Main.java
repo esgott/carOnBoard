@@ -19,7 +19,6 @@ import org.apache.commons.cli.PosixParser;
 
 import com.leapmotion.leap.Controller;
 
-// TODO correct vagasa
 // TODO swipe javitasa
 // TODO hangefelismeres integralasa
 // TODO nyelvtan keszitese
