@@ -19,7 +19,6 @@ import org.apache.commons.cli.PosixParser;
 
 import com.leapmotion.leap.Controller;
 
-// TODO swipe javitasa
 // TODO hangefelismeres integralasa
 // TODO nyelvtan keszitese
 // TODO hangfelismeres osszekotese
@@ -27,6 +26,7 @@ import com.leapmotion.leap.Controller;
 // TODO hangero szabolyozas (V gesztus)
 // TODO tekeres
 // TODO texturazas
+// TODO EventHandler lecsatolasa Rendererbol
 
 final class Main {
 
