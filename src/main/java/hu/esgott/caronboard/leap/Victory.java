@@ -10,6 +10,7 @@ public class Victory {
     private static final float SCALE = 0.1f;
 
     private final Logger log = Logger.getLogger(getClass().getName());
+
     private GestureTimer timer;
     private boolean executing;
     private float startHeight;

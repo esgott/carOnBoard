@@ -19,7 +19,7 @@ public class FrameWrapper {
     private static final int MIN_DIFF_BETWEEN_GESTURES = 750;
     // TODO fine tune the following two
     private static final long MIN_STEADY_TIME = 500;
-    private static final float MAX_STEADY_PALM_VELOCITY = 1.0f;
+    public static final float MAX_STEADY_PALM_VELOCITY = 20.0f;
 
     public Frame f;
     private Swipe ongoingSwipe;
@@ -27,6 +27,7 @@ public class FrameWrapper {
     private long lastGestureTime;
     private long lastSteadyTime = 0;
     private Victory victory = new Victory();
+    private Fist fist = new Fist();
     private boolean wasSteadyEnough = false;
     private CommandQueue queue = CommandQueue.getInstance();
 
@@ -63,6 +64,7 @@ public class FrameWrapper {
         updateSwipe(firstSwipe, swipeFingers, currentTime);
         updateCircle(firstCircle, currentTime);
         victory.update(f.hands());
+        fist.update(f.hands());
     }
 
     private boolean steadyEnough(long currentTime) {
@@ -148,6 +150,7 @@ public class FrameWrapper {
 
     void dispose() {
         victory.dispose();
+        fist.dispose();
     }
 
 }

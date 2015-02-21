@@ -28,15 +28,17 @@ public class Recorder implements Runnable {
                 record();
                 break;
             case STOP_RECORDING:
-                stop();
+                stopRunningRecording();
                 break;
             case KILL:
                 running = false;
+                stopRunningRecording();
                 break;
             default:
                 log.warning("Unrecognized recorder command");
             }
         }
+        log.info("Recorder command thread finished");
     }
 
     public void record() {
@@ -46,11 +48,6 @@ public class Recorder implements Runnable {
             thread = new Thread(recorderThread);
             thread.start();
         }
-    }
-
-    public void stop() {
-        stopRunningRecording();
-        // TODO hide recording
     }
 
     private void stopRunningRecording() {
@@ -64,6 +61,7 @@ public class Recorder implements Runnable {
             }
             recorderThread = null;
         }
+        // TODO hide recording
     }
 
     public boolean recording() {
