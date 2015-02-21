@@ -6,6 +6,7 @@ import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 import hu.esgott.caronboard.MainWindow;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
+import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -168,18 +169,22 @@ public class Renderer implements GLEventListener, KeyListener {
     }
 
     public void selectNext() {
+        AudioFeedback.play(AudioFeedback.A.CORRECT);
         mediaScreen.selectNext();
     }
 
     public void selectPrevious() {
+        AudioFeedback.play(AudioFeedback.A.CORRECT);
         mediaScreen.selectPrevious();
     }
 
     public void forwardAction() {
+        AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         mediaScreen.forwardAction();
     }
 
     public void backwardAction() {
+        AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         mediaScreen.backwardAction();
     }
 

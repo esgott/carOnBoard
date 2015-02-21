@@ -128,7 +128,6 @@ public class Swipe implements GestureWrapper {
     }
 
     private void addToQueue(boolean left) {
-        AudioFeedback.play(AudioFeedback.A.CORRECT);
         log.info("Executing gesture " + this);
         if (left) {
             queue.notifyGui(GuiCommand.SELECT_PREVIOUS_ELEMENT);

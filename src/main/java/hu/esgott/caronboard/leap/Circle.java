@@ -47,7 +47,6 @@ public class Circle implements GestureWrapper {
 
     @Override
     public String toString() {
-        AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         String clockwiseness = clockwise() ? "Clockwise" : "Counterclockwise";
         return clockwiseness + " circle " + gesture.id();
     }
