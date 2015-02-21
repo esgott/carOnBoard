@@ -23,9 +23,9 @@ import com.leapmotion.leap.Controller;
 
 final class Main {
 
-    private static LeapListener listener = new LeapListener();
+    private static LeapListener listener;
     private static Controller controller;
-    private static AudioFeedback player;
+    private static AudioFeedback audioFeedback;
     private static RecognizerServerConnection recognizer;
     private static Logger logger;
 
@@ -35,9 +35,9 @@ final class Main {
 
     public static void main(final String[] arguments) {
         initLogger();
-        startLeap();
+        startServices();
         runGUI();
-        stopLeap();
+        stopServices();
         logger.info("Bye");
     }
 
@@ -50,17 +50,19 @@ final class Main {
             file.setFormatter(formatter);
             logger.info("Application started");
         } catch (SecurityException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    private static void startLeap() {
-        logger.info("Starting Leap");
+    private static void startServices() {
+        logger.info("Starting Services");
         controller = new Controller();
+        listener = new LeapListener();
         controller.addListener(listener);
-        player = new AudioFeedback();
+        audioFeedback = new AudioFeedback();
         logger.info("Leap started");
+        recognizer = new RecognizerServerConnection();
+        logger.info("Speech recognition started");
     }
 
     private static void runGUI() {
@@ -72,12 +74,14 @@ final class Main {
         logger.info("GUI exited");
     }
 
-    private static void stopLeap() {
-        logger.info("Shutting down Leap");
+    private static void stopServices() {
+        logger.info("Shutting down services");
         controller.removeListener(listener);
         listener.dispose();
-        player.dispose();
+        audioFeedback.dispose();
         logger.info("Leap stopped");
+        recognizer.dispose();
+        logger.info("Speech recognition stopped");
     }
 
 }
