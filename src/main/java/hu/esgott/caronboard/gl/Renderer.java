@@ -74,6 +74,12 @@ public class Renderer implements GLEventListener, KeyListener {
         case SELECTION_OFF:
             selectionOff();
             break;
+        case RECORDING_ON:
+            recordingActive.setVisible(true);
+            break;
+        case RECORDING_OFF:
+            recordingActive.setVisible(false);
+            break;
         default:
             log.warning("Unknown command");
         }
