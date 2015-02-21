@@ -6,6 +6,7 @@ import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 import hu.esgott.caronboard.MainWindow;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
+import hu.esgott.caronboard.gl.object.RecordingActive;
 import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.awt.event.KeyEvent;
@@ -26,12 +27,14 @@ public class Renderer implements GLEventListener, KeyListener {
 
     private final GLU glu = new GLU();
     private final MediaScreen mediaScreen = new MediaScreen();
+    private final RecordingActive recordingActive = new RecordingActive();
     private final List<DrawableObject> objects = new ArrayList<>();
     private final Camera camera = new Camera();
     private final CommandQueue queue = CommandQueue.getInstance();
 
     public Renderer() {
         objects.add(mediaScreen);
+        objects.add(recordingActive);
     }
 
     @Override

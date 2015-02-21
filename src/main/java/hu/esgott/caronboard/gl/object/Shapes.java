@@ -32,4 +32,16 @@ public class Shapes {
         gl.glPopMatrix();
     }
 
+    public static void drawCircle(GL2 gl, final float radius) {
+        gl.glBegin(GL2.GL_POLYGON);
+
+        for (float i = 0.0f; i < (Math.PI * 2); i += (Math.PI * 2 / 360)) {
+            float x = (float) Math.cos(i) * radius;
+            float y = (float) Math.sin(i) * radius;
+            gl.glVertex2f(x, y);
+        }
+
+        gl.glEnd();
+    }
+
 }
