@@ -3,6 +3,7 @@ package hu.esgott.caronboard;
 import hu.esgott.caronboard.gl.Canvas;
 import hu.esgott.caronboard.leap.AudioFeedback;
 import hu.esgott.caronboard.leap.LeapListener;
+import hu.esgott.caronboard.speech.RecognizerServerConnection;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -33,6 +34,7 @@ final class Main {
     private static LeapListener listener = new LeapListener();
     private static Controller controller;
     private static AudioFeedback player;
+    private static RecognizerServerConnection recognizer;
     private static boolean withGui = true;
     private static Logger logger;
 
@@ -46,9 +48,7 @@ final class Main {
         startLeap();
 
         if (withGui) {
-            logger.info("Starting GUI");
             runGUI();
-            logger.info("GUI exited");
         } else {
             logger.info("Press Enter to exit");
             new Scanner(System.in).nextLine();
@@ -95,10 +95,12 @@ final class Main {
     }
 
     private static void runGUI() {
+        logger.info("Starting GUI");
         Canvas canvas = new Canvas();
         MainWindow mainWindow = new MainWindow();
         mainWindow.addCanvas(canvas);
         mainWindow.display();
+        logger.info("GUI exited");
     }
 
     private static void stopLeap() {
