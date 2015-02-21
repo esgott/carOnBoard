@@ -7,8 +7,6 @@ import hu.esgott.caronboard.speech.RecognizerCommand.ResponseCallback;
 import java.awt.Toolkit;
 import java.nio.ByteBuffer;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -29,6 +27,7 @@ public class RecorderThread implements Runnable {
     private boolean stopped = false;
     private int leftUntilQuery = QUERY_FREQUENCY;
     private final CommandQueue queue = CommandQueue.getInstance();
+    private final MatchHandler matchHandler = new MatchHandler();
 
     public RecorderThread(RecognizerServerConnection recognizerConnection) {
         this.recognizerConnection = recognizerConnection;
@@ -114,7 +113,8 @@ public class RecorderThread implements Runnable {
                     traceBackCommand.setCallback(new ResponseCallback() {
                         @Override
                         public void call(String response) {
-                            matchFound(response);
+                            queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
+                            matchHandler.handleMatch(response);
                         }
                     });
                     recognizerConnection.send(traceBackCommand);
@@ -122,27 +122,6 @@ public class RecorderThread implements Runnable {
             }
         });
         recognizerConnection.send(command);
-    }
-
-    private void matchFound(String response) {
-        queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
-        String matchedString = parseResponse(response);
-        log.info("Found match: " + matchedString);
-        // TODO handle match
-    }
-
-    private String parseResponse(String response) {
-        String[] lines = response.split("\n");
-        String matchLine = lines[1];
-        // third column
-        Pattern pattern = Pattern.compile("\\s*\\d+\\s+\\d+\\s+(\\S+)\\s+#.*");
-        Matcher matcher = pattern.matcher(matchLine);
-        if (matcher.find()) {
-            return matcher.group(1);
-        } else {
-            log.warning("Response not understood: " + response);
-            return "";
-        }
     }
 
     public void stop() {
