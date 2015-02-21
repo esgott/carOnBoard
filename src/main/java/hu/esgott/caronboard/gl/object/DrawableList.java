@@ -1,5 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.leap.AudioFeedback;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -111,6 +113,7 @@ public class DrawableList extends DrawableObject {
 
     @Override
     public void forwardAction() {
+        AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         Text newItem = itemHandler.next();
         float lastPosition = positions.get(positions.size() - 1);
         newItem.moveTo(0.2f, lastPosition);
@@ -118,6 +121,7 @@ public class DrawableList extends DrawableObject {
 
     @Override
     public void backwardAction() {
+        AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         Text newItem = itemHandler.prev();
         newItem.moveTo(0.2f, positions.get(0));
     }

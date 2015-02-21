@@ -1,5 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.leap.AudioFeedback;
+
 import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
@@ -76,11 +78,13 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void selectNext() {
+        AudioFeedback.play(AudioFeedback.A.CORRECT);
         select(selected.getNext());
     }
 
     @Override
     public void selectPrevious() {
+        AudioFeedback.play(AudioFeedback.A.CORRECT);
         select(selected.getPrevious());
     }
 
