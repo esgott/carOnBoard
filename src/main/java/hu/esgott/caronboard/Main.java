@@ -6,17 +6,9 @@ import hu.esgott.caronboard.leap.LeapListener;
 import hu.esgott.caronboard.speech.RecognizerServerConnection;
 
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 
 import com.leapmotion.leap.Controller;
 
@@ -35,7 +27,6 @@ final class Main {
     private static Controller controller;
     private static AudioFeedback player;
     private static RecognizerServerConnection recognizer;
-    private static boolean withGui = true;
     private static Logger logger;
 
     private Main() {
@@ -44,15 +35,8 @@ final class Main {
 
     public static void main(final String[] arguments) {
         initLogger();
-        processArguments(arguments);
         startLeap();
-
-        if (withGui) {
-            runGUI();
-        } else {
-            logger.info("Press Enter to exit");
-            new Scanner(System.in).nextLine();
-        }
+        runGUI();
         stopLeap();
         logger.info("Bye");
     }
@@ -67,21 +51,6 @@ final class Main {
             logger.info("Application started");
         } catch (SecurityException | IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressWarnings("static-access")
-    private static void processArguments(final String[] args) {
-        Options options = new Options();
-        options.addOption(OptionBuilder.withLongOpt("with-gui").create());
-        CommandLineParser parser = new PosixParser();
-        try {
-            CommandLine line = parser.parse(options, args);
-            if (line.hasOption("with-gui")) {
-                withGui = true;
-            }
-        } catch (ParseException e) {
             e.printStackTrace();
         }
     }
