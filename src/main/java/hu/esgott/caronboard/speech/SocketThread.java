@@ -115,7 +115,7 @@ public class SocketThread implements Runnable {
         int length = receiveSize();
         log.info("receiving " + length + " bytes of data");
         String responseString = receiveResponse(length);
-        log.info(responseString + "received");
+        log.info(responseString + " received");
         command.call(responseString);
     }
 
