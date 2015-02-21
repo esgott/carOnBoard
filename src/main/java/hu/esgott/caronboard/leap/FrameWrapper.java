@@ -1,7 +1,7 @@
 package hu.esgott.caronboard.leap;
 
 import hu.esgott.caronboard.CommandQueue;
-import hu.esgott.caronboard.CommandQueue.CommandId;
+import hu.esgott.caronboard.CommandQueue.GuiCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +76,12 @@ public class FrameWrapper {
             if ((currentTime - lastSteadyTime) > MIN_STEADY_TIME) {
                 wasSteadyEnough = true;
                 AudioFeedback.play(AudioFeedback.A.CLICK);
-                queue.notifyGui(CommandId.SELECTION_ON);
+                queue.notifyGui(GuiCommand.SELECTION_ON);
                 return true;
             }
         } else {
             if (wasSteadyEnough) {
-                queue.notifyGui(CommandId.SELECTION_OFF);
+                queue.notifyGui(GuiCommand.SELECTION_OFF);
                 wasSteadyEnough = false;
             }
             lastSteadyTime = 0;

@@ -1,31 +1,54 @@
 package hu.esgott.caronboard.speech;
 
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 
-public class Recorder {
+import java.util.logging.Logger;
+
+public class Recorder implements Runnable {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private RecognizerServerConnection recognizerConnection;
     private RecorderThread recorderThread;
     private Thread thread;
+    private final CommandQueue queue = CommandQueue.getInstance();
 
     public Recorder(RecognizerServerConnection recognizerConnection) {
         this.recognizerConnection = recognizerConnection;
     }
 
+    @Override
+    public void run() {
+        boolean running = true;
+        while (running) {
+            RecorderCommand command = queue.nextRecorderCommand();
+            switch (command) {
+            case START_RECORDING:
+                record();
+                break;
+            case STOP_RECORDING:
+                stop();
+                break;
+            case KILL:
+                running = false;
+                break;
+            default:
+                log.warning("Unrecognized recorder command");
+            }
+        }
+    }
+
     public void record() {
-        if (!running()) {
+        if (!recording()) {
             // TODO display recording
-            recorderThread = new RecorderThread(recognizerConnection, this);
+            recorderThread = new RecorderThread(recognizerConnection);
             thread = new Thread(recorderThread);
             thread.start();
         }
     }
 
-    public synchronized void stop() {
+    public void stop() {
         stopRunningRecording();
         // TODO hide recording
     }
@@ -43,27 +66,7 @@ public class Recorder {
         }
     }
 
-    public void matchFound(String response) {
-        stop();
-        String matchedString = parseResponse(response);
-        // TODO handle match
-    }
-
-    private String parseResponse(String response) {
-        String[] lines = response.split("\n");
-        String matchLine = lines[1];
-        // third column
-        Pattern pattern = Pattern.compile("\\s*\\d+\\s+\\d+\\s+(\\S+)\\s+#.*");
-        Matcher matcher = pattern.matcher(matchLine);
-        if (matcher.find()) {
-            return matcher.group(1);
-        } else {
-            log.warning("Response not understood: " + response);
-            return "";
-        }
-    }
-
-    public boolean running() {
+    public boolean recording() {
         return recorderThread != null;
     }
 

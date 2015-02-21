@@ -6,39 +6,65 @@ import java.util.logging.Logger;
 
 public class CommandQueue {
 
-    public enum CommandId {
+    public enum GuiCommand {
         SELECT_NEXT_ELEMENT, SELECT_PREVIOUS_ELEMENT, STEP_FORWARD, STEP_BACKWARD, SELECTION_ON, SELECTION_OFF
+    }
+
+    public enum RecorderCommand {
+        START_RECORDING, STOP_RECORDING, KILL
     }
 
     private static CommandQueue instanse = new CommandQueue();
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private BlockingQueue<CommandId> guiQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<GuiCommand> guiQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<RecorderCommand> recorderQueue = new LinkedBlockingQueue<>();
 
     public static CommandQueue getInstance() {
         return instanse;
     }
 
-    public void notifyGui(CommandId id) {
-        boolean success = guiQueue.offer(id);
+    public void notifyGui(GuiCommand id) {
+        log.info("Incoming GUI command");
+        addToQueue(guiQueue, id, log);
+    }
+
+    public void notifyRecorder(RecorderCommand id) {
+        log.info("Incoming Recorder command");
+        addToQueue(recorderQueue, id, log);
+    }
+
+    private static <T> void addToQueue(BlockingQueue<T> queue, T id, Logger log) {
+        boolean success = queue.offer(id);
         if (success) {
             log.info("New command inserted: " + id);
         } else {
             log.severe("Command queue full, failed to insert command " + id);
         }
-        int size = guiQueue.size();
+        int size = queue.size();
         if (size > 5) {
             log.warning("Commmand queue size is " + size);
         }
     }
 
-    public CommandId nextGuiCommand() {
-        CommandId nextCommand = guiQueue.poll();
+    public GuiCommand nextGuiCommand() {
+        GuiCommand nextCommand = guiQueue.poll();
         if (nextCommand != null) {
             log.info("Processing command " + nextCommand);
         }
         return nextCommand;
+    }
+
+    public RecorderCommand nextRecorderCommand() {
+        try {
+            RecorderCommand nextCommand = recorderQueue.take();
+            log.info("Processing command " + nextCommand);
+            return nextCommand;
+        } catch (InterruptedException e) {
+            log.warning("Waiting interrupted");
+        }
+        return null;
     }
 
 }

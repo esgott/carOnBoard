@@ -85,7 +85,7 @@ public class SocketThread implements Runnable {
         sendSize(data.length);
         outputStream.write(data);
         outputStream.flush();
-        log.info(text + " command sent");
+        log.fine(text + " command sent");
     }
 
     private void sendSize(int length) throws IOException {
@@ -108,14 +108,14 @@ public class SocketThread implements Runnable {
             outputStream.write(buffer.get(i));
         }
         outputStream.flush();
-        log.info(buffer.limit() + " binary data sent ");
+        log.fine(buffer.limit() + " binary data sent ");
     }
 
     private void receive(RecognizerCommand command) throws IOException {
         int length = receiveSize();
-        log.info("receiving " + length + " bytes of data");
+        log.fine("receiving " + length + " bytes of data");
         String responseString = receiveResponse(length);
-        log.info(responseString + " received");
+        log.fine(responseString + " received");
         command.call(responseString);
     }
 
@@ -142,7 +142,7 @@ public class SocketThread implements Runnable {
             try {
                 read = inputStream.read(response);
             } catch (SocketTimeoutException e) {
-                log.fine("receive timed out");
+                log.warning("receive timed out");
             }
         }
         return new String(response);

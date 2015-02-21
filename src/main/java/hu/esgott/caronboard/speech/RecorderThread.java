@@ -1,10 +1,14 @@
 package hu.esgott.caronboard.speech;
 
+import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 import hu.esgott.caronboard.speech.RecognizerCommand.ResponseCallback;
 
 import java.awt.Toolkit;
 import java.nio.ByteBuffer;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -16,20 +20,18 @@ public class RecorderThread implements Runnable {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private final static float SAMPLE_RATE = 8000;
+    private static final float SAMPLE_RATE = 8000;
     private static final int BUFFER_SIZE = 1024;
     private static final int QUERY_FREQUENCY = 4;
     private TargetDataLine inputLine;
     private byte[] buffer = new byte[BUFFER_SIZE];
     private RecognizerServerConnection recognizerConnection;
-    private Recorder parent;
     private boolean stopped = false;
     private int leftUntilQuery = QUERY_FREQUENCY;
+    private final CommandQueue queue = CommandQueue.getInstance();
 
-    public RecorderThread(RecognizerServerConnection recognizerConnection,
-            Recorder parent) {
+    public RecorderThread(RecognizerServerConnection recognizerConnection) {
         this.recognizerConnection = recognizerConnection;
-        this.parent = parent;
     }
 
     @Override
@@ -112,7 +114,7 @@ public class RecorderThread implements Runnable {
                     traceBackCommand.setCallback(new ResponseCallback() {
                         @Override
                         public void call(String response) {
-                            parent.matchFound(response);
+                            matchFound(response);
                         }
                     });
                     recognizerConnection.send(traceBackCommand);
@@ -122,7 +124,28 @@ public class RecorderThread implements Runnable {
         recognizerConnection.send(command);
     }
 
-    public synchronized void stop() {
+    private void matchFound(String response) {
+        queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
+        String matchedString = parseResponse(response);
+        log.info("Found match: " + matchedString);
+        // TODO handle match
+    }
+
+    private String parseResponse(String response) {
+        String[] lines = response.split("\n");
+        String matchLine = lines[1];
+        // third column
+        Pattern pattern = Pattern.compile("\\s*\\d+\\s+\\d+\\s+(\\S+)\\s+#.*");
+        Matcher matcher = pattern.matcher(matchLine);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            log.warning("Response not understood: " + response);
+            return "";
+        }
+    }
+
+    public void stop() {
         stopped = true;
     }
 

@@ -1,6 +1,8 @@
 package hu.esgott.caronboard.gl;
 
 import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.GuiCommand;
+import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 import hu.esgott.caronboard.MainWindow;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
@@ -45,7 +47,7 @@ public class Renderer implements GLEventListener, KeyListener {
     }
 
     private void processNextCommmand() {
-        CommandQueue.CommandId nextCommand = queue.nextGuiCommand();
+        GuiCommand nextCommand = queue.nextGuiCommand();
         if (nextCommand == null) {
             return;
         }
@@ -153,6 +155,12 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case KeyEvent.VK_O:
             backwardAction();
+            break;
+        case KeyEvent.VK_R:
+            queue.notifyRecorder(RecorderCommand.START_RECORDING);
+            break;
+        case KeyEvent.VK_T:
+            queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
             break;
         default:
             log.info("Not expected key");
