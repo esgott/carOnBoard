@@ -14,7 +14,7 @@ public class CommandQueue {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private BlockingQueue<CommandId> guiQueue = new LinkedBlockingQueue<>();;
+    private BlockingQueue<CommandId> guiQueue = new LinkedBlockingQueue<>();
 
     public static CommandQueue getInstance() {
         return instanse;
