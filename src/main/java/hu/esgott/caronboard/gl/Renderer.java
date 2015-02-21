@@ -80,6 +80,8 @@ public class Renderer implements GLEventListener, KeyListener {
         case RECORDING_OFF:
             recordingActive.setVisible(false);
             break;
+        case CONSUME_MATCH:
+            mediaScreen.processMatch(queue.nextMatch());
         default:
             log.warning("Unknown command");
         }

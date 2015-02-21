@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class CommandQueue {
 
     public enum GuiCommand {
-        SELECT_NEXT_ELEMENT, SELECT_PREVIOUS_ELEMENT, STEP_FORWARD, STEP_BACKWARD, SELECTION_ON, SELECTION_OFF, RECORDING_ON, RECORDING_OFF
+        SELECT_NEXT_ELEMENT, SELECT_PREVIOUS_ELEMENT, STEP_FORWARD, STEP_BACKWARD, SELECTION_ON, SELECTION_OFF, RECORDING_ON, RECORDING_OFF, CONSUME_MATCH
     }
 
     public enum RecorderCommand {
@@ -20,6 +20,7 @@ public class CommandQueue {
 
     private final BlockingQueue<GuiCommand> guiQueue = new LinkedBlockingQueue<>();
     private final BlockingQueue<RecorderCommand> recorderQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<String> matchQueue = new LinkedBlockingQueue<>();
 
     public static CommandQueue getInstance() {
         return instanse;
@@ -33,6 +34,11 @@ public class CommandQueue {
     public void notifyRecorder(RecorderCommand id) {
         log.info("Incoming Recorder command");
         addToQueue(recorderQueue, id, log);
+    }
+
+    public void addMatch(String match) {
+        log.info("Incoming match");
+        addToQueue(matchQueue, match, log);
     }
 
     private static <T> void addToQueue(BlockingQueue<T> queue, T id, Logger log) {
@@ -67,4 +73,9 @@ public class CommandQueue {
         return null;
     }
 
+    public String nextMatch() {
+        String nextMatch = matchQueue.poll();
+        log.info("Processing match " + nextMatch);
+        return nextMatch;
+    }
 }

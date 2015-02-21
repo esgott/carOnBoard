@@ -1,6 +1,7 @@
 package hu.esgott.caronboard.speech;
 
 import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.GuiCommand;
 import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public class Recorder implements Runnable {
 
     public void record() {
         if (!recording()) {
-            // TODO display recording
+            queue.notifyGui(GuiCommand.RECORDING_ON);
             recorderThread = new RecorderThread(recognizerConnection);
             thread = new Thread(recorderThread);
             thread.start();
@@ -61,7 +62,7 @@ public class Recorder implements Runnable {
             }
             recorderThread = null;
         }
-        // TODO hide recording
+        queue.notifyGui(GuiCommand.RECORDING_OFF);
     }
 
     public boolean recording() {

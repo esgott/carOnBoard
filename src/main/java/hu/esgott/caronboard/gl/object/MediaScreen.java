@@ -54,6 +54,16 @@ public class MediaScreen extends DrawableObject {
         return "MediaScreen";
     }
 
+    public void processMatch(String match) {
+        switch (match) {
+        case "szellozes":
+            trackList.forwardAction();
+            break;
+        default:
+            log.info("Unrecognized match " + match);
+        }
+    }
+
     @Override
     public void backwardAction() {
         selected.backwardAction();

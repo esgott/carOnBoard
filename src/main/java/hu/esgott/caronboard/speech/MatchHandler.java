@@ -16,7 +16,7 @@ public class MatchHandler {
     public void handleMatch(String response) {
         String matchedString = parseResponse(response);
         log.info("Found match: " + matchedString);
-        doActionForMatch(matchedString);
+        sendMatch(matchedString);
     }
 
     private String parseResponse(String response) {
@@ -33,11 +33,9 @@ public class MatchHandler {
         }
     }
 
-    private void doActionForMatch(String match) {
-        switch (match) {
-        case "szellozes":
-            queue.notifyGui(GuiCommand.SELECT_NEXT_ELEMENT);
-        }
+    private void sendMatch(String match) {
+        queue.addMatch(match);
+        queue.notifyGui(GuiCommand.CONSUME_MATCH);
     }
 
 }

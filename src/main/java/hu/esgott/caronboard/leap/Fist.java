@@ -1,7 +1,6 @@
 package hu.esgott.caronboard.leap;
 
 import hu.esgott.caronboard.CommandQueue;
-import hu.esgott.caronboard.CommandQueue.GuiCommand;
 import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 
 import java.util.logging.Logger;
@@ -19,11 +18,9 @@ public class Fist {
     public Fist() {
         Runnable task = () -> {
             queue.notifyRecorder(RecorderCommand.START_RECORDING);
-            queue.notifyGui(GuiCommand.RECORDING_ON);
         };
         Runnable onStop = () -> {
             queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
-            queue.notifyGui(GuiCommand.RECORDING_OFF);
         };
         timer = new GestureTimer(0.5f, 30, task, null, onStop);
     }
