@@ -1,0 +1,6 @@
+next_track	következöszám
+previous_track	elözöszám
+next_source	következöforrás
+previous_source	elözöforrás
+play	lejátszás
+pause	leállit

@@ -15,3 +15,6 @@ target
 
 # logile
 log.txt
+
+#converted grammars
+*.dos.txt
