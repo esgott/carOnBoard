@@ -14,7 +14,6 @@ import java.util.logging.SimpleFormatter;
 
 import com.leapmotion.leap.Controller;
 
-// TODO nyelvtan keszitese
 // TODO medialejatszo backend
 // TODO hangero szabolyozas (V gesztus)
 // TODO tekeres
