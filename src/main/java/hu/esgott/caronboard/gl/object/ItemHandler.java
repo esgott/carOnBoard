@@ -80,4 +80,12 @@ public class ItemHandler {
     public String getCurrentString() {
         return menuItems.get(currentItem).getName();
     }
+
+    public boolean lastItem() {
+        return currentItem == (menuItems.size() - 1);
+    }
+
+    public boolean firstItem() {
+        return currentItem == 0;
+    }
 }

@@ -20,6 +20,7 @@ public class DrawableList extends DrawableObject {
     private final String name;
     private final ItemHandler itemHandler;
     private List<Float> positions = new ArrayList<>();
+    private boolean changed = true;
 
     public DrawableList(final String name, final float width,
             final float height, final int fontSize,
@@ -110,6 +111,7 @@ public class DrawableList extends DrawableObject {
     @Override
     public void forwardAction() {
         AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
+        changed = !itemHandler.lastItem();
         Text newItem = itemHandler.next();
         float lastPosition = positions.get(positions.size() - 1);
         newItem.moveTo(0.2f, lastPosition);
@@ -120,6 +122,7 @@ public class DrawableList extends DrawableObject {
     @Override
     public void backwardAction() {
         AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
+        changed = !itemHandler.firstItem();
         Text newItem = itemHandler.prev();
         newItem.moveTo(0.2f, positions.get(0));
         log.info("In list " + getName() + " selected "
@@ -142,4 +145,9 @@ public class DrawableList extends DrawableObject {
     public String getSelectedName() {
         return itemHandler.getCurrentString();
     }
+
+    public boolean changed() {
+        return changed;
+    }
+
 }

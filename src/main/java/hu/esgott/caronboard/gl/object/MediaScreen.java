@@ -34,6 +34,7 @@ public class MediaScreen extends DrawableObject {
                 .setElements(playerDevice.getMediaFilesForSource(Source.MEDIA));
 
         select(trackList);
+        updateAudio();
     }
 
     private void select(DrawableObject newSelection) {
@@ -42,17 +43,19 @@ public class MediaScreen extends DrawableObject {
         }
         newSelection.setSelected(true);
         selected = newSelection;
-        selectAudio();
         log.info("Selected: " + selected.getName());
     }
 
-    private void selectAudio() {
-        String source = sourceList.getSelectedName();
-        int track = trackList.getSelectedNum();
-        if (!source.equals("MEDIA")) {
-            track = 0;
+    private void updateAudio() {
+        if ((selected == sourceList && sourceList.changed())
+                || (selected == trackList && trackList.changed())) {
+            String source = sourceList.getSelectedName();
+            int track = trackList.getSelectedNum();
+            if (!source.equals("MEDIA")) {
+                track = 0;
+            }
+            playerDevice.select(source, track);
         }
-        playerDevice.select(source, track);
     }
 
     @Override
@@ -103,13 +106,13 @@ public class MediaScreen extends DrawableObject {
     @Override
     public void backwardAction() {
         selected.backwardAction();
-        selectAudio();
+        updateAudio();
     }
 
     @Override
     public void forwardAction() {
         selected.forwardAction();
-        selectAudio();
+        updateAudio();
     }
 
     @Override
