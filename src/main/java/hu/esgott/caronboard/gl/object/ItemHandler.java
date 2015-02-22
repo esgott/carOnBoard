@@ -1,7 +1,9 @@
 package hu.esgott.caronboard.gl.object;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemHandler {
 
@@ -21,6 +23,13 @@ public class ItemHandler {
 
     public void addItem(String text) {
         menuItems.add(new Text(text, size));
+        refreshRenderedList();
+    }
+
+    public void addItems(Collection<String> items) {
+        Collection<Text> texts = items.stream()
+                .map(item -> new Text(item, size)).collect(Collectors.toList());
+        menuItems.addAll(texts);
         refreshRenderedList();
     }
 
@@ -62,5 +71,13 @@ public class ItemHandler {
             refreshRenderedList();
         }
         return renderedItems.get(0);
+    }
+
+    public int getCurrentNum() {
+        return currentItem;
+    }
+
+    public String getCurrentString() {
+        return menuItems.get(currentItem).getName();
     }
 }

@@ -5,37 +5,33 @@ import hu.esgott.caronboard.leap.AudioFeedback;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
 
 public class DrawableList extends DrawableObject {
 
+    private final Logger log = Logger.getLogger(getClass().getName());
+
     private static final float FRAME_THICKNESS = 0.06f;
 
     private final float width;
     private final float height;
+    private final String name;
     private final ItemHandler itemHandler;
     private List<Float> positions = new ArrayList<>();
 
-    public DrawableList(final float width, final float height,
-            final int fontSize, final float diffBetweenLines,
-            final float lineOffset) {
+    public DrawableList(final String name, final float width,
+            final float height, final int fontSize,
+            final float diffBetweenLines, final float lineOffset) {
         this.width = width;
         this.height = height;
+        this.name = name;
         itemHandler = new ItemHandler(fontSize);
 
         for (int i = -1; i < 4; i++) {
-            positions.add(lineOffset + (i * diffBetweenLines));
+            positions.add(lineOffset - (i * diffBetweenLines));
         }
-
-        for (int i = 0; i < 5; i++) {
-            itemHandler.addItem("item" + (i + 1));
-        }
-
-        Iterator<Float> pos = positions.iterator();
-        itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
-            item.move(0.2f, pos.next());
-        });
     }
 
     @Override
@@ -108,7 +104,7 @@ public class DrawableList extends DrawableObject {
 
     @Override
     public String getName() {
-        return "list";
+        return name;
     }
 
     @Override
@@ -117,6 +113,8 @@ public class DrawableList extends DrawableObject {
         Text newItem = itemHandler.next();
         float lastPosition = positions.get(positions.size() - 1);
         newItem.moveTo(0.2f, lastPosition);
+        log.info("In list " + getName() + " selected "
+                + itemHandler.getCurrentString());
     }
 
     @Override
@@ -124,6 +122,24 @@ public class DrawableList extends DrawableObject {
         AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
         Text newItem = itemHandler.prev();
         newItem.moveTo(0.2f, positions.get(0));
+        log.info("In list " + getName() + " selected "
+                + itemHandler.getCurrentString());
     }
 
+    public void setElements(List<String> elements) {
+        itemHandler.addItems(elements);
+
+        Iterator<Float> pos = positions.iterator();
+        itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
+            item.move(0.2f, pos.next());
+        });
+    }
+
+    public int getSelectedNum() {
+        return itemHandler.getCurrentNum();
+    }
+
+    public String getSelectedName() {
+        return itemHandler.getCurrentString();
+    }
 }

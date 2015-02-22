@@ -2,9 +2,11 @@ package hu.esgott.caronboard.devices;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javazoom.jlgui.basicplayer.BasicController;
 import javazoom.jlgui.basicplayer.BasicPlayer;
@@ -22,18 +24,20 @@ public class MediaPlayerDevice implements BasicPlayerListener {
 
     private final List<String> mediaFiles = new ArrayList<>();
     private final List<String> radioFiles = new ArrayList<>();
-    private boolean playing = true;
-    private Source activeSource = Source.RADIO;
     private BasicPlayer player;
-    private int currentFile = 0;
 
     public MediaPlayerDevice() {
-        String sultans = "Sultans of swing.mp3";
+        mediaFiles.add("Sultans of swing.mp3");
+        mediaFiles.add("Dani California.mp3");
+        mediaFiles.add("Feeling this.mp3");
+        mediaFiles.add("Highway To Hell.mp3");
+        mediaFiles.add("Layla.mp3");
+        mediaFiles.add("Living Loving Maid.mp3");
+        mediaFiles.add("Piece of my Heart.mp3");
+        mediaFiles.add("Strange Love.mp3");
+        mediaFiles.add("Sweet child o'mine.mp3");
 
-        mediaFiles.add(sultans);
-        // TODO add media files
-
-        radioFiles.add(sultans);
+        radioFiles.add("Sultans of swing.mp3");
         // TODO add radio files
     }
 
@@ -52,29 +56,63 @@ public class MediaPlayerDevice implements BasicPlayerListener {
         }
     }
 
-    public boolean playing() {
-        return playing;
+    public List<String> getSourceNames() {
+        List<Source> values = Arrays.asList(Source.values());
+        System.out.println(values);
+        return values.stream().map(item -> item.toString())
+                .collect(Collectors.toList());
     }
 
-    public void play() {
-        String mediaFile = getMediaFilesForSource(activeSource)
-                .get(currentFile);
+    public void select(String source, int num) {
+        boolean playing = false;
+        if (player != null) {
+            playing = player.getStatus() == BasicPlayer.PLAYING;
+            dispose();
+        }
+
+        Source activeSource = Source.valueOf(Source.class, source);
         player = new BasicPlayer();
         player.addBasicPlayerListener(this);
+
+        List<String> fileList = getMediaFilesForSource(activeSource);
+        String mediaFile = fileList.get(num);
+
         try {
             player.open(new File(mediaFile));
-            player.play();
+            if (playing) {
+                player.play();
+            }
         } catch (BasicPlayerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.severe("Error on selection: " + e.getMessage());
         }
-        log.info("Playback started");
+    }
+
+    public void togglePause() {
+        if (player != null) {
+            try {
+                if (player.getStatus() == BasicPlayer.PLAYING) {
+                    player.pause();
+                    log.info("Playback paused");
+                } else if (player.getStatus() == BasicPlayer.PAUSED) {
+                    player.resume();
+                    log.info("Playback resumed");
+                } else {
+                    player.play();
+                    log.info("Start playing in state " + player.getStatus());
+                }
+            } catch (BasicPlayerException e) {
+                log.severe("Error when pausing: " + e.getMessage());
+            }
+        } else {
+            log.warning("No player created.");
+        }
     }
 
     public void dispose() {
         if (player != null) {
             try {
                 player.stop();
+                player = null;
             } catch (BasicPlayerException e) {
                 log.severe("Error disposing player: " + e.getMessage());
             }
@@ -82,21 +120,22 @@ public class MediaPlayerDevice implements BasicPlayerListener {
     }
 
     @Override
-    public void opened(Object arg0, Map arg1) {
+    public void opened(Object stream, Map properties) {
         log.info("Opened");
     }
 
     @Override
-    public void progress(int arg0, long arg1, byte[] arg2, Map arg3) {
+    public void progress(int bytesread, long microseconds, byte[] pcmdata,
+            Map properties) {
     }
 
     @Override
-    public void setController(BasicController arg0) {
+    public void setController(BasicController controller) {
     }
 
     @Override
-    public void stateUpdated(BasicPlayerEvent arg0) {
-        log.info("State: " + arg0);
+    public void stateUpdated(BasicPlayerEvent event) {
+        log.info("State: " + event);
     }
 
 }

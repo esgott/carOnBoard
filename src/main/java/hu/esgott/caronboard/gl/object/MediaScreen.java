@@ -1,6 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
 import hu.esgott.caronboard.devices.MediaPlayerDevice;
+import hu.esgott.caronboard.devices.MediaPlayerDevice.Source;
 import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.util.logging.Logger;
@@ -11,10 +12,10 @@ public class MediaScreen extends DrawableObject {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private final DrawableList sourceList = new DrawableList(3.4f, 0.35f, 200,
-            0.25f, -0.15f);
-    private final DrawableList trackList = new DrawableList(3.4f, 0.9f, 200,
-            0.25f, 0.15f);
+    private final DrawableList sourceList = new DrawableList("SourceList",
+            3.4f, 0.35f, 200, 0.25f, 0.35f);
+    private final DrawableList trackList = new DrawableList("TrackList", 3.4f,
+            0.9f, 200, 0.25f, 0.62f);
     private final PlaybackControl playbackControl = new PlaybackControl(0.2f);
     private DrawableObject selected;
     private MediaPlayerDevice playerDevice = new MediaPlayerDevice();
@@ -28,9 +29,11 @@ public class MediaScreen extends DrawableObject {
         trackList.setNeighbours(playbackControl, sourceList);
         playbackControl.setNeighbours(sourceList, trackList);
 
-        select(trackList);
+        sourceList.setElements(playerDevice.getSourceNames());
+        trackList
+                .setElements(playerDevice.getMediaFilesForSource(Source.MEDIA));
 
-        playerDevice.play();
+        select(trackList);
     }
 
     private void select(DrawableObject newSelection) {
@@ -39,7 +42,17 @@ public class MediaScreen extends DrawableObject {
         }
         newSelection.setSelected(true);
         selected = newSelection;
+        selectAudio();
         log.info("Selected: " + selected.getName());
+    }
+
+    private void selectAudio() {
+        String source = sourceList.getSelectedName();
+        int track = trackList.getSelectedNum();
+        if (!source.equals("MEDIA")) {
+            track = 0;
+        }
+        playerDevice.select(source, track);
     }
 
     @Override
@@ -90,11 +103,13 @@ public class MediaScreen extends DrawableObject {
     @Override
     public void backwardAction() {
         selected.backwardAction();
+        selectAudio();
     }
 
     @Override
     public void forwardAction() {
         selected.forwardAction();
+        selectAudio();
     }
 
     @Override
@@ -117,6 +132,10 @@ public class MediaScreen extends DrawableObject {
     public void selectionOff() {
         selected.setSelected(false);
         log.info("Selection OFF");
+    }
+
+    public void playPause() {
+        playerDevice.togglePause();
     }
 
     public void dispose() {

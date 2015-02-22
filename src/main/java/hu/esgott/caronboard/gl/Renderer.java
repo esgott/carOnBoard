@@ -174,6 +174,9 @@ public class Renderer implements GLEventListener, KeyListener {
         case KeyEvent.VK_T:
             queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
             break;
+        case KeyEvent.VK_X:
+            mediaScreen.playPause();
+            break;
         default:
             log.info("Not expected key");
         }
