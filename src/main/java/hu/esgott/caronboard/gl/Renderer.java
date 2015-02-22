@@ -103,6 +103,7 @@ public class Renderer implements GLEventListener, KeyListener {
 
     @Override
     public void dispose(final GLAutoDrawable drawable) {
+        mediaScreen.dispose();
     }
 
     @Override

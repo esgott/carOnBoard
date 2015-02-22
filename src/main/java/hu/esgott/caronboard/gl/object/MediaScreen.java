@@ -1,5 +1,6 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.devices.MediaPlayerDevice;
 import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ public class MediaScreen extends DrawableObject {
             0.25f, 0.15f);
     private final PlaybackControl playbackControl = new PlaybackControl(0.2f);
     private DrawableObject selected;
+    private MediaPlayerDevice playerDevice = new MediaPlayerDevice();
 
     public MediaScreen() {
         sourceList.move(-1.7f, 0.6f);
@@ -27,6 +29,8 @@ public class MediaScreen extends DrawableObject {
         playbackControl.setNeighbours(sourceList, trackList);
 
         select(trackList);
+
+        playerDevice.play();
     }
 
     private void select(DrawableObject newSelection) {
@@ -113,5 +117,9 @@ public class MediaScreen extends DrawableObject {
     public void selectionOff() {
         selected.setSelected(false);
         log.info("Selection OFF");
+    }
+
+    public void dispose() {
+        playerDevice.dispose();
     }
 }
