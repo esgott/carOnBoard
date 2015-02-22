@@ -58,8 +58,25 @@ public class MediaScreen extends DrawableObject {
 
     public void processMatch(String match) {
         switch (match) {
-        case "szellozes":
+        case "next_track":
             trackList.forwardAction();
+            break;
+        case "previous_track":
+            trackList.backwardAction();
+            break;
+        case "next_source":
+            sourceList.forwardAction();
+            break;
+        case "previous_source":
+            sourceList.backwardAction();
+            break;
+        case "play":
+            log.info("Play");
+            // TODO connect play
+            break;
+        case "pause":
+            log.info("Pause");
+            // TODO connect pause
             break;
         default:
             log.info("Unrecognized match " + match);
