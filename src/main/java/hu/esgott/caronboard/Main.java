@@ -14,12 +14,9 @@ import java.util.logging.SimpleFormatter;
 
 import com.leapmotion.leap.Controller;
 
-// TODO medialejatszo backend
 // TODO hangero szabolyozas (V gesztus)
-// TODO tekeres
 // TODO texturazas
 // TODO EventHandler lecsatolasa Rendererbol
-// TODO recording audio feedback
 
 final class Main {
 
