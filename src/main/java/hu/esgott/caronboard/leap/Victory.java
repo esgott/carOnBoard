@@ -1,5 +1,8 @@
 package hu.esgott.caronboard.leap;
 
+import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.GuiCommand;
+
 import java.util.logging.Logger;
 
 import com.leapmotion.leap.Hand;
@@ -15,7 +18,8 @@ public class Victory {
     private boolean executing;
     private float startHeight;
     private float lastHeight;
-    private int level;
+    private int level = 0;
+    private final CommandQueue queue = CommandQueue.getInstance();
 
     public Victory() {
         Runnable task = () -> {
@@ -28,6 +32,7 @@ public class Victory {
             if (executing) {
                 executing = false;
                 log.info("No victory");
+                level = 0;
                 AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
             }
         };
@@ -51,9 +56,12 @@ public class Victory {
 
     private void setLevel(Hand hand) {
         int newLevel = Math.round((lastHeight - startHeight) * SCALE);
-        if (newLevel != level) {
-            log.info("level: " + newLevel);
-            level = newLevel;
+        if (newLevel < level) {
+            level--;
+            queue.notifyGui(GuiCommand.VOLUME_DEC);
+        } else if (newLevel > level) {
+            level++;
+            queue.notifyGui(GuiCommand.VOLUME_INC);
         }
     }
 

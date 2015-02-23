@@ -147,6 +147,14 @@ public class MediaScreen extends DrawableObject {
         playerDevice.togglePause();
     }
 
+    public void increaseVolume() {
+        playerDevice.increaseVolume();
+    }
+
+    public void decreaseVolume() {
+        playerDevice.decreaseVolume();
+    }
+
     public void dispose() {
         playerDevice.dispose();
     }

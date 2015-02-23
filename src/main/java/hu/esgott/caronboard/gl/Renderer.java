@@ -81,6 +81,13 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case CONSUME_MATCH:
             mediaScreen.processMatch(queue.nextMatch());
+            break;
+        case VOLUME_INC:
+            mediaScreen.increaseVolume();
+            break;
+        case VOLUME_DEC:
+            mediaScreen.decreaseVolume();
+            break;
         default:
             log.warning("Unknown command");
         }

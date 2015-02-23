@@ -21,6 +21,8 @@ public class MediaPlayerDevice {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    private static final double VOLUME_STEP = 0.1;
+
     private final List<String> mediaFiles = new ArrayList<>();
     private final List<String> radioFiles = new ArrayList<>();
     private MediaPlayer player;
@@ -108,6 +110,25 @@ public class MediaPlayerDevice {
             player.seek(newPosition);
             log.info("Seeked millisecs " + millis);
         }
+    }
+
+    public void increaseVolume() {
+        double current = player.getVolume();
+        if (current < 1.0) {
+            setVolume(current + VOLUME_STEP);
+        }
+    }
+
+    public void decreaseVolume() {
+        double current = player.getVolume();
+        if (current > 0.0) {
+            setVolume(current - VOLUME_STEP);
+        }
+    }
+
+    private void setVolume(double newVolume) {
+        player.setVolume(newVolume);
+        log.info("Volume set to " + newVolume);
     }
 
     public void dispose() {
