@@ -4,6 +4,7 @@ import hu.esgott.caronboard.CommandQueue;
 import hu.esgott.caronboard.CommandQueue.GuiCommand;
 import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 import hu.esgott.caronboard.MainWindow;
+import hu.esgott.caronboard.gl.object.Background;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
 import hu.esgott.caronboard.gl.object.RecordingActive;
@@ -25,6 +26,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private final GLU glu = new GLU();
+    private final Background background = new Background();
     private final MediaScreen mediaScreen = new MediaScreen();
     private final RecordingActive recordingActive = new RecordingActive();
     private final List<DrawableObject> objects = new ArrayList<>();
@@ -32,6 +34,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final CommandQueue queue = CommandQueue.getInstance();
 
     public Renderer() {
+        objects.add(background);
         objects.add(mediaScreen);
         objects.add(recordingActive);
     }
