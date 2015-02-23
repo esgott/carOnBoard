@@ -15,7 +15,9 @@ import java.util.logging.SimpleFormatter;
 import com.leapmotion.leap.Controller;
 
 // TODO hangero szabolyozas (V gesztus)
+// TODO hangeffekt hangerohoz
 // TODO texturazas
+// TODO felvetel kozben hangero levetele
 // TODO EventHandler lecsatolasa Rendererbol
 
 final class Main {
