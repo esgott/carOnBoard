@@ -4,17 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javazoom.jlgui.basicplayer.BasicController;
-import javazoom.jlgui.basicplayer.BasicPlayer;
-import javazoom.jlgui.basicplayer.BasicPlayerEvent;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
-import javazoom.jlgui.basicplayer.BasicPlayerListener;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
-public class MediaPlayerDevice implements BasicPlayerListener {
+public class MediaPlayerDevice {
 
     public enum Source {
         RADIO, MEDIA
@@ -24,7 +22,7 @@ public class MediaPlayerDevice implements BasicPlayerListener {
 
     private final List<String> mediaFiles = new ArrayList<>();
     private final List<String> radioFiles = new ArrayList<>();
-    private BasicPlayer player;
+    private MediaPlayer player;
 
     public MediaPlayerDevice() {
         mediaFiles.add("Sultans of swing.mp3");
@@ -39,6 +37,12 @@ public class MediaPlayerDevice implements BasicPlayerListener {
 
         radioFiles.add("Sultans of swing.mp3");
         // TODO add radio files
+
+        initJavaFX();
+    }
+
+    private void initJavaFX() {
+        JFXPanel fxPanel = new JFXPanel();
     }
 
     public Source[] getSources() {
@@ -66,42 +70,29 @@ public class MediaPlayerDevice implements BasicPlayerListener {
     public void select(String source, int num) {
         boolean playing = false;
         if (player != null) {
-            playing = player.getStatus() == BasicPlayer.PLAYING;
-            dispose();
+            playing = player.getStatus() == MediaPlayer.Status.PLAYING;
+            disposePlayer();
         }
 
         Source activeSource = Source.valueOf(Source.class, source);
-        player = new BasicPlayer();
-        player.addBasicPlayerListener(this);
-
         List<String> fileList = getMediaFilesForSource(activeSource);
         String mediaFile = fileList.get(num);
+        Media media = new Media(new File(mediaFile).toURI().toString());
+        player = new MediaPlayer(media);
 
-        try {
-            player.open(new File(mediaFile));
-            if (playing) {
-                player.play();
-            }
-        } catch (BasicPlayerException e) {
-            log.severe("Error on selection: " + e.getMessage());
+        if (playing) {
+            player.play();
         }
     }
 
     public void togglePause() {
         if (player != null) {
-            try {
-                if (player.getStatus() == BasicPlayer.PLAYING) {
-                    player.pause();
-                    log.info("Playback paused");
-                } else if (player.getStatus() == BasicPlayer.PAUSED) {
-                    player.resume();
-                    log.info("Playback resumed");
-                } else {
-                    player.play();
-                    log.info("Start playing in state " + player.getStatus());
-                }
-            } catch (BasicPlayerException e) {
-                log.severe("Error when pausing: " + e.getMessage());
+            if (player.getStatus() == MediaPlayer.Status.PLAYING) {
+                player.pause();
+                log.info("Playback paused");
+            } else {
+                player.play();
+                log.info("Start playing in state " + player.getStatus());
             }
         } else {
             log.warning("No player created.");
@@ -109,33 +100,20 @@ public class MediaPlayerDevice implements BasicPlayerListener {
     }
 
     public void dispose() {
+        disposePlayer();
+        disposeJavaFX();
+    }
+
+    private void disposePlayer() {
         if (player != null) {
-            try {
-                player.stop();
-                player = null;
-            } catch (BasicPlayerException e) {
-                log.severe("Error disposing player: " + e.getMessage());
-            }
+            player.stop();
+            player.dispose();
+            player = null;
         }
     }
 
-    @Override
-    public void opened(Object stream, Map properties) {
-        log.info("Opened");
-    }
-
-    @Override
-    public void progress(int bytesread, long microseconds, byte[] pcmdata,
-            Map properties) {
-    }
-
-    @Override
-    public void setController(BasicController controller) {
-    }
-
-    @Override
-    public void stateUpdated(BasicPlayerEvent event) {
-        log.info("State: " + event);
+    private void disposeJavaFX() {
+        Platform.exit();
     }
 
 }
