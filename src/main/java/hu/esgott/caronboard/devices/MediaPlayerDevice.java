@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class MediaPlayerDevice {
 
@@ -96,6 +97,16 @@ public class MediaPlayerDevice {
             }
         } else {
             log.warning("No player created.");
+        }
+    }
+
+    public void seek(int millis) {
+        if (player != null) {
+            Duration current = player.getCurrentTime();
+            Duration diff = new Duration(millis);
+            Duration newPosition = current.add(diff);
+            player.seek(newPosition);
+            log.info("Seeked millisecs " + millis);
         }
     }
 
