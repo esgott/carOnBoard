@@ -45,6 +45,7 @@ public class MediaPlayerDevice {
     }
 
     private void initJavaFX() {
+        @SuppressWarnings("unused")
         JFXPanel fxPanel = new JFXPanel();
     }
 
