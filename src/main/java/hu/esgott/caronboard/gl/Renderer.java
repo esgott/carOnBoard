@@ -26,7 +26,8 @@ public class Renderer implements GLEventListener, KeyListener {
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private final GLU glu = new GLU();
-    private final Background background = new Background();
+    private final Textures textures = new Textures();
+    private final Background background = new Background(textures);
     private final MediaScreen mediaScreen = new MediaScreen();
     private final RecordingActive recordingActive = new RecordingActive();
     private final List<DrawableObject> objects = new ArrayList<>();
@@ -119,6 +120,7 @@ public class Renderer implements GLEventListener, KeyListener {
     @Override
     public void init(final GLAutoDrawable drawable) {
         drawable.getGL().setSwapInterval(1);
+        textures.loadTextures(drawable.getGL().getGL2());
     }
 
     @Override
