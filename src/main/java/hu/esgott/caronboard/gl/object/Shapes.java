@@ -8,10 +8,19 @@ public class Shapes {
             final float bottomLeftY, final float topRightX,
             final float topRightY) {
         gl.glBegin(GL2.GL_QUADS);
+
+        gl.glTexCoord2f(0.0f, 0.0f);
         gl.glVertex2f(bottomLeftX, bottomLeftY);
+
+        gl.glTexCoord2f(100.0f, 0.0f);
         gl.glVertex2f(topRightX, bottomLeftY);
+
+        gl.glTexCoord2f(100.0f, 100.0f);
         gl.glVertex2f(topRightX, topRightY);
+
+        gl.glTexCoord2f(0.0f, 100.0f);
         gl.glVertex2f(bottomLeftX, topRightY);
+
         gl.glEnd();
     }
 
