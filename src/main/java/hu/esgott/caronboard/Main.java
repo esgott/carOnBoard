@@ -15,7 +15,6 @@ import java.util.logging.SimpleFormatter;
 import com.leapmotion.leap.Controller;
 
 // TODO hangeffekt hangerohoz
-// TODO texturazas
 // TODO felvetel kozben hangero levetele
 // TODO EventHandler lecsatolasa Rendererbol
 
