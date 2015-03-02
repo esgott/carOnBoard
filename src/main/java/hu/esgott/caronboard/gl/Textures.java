@@ -16,7 +16,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 public class Textures {
 
     public enum ID {
-        PLASTIC, METAL, WOOD
+        PLASTIC, METAL, WOOD, GRAVEL
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -32,6 +32,8 @@ public class Textures {
         setRepeat(ID.METAL, gl);
         load("WoodFine0019_S.jpg", TextureIO.JPG, ID.WOOD);
         setRepeat(ID.WOOD, gl);
+        load("Gravel0075_5_S.jpg", TextureIO.JPG, ID.GRAVEL);
+        setRepeat(ID.GRAVEL, gl);
     }
 
     private void load(final String file, final String suffix, final ID id) {
