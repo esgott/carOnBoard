@@ -9,10 +9,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -22,11 +24,17 @@ public class AudioFeedback {
         BTN_BEEP, CORRECT, CLICK
     }
 
+    private final Logger log = Logger.getLogger(getClass().getName());
+
+    private static final int MAX_LEVEL = 10;
+    private static final int MIN_LEVEL = 0;
+
     private static final AudioFeedback instance = new AudioFeedback();
-    private static final BlockingQueue<A> queue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<A> queue = new LinkedBlockingQueue<>();
     private boolean running = true;
     private final Map<A, Clip> samples = new HashMap<>();
-    private final Lock clipsLock = new ReentrantLock();
+    private final Lock lock = new ReentrantLock();
+    private int volume = MAX_LEVEL;
 
     private AudioFeedback() {
         try {
@@ -77,11 +85,11 @@ public class AudioFeedback {
 
     private void resetClip(Clip clip) {
         try {
-            clipsLock.lock();
+            lock.lock();
             clip.setFramePosition(0);
             clip.start();
         } finally {
-            clipsLock.unlock();
+            lock.unlock();
         }
     }
 
@@ -98,10 +106,10 @@ public class AudioFeedback {
     private boolean playing(Clip clip) {
         boolean playing = false;
         try {
-            clipsLock.lock();
+            lock.lock();
             playing = clip.isRunning();
         } finally {
-            clipsLock.unlock();
+            lock.unlock();
         }
         return playing;
     }
@@ -112,6 +120,44 @@ public class AudioFeedback {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void increaseVolume() {
+        try {
+            lock.lock();
+            if (volume >= MAX_LEVEL) {
+                return;
+            }
+            volume++;
+            setVolume(volume);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void decreaseVolume() {
+        try {
+            lock.lock();
+            if (volume <= MIN_LEVEL) {
+                return;
+            }
+            volume--;
+            setVolume(volume);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void setVolume(int volume) {
+        double gain = volume / 10.0D;
+        float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+        samples.forEach((key, clip) -> {
+            FloatControl gainControl = (FloatControl) clip
+                    .getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(dB);
+        });
+        log.info("Feedback volume set to " + volume + " (gain=" + gain + " dB="
+                + dB + ")");
     }
 
     public static void dispose() {

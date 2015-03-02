@@ -189,6 +189,12 @@ public class Renderer implements GLEventListener, KeyListener {
         case KeyEvent.VK_X:
             mediaScreen.playPause();
             break;
+        case KeyEvent.VK_A:
+            mediaScreen.increaseVolume();
+            break;
+        case KeyEvent.VK_Z:
+            mediaScreen.decreaseVolume();
+            break;
         default:
             log.info("Not expected key");
         }

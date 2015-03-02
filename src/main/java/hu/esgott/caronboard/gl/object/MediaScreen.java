@@ -156,11 +156,13 @@ public class MediaScreen extends DrawableObject {
     }
 
     public void increaseVolume() {
+        audioFeedback.increaseVolume();
         audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         playerDevice.increaseVolume();
     }
 
     public void decreaseVolume() {
+        audioFeedback.decreaseVolume();
         audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         playerDevice.decreaseVolume();
     }
