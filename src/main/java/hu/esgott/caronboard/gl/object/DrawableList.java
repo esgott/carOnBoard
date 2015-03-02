@@ -63,7 +63,7 @@ public class DrawableList extends DrawableObject {
                     height + 0.01f);
         }
 
-        gl.glColor3f(0, 0, 1);
+        gl.glColor3f(0.0f, 0.05f, 0.4f);
         Shapes.drawRectangle(gl, 0, 0, width, height);
 
         itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
@@ -74,7 +74,7 @@ public class DrawableList extends DrawableObject {
             gl.glPopMatrix();
         });
 
-        gl.glColor3f(1, 0, 0);
+        gl.glColor3f(0.0f, 0.0f, 0.2f);
         drawFrame(gl);
 
         gl.glPopMatrix();

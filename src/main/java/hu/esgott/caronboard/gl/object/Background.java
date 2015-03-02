@@ -15,9 +15,9 @@ public class Background extends DrawableObject {
 
     @Override
     public void draw(GL2 gl) {
-        textures.enableTexture(ID.WOOD, gl);
+        textures.enableTexture(ID.METAL, gl);
         Shapes.drawRectangle(gl, -10, -10, 10, 10);
-        textures.disableTexture(ID.WOOD, gl);
+        textures.disableTexture(ID.METAL, gl);
     }
 
     @Override

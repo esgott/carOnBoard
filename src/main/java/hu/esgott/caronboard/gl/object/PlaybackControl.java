@@ -1,18 +1,15 @@
 package hu.esgott.caronboard.gl.object;
 
 import hu.esgott.caronboard.gl.Textures;
-import hu.esgott.caronboard.gl.Textures.ID;
 
 import javax.media.opengl.GL2;
 
 public class PlaybackControl extends DrawableObject {
 
     private final float scale;
-    private final Textures textures;
 
     public PlaybackControl(final Textures textures, final float scale) {
         this.scale = scale;
-        this.textures = textures;
     }
 
     @Override
@@ -26,7 +23,7 @@ public class PlaybackControl extends DrawableObject {
                     Y() + 0.24f);
         }
 
-        textures.enableTexture(ID.METAL, gl);
+        gl.glColor3f(0.0f, 0.05f, 0.4f);
 
         Shapes.drawTriangle(gl, X(), Y(), -90.0f, scale);
 
@@ -35,8 +32,6 @@ public class PlaybackControl extends DrawableObject {
 
         Shapes.drawTriangle(gl, X() - 0.9f, Y(), 90.0f, scale);
         Shapes.drawTriangle(gl, X() - 1.31f, Y(), 90.0f, scale);
-
-        textures.disableTexture(ID.METAL, gl);
     }
 
     @Override
