@@ -105,11 +105,9 @@ public class MediaScreen extends DrawableObject {
             updateAudio(false);
             break;
         case "play":
-            log.info("Play");
             playerDevice.play();
             break;
         case "pause":
-            log.info("Pause");
             playerDevice.pause();
             break;
         default:
