@@ -59,8 +59,7 @@ public class DrawableList extends DrawableObject {
 
         if (selected()) {
             gl.glColor3f(1, 1, 0);
-            Shapes.drawRectangle(gl, -0.01f, -0.01f, width + 0.01f,
-                    height + 0.01f);
+            Shapes.drawFrame(gl, 0, 0, width, height, 0.01f);
         }
 
         gl.glColor3f(0.0f, 0.05f, 0.4f);
