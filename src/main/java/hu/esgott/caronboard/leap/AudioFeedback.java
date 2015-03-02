@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -21,9 +23,10 @@ public class AudioFeedback {
     }
 
     private static final AudioFeedback instance = new AudioFeedback();
-    private static BlockingQueue<A> queue = new LinkedBlockingQueue<>();
+    private static final BlockingQueue<A> queue = new LinkedBlockingQueue<>();
     private boolean running = true;
-    private Map<A, Clip> samples = new HashMap<>();
+    private final Map<A, Clip> samples = new HashMap<>();
+    private final Lock clipsLock = new ReentrantLock();
 
     private AudioFeedback() {
         try {
@@ -62,8 +65,7 @@ public class AudioFeedback {
                 A next = queue.poll(100, TimeUnit.MILLISECONDS);
                 if (next != null) {
                     Clip clip = samples.get(next);
-                    clip.setFramePosition(0);
-                    clip.start();
+                    resetClip(clip);
                     waitUntilStarted(clip);
                     waitUntilPlayed(clip);
                 }
@@ -73,14 +75,35 @@ public class AudioFeedback {
         }
     }
 
+    private void resetClip(Clip clip) {
+        try {
+            clipsLock.lock();
+            clip.setFramePosition(0);
+            clip.start();
+        } finally {
+            clipsLock.unlock();
+        }
+    }
+
     private void waitUntilStarted(Clip clip) throws InterruptedException {
         Thread.sleep(10);
     }
 
     private void waitUntilPlayed(Clip clip) throws InterruptedException {
-        while (clip.isRunning()) {
+        while (playing(clip)) {
             Thread.sleep(100);
         }
+    }
+
+    private boolean playing(Clip clip) {
+        boolean playing = false;
+        try {
+            clipsLock.lock();
+            playing = clip.isRunning();
+        } finally {
+            clipsLock.unlock();
+        }
+        return playing;
     }
 
     public void play(A next) {
@@ -91,7 +114,11 @@ public class AudioFeedback {
         }
     }
 
-    public void dispose() {
+    public static void dispose() {
+        instance.stop();
+    }
+
+    private void stop() {
         running = false;
         samples.values().forEach(clip -> {
             clip.close();

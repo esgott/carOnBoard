@@ -24,7 +24,6 @@ final class Main {
 
     private static LeapListener listener;
     private static Controller controller;
-    private static AudioFeedback audioFeedback;
     private static RecognizerServerConnection recognizer;
     private static Thread recorderThread;
     private static Logger logger;
@@ -80,7 +79,7 @@ final class Main {
         logger.info("Shutting down services");
         controller.removeListener(listener);
         listener.dispose();
-        audioFeedback.dispose();
+        AudioFeedback.dispose();
         logger.info("Leap stopped");
         recognizer.dispose();
         queue.notifyRecorder(RecorderCommand.KILL);
