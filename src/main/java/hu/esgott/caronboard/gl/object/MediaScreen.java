@@ -39,6 +39,7 @@ public class MediaScreen extends DrawableObject {
 
         select(trackList);
         updateAudio(true);
+        selectionOff();
     }
 
     private void select(DrawableObject newSelection) {
