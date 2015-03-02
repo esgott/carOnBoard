@@ -16,11 +16,8 @@ public class PlaybackControl extends DrawableObject {
     public void draw(GL2 gl) {
         if (selected()) {
             gl.glColor3f(1, 1, 0);
-            Shapes.drawRectangle(gl, X() - 1.71f, Y() - 0.25f, X() + 1.71f,
-                    Y() + 0.25f);
-            gl.glColor3f(0, 0, 0);
-            Shapes.drawRectangle(gl, X() - 1.7f, Y() - 0.24f, X() + 1.7f,
-                    Y() + 0.24f);
+            Shapes.drawFrame(gl, X() - 1.7f, Y() - 0.24f, X() + 1.7f,
+                    Y() + 0.24f, 0.01f);
         }
 
         gl.glColor3f(0.0f, 0.05f, 0.4f);
