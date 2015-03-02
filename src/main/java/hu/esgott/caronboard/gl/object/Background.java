@@ -7,7 +7,7 @@ import javax.media.opengl.GL2;
 
 public class Background extends DrawableObject {
 
-    private Textures textures;
+    private final Textures textures;
 
     public Background(Textures textures) {
         this.textures = textures;
@@ -15,9 +15,9 @@ public class Background extends DrawableObject {
 
     @Override
     public void draw(GL2 gl) {
-        textures.enableTexture(ID.BACKGROUND, gl);
+        textures.enableTexture(ID.WOOD, gl);
         Shapes.drawRectangle(gl, -10, -10, 10, 10);
-        textures.disableTexture(ID.BACKGROUND, gl);
+        textures.disableTexture(ID.WOOD, gl);
     }
 
     @Override
