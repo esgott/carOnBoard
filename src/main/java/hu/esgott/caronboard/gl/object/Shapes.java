@@ -33,9 +33,16 @@ public class Shapes {
         gl.glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 
         gl.glBegin(GL2.GL_TRIANGLES);
+
+        gl.glTexCoord2f(0.0f, 10.0f);
         gl.glVertex2f(0.0f, 1.0f);
+
+        gl.glTexCoord2f(-10.0f, -10.0f);
         gl.glVertex2f(-1.0f, -1.0f);
+
+        gl.glTexCoord2f(10.0f, -10.0f);
         gl.glVertex2f(1.0f, -1.0f);
+
         gl.glEnd();
 
         gl.glPopMatrix();

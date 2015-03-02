@@ -28,7 +28,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final GLU glu = new GLU();
     private final Textures textures = new Textures();
     private final Background background = new Background(textures);
-    private final MediaScreen mediaScreen = new MediaScreen();
+    private final MediaScreen mediaScreen = new MediaScreen(textures);
     private final RecordingActive recordingActive = new RecordingActive();
     private final List<DrawableObject> objects = new ArrayList<>();
     private final Camera camera = new Camera();

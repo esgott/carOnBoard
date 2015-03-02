@@ -2,6 +2,7 @@ package hu.esgott.caronboard.gl.object;
 
 import hu.esgott.caronboard.devices.MediaPlayerDevice;
 import hu.esgott.caronboard.devices.MediaPlayerDevice.Source;
+import hu.esgott.caronboard.gl.Textures;
 import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.util.logging.Logger;
@@ -16,11 +17,13 @@ public class MediaScreen extends DrawableObject {
             3.4f, 0.35f, 200, 0.25f, 0.35f);
     private final DrawableList trackList = new DrawableList("TrackList", 3.4f,
             0.9f, 200, 0.25f, 0.62f);
-    private final PlaybackControl playbackControl = new PlaybackControl(0.2f);
+    private final PlaybackControl playbackControl;
     private DrawableObject selected;
     private MediaPlayerDevice playerDevice = new MediaPlayerDevice();
 
-    public MediaScreen() {
+    public MediaScreen(Textures textures) {
+        playbackControl = new PlaybackControl(textures, 0.2f);
+
         sourceList.move(-1.7f, 0.6f);
         trackList.move(-1.7f, -0.4f);
         playbackControl.move(0.0f, -0.7f);
