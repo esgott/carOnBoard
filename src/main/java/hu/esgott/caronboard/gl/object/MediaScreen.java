@@ -19,7 +19,8 @@ public class MediaScreen extends DrawableObject {
             0.9f, 200, 0.25f, 0.62f);
     private final PlaybackControl playbackControl;
     private DrawableObject selected;
-    private MediaPlayerDevice playerDevice = new MediaPlayerDevice();
+    private final MediaPlayerDevice playerDevice = new MediaPlayerDevice();
+    private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     public MediaScreen(Textures textures) {
         playbackControl = new PlaybackControl(textures, 0.2f);
@@ -130,13 +131,13 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void selectNext() {
-        AudioFeedback.play(AudioFeedback.A.CORRECT);
+        audioFeedback.play(AudioFeedback.A.CORRECT);
         select(selected.getNext());
     }
 
     @Override
     public void selectPrevious() {
-        AudioFeedback.play(AudioFeedback.A.CORRECT);
+        audioFeedback.play(AudioFeedback.A.CORRECT);
         select(selected.getPrevious());
     }
 
@@ -155,10 +156,12 @@ public class MediaScreen extends DrawableObject {
     }
 
     public void increaseVolume() {
+        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         playerDevice.increaseVolume();
     }
 
     public void decreaseVolume() {
+        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         playerDevice.decreaseVolume();
     }
 

@@ -60,7 +60,6 @@ final class Main {
         controller = new Controller();
         listener = new LeapListener();
         controller.addListener(listener);
-        audioFeedback = new AudioFeedback();
         logger.info("Leap started");
         recognizer = new RecognizerServerConnection();
         recorderThread = new Thread(new Recorder(recognizer));

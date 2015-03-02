@@ -20,11 +20,12 @@ public class AudioFeedback {
         BTN_BEEP, CORRECT, CLICK
     }
 
+    private static final AudioFeedback instance = new AudioFeedback();
     private static BlockingQueue<A> queue = new LinkedBlockingQueue<>();
     private boolean running = true;
     private Map<A, Clip> samples = new HashMap<>();
 
-    public AudioFeedback() {
+    private AudioFeedback() {
         try {
             addClip(A.BTN_BEEP, "btn_beep.wav");
             addClip(A.CORRECT, "correct.wav");
@@ -36,6 +37,10 @@ public class AudioFeedback {
         Runnable r = () -> threadMain();
         Thread thread = new Thread(r);
         thread.start();
+    }
+
+    public static AudioFeedback getInstance() {
+        return instance;
     }
 
     private void addClip(A key, String fileName) {
@@ -78,7 +83,7 @@ public class AudioFeedback {
         }
     }
 
-    public static void play(A next) {
+    public void play(A next) {
         try {
             queue.put(next);
         } catch (InterruptedException e) {

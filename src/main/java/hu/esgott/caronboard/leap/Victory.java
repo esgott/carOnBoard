@@ -20,10 +20,11 @@ public class Victory {
     private float lastHeight;
     private int level = 0;
     private final CommandQueue queue = CommandQueue.getInstance();
+    private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     public Victory() {
         Runnable task = () -> {
-            AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
+            audioFeedback.play(AudioFeedback.A.BTN_BEEP);
             log.info("Victory");
             executing = true;
             startHeight = lastHeight;
@@ -33,7 +34,7 @@ public class Victory {
                 executing = false;
                 log.info("No victory");
                 level = 0;
-                AudioFeedback.play(AudioFeedback.A.BTN_BEEP);
+                audioFeedback.play(AudioFeedback.A.BTN_BEEP);
             }
         };
         timer = new GestureTimer(0.5f, 30, task, null, onStop);

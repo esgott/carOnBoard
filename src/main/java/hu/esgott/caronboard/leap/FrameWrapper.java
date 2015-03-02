@@ -30,6 +30,7 @@ public class FrameWrapper {
     private Fist fist = new Fist();
     private boolean wasSteadyEnough = false;
     private CommandQueue queue = CommandQueue.getInstance();
+    private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     @SuppressWarnings("incomplete-switch")
     public void update(Frame frame) {
@@ -77,7 +78,7 @@ public class FrameWrapper {
             }
             if ((currentTime - lastSteadyTime) > MIN_STEADY_TIME) {
                 wasSteadyEnough = true;
-                AudioFeedback.play(AudioFeedback.A.CLICK);
+                audioFeedback.play(AudioFeedback.A.CLICK);
                 queue.notifyGui(GuiCommand.SELECTION_ON);
                 return true;
             }
