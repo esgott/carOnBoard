@@ -103,6 +103,24 @@ public class MediaPlayerDevice {
         }
     }
 
+    public void play() {
+        if (player != null) {
+            log.info("Playing in state " + player.getStatus());
+            player.play();
+        } else {
+            log.warning("No player created to play.");
+        }
+    }
+
+    public void pause() {
+        if (player != null) {
+            log.info("Pausing in state " + player.getStatus());
+            player.pause();
+        } else {
+            log.warning("No player created to pause.");
+        }
+    }
+
     public void seek(int millis) {
         if (player != null) {
             Duration current = player.getCurrentTime();

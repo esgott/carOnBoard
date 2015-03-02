@@ -106,11 +106,11 @@ public class MediaScreen extends DrawableObject {
             break;
         case "play":
             log.info("Play");
-            // TODO connect play
+            playerDevice.play();
             break;
         case "pause":
             log.info("Pause");
-            // TODO connect pause
+            playerDevice.pause();
             break;
         default:
             log.info("Unrecognized match " + match);
