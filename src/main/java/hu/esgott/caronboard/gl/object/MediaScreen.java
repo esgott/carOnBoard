@@ -89,15 +89,19 @@ public class MediaScreen extends DrawableObject {
         switch (match) {
         case "next_track":
             trackList.forwardAction();
+            updateAudio(true);
             break;
         case "previous_track":
             trackList.backwardAction();
+            updateAudio(false);
             break;
         case "next_source":
             sourceList.forwardAction();
+            updateAudio(true);
             break;
         case "previous_source":
             sourceList.backwardAction();
+            updateAudio(false);
             break;
         case "play":
             log.info("Play");
