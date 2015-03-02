@@ -16,7 +16,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 public class Textures {
 
     public enum ID {
-        BACKGROUND
+        BACKGROUND, METAL, WOOD
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -24,8 +24,14 @@ public class Textures {
     private Map<ID, Texture> textures = new HashMap<>();
 
     public void loadTextures(GL2 gl) {
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE,
+                GL2.GL_REPLACE);
         load("FabricPlain0073_S.jpg", TextureIO.JPG, ID.BACKGROUND);
         setRepeat(ID.BACKGROUND, gl);
+        load("MetalBare0191_17_S.jpg", TextureIO.JPG, ID.METAL);
+        setRepeat(ID.METAL, gl);
+        load("WoodFine0019_S.jpg", TextureIO.JPG, ID.WOOD);
+        setRepeat(ID.WOOD, gl);
     }
 
     private void load(final String file, final String suffix, final ID id) {
