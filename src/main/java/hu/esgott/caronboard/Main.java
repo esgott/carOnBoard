@@ -14,8 +14,6 @@ import java.util.logging.SimpleFormatter;
 
 import com.leapmotion.leap.Controller;
 
-// TODO EventHandler lecsatolasa Rendererbol
-
 final class Main {
 
     private static LeapListener listener;
