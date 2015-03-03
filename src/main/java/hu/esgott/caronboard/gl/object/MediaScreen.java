@@ -13,6 +13,8 @@ public class MediaScreen extends DrawableObject {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    private static final int SEEK_MILLISEC = 2000;
+
     private final DrawableList sourceList = new DrawableList("SourceList",
             3.4f, 0.35f, 200, 0.25f, 0.35f);
     private final DrawableList trackList = new DrawableList("TrackList", 3.4f,
@@ -62,9 +64,9 @@ public class MediaScreen extends DrawableObject {
             playerDevice.select(source, track);
         } else if (selected == playbackControl) {
             if (forward) {
-                playerDevice.seek(2000);
+                playerDevice.seek(SEEK_MILLISEC);
             } else {
-                playerDevice.seek(-2000);
+                playerDevice.seek(-SEEK_MILLISEC);
             }
         }
     }
