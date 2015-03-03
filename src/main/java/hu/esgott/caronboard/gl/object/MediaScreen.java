@@ -1,8 +1,8 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.devices.AudioFeedback;
 import hu.esgott.caronboard.devices.MediaPlayerDevice;
 import hu.esgott.caronboard.gl.Textures;
-import hu.esgott.caronboard.leap.AudioFeedback;
 
 import java.util.logging.Logger;
 

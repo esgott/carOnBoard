@@ -1,8 +1,8 @@
 package hu.esgott.caronboard;
 
 import hu.esgott.caronboard.CommandQueue.RecorderCommand;
+import hu.esgott.caronboard.devices.AudioFeedback;
 import hu.esgott.caronboard.gl.Canvas;
-import hu.esgott.caronboard.leap.AudioFeedback;
 import hu.esgott.caronboard.leap.LeapListener;
 import hu.esgott.caronboard.speech.RecognizerServerConnection;
 import hu.esgott.caronboard.speech.Recorder;

@@ -2,6 +2,7 @@ package hu.esgott.caronboard.leap;
 
 import hu.esgott.caronboard.CommandQueue;
 import hu.esgott.caronboard.CommandQueue.GuiCommand;
+import hu.esgott.caronboard.devices.AudioFeedback;
 
 import java.util.logging.Logger;
 

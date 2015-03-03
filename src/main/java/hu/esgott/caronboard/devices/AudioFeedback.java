@@ -1,4 +1,4 @@
-package hu.esgott.caronboard.leap;
+package hu.esgott.caronboard.devices;
 
 import java.io.File;
 import java.io.IOException;

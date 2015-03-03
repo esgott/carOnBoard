@@ -1,6 +1,6 @@
 package hu.esgott.caronboard.gl.object;
 
-import hu.esgott.caronboard.leap.AudioFeedback;
+import hu.esgott.caronboard.devices.AudioFeedback;
 
 import java.util.ArrayList;
 import java.util.Iterator;
