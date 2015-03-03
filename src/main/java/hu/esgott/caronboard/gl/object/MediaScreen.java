@@ -35,8 +35,7 @@ public class MediaScreen extends DrawableObject {
         playbackControl.setNeighbours(sourceList, trackList);
 
         sourceList.setElements(playerDevice.getSourceNames());
-        trackList.setElements(playerDevice.getMediaFilesForSource(sourceList
-                .getSelectedName()));
+        updateTrackList();
 
         select(trackList);
         updateAudio(true);
@@ -58,10 +57,6 @@ public class MediaScreen extends DrawableObject {
             String source = sourceList.getSelectedName();
             int track = trackList.getSelectedNum();
             playerDevice.select(source, track);
-            if (selected == sourceList) {
-                trackList.setElements(playerDevice
-                        .getMediaFilesForSource(source));
-            }
         } else if (selected == playbackControl) {
             if (forward) {
                 playerDevice.seek(SEEK_MILLISEC);
@@ -69,6 +64,11 @@ public class MediaScreen extends DrawableObject {
                 playerDevice.seek(-SEEK_MILLISEC);
             }
         }
+    }
+
+    private void updateTrackList() {
+        trackList.setElements(playerDevice.getMediaFilesForSource(sourceList
+                .getSelectedName()));
     }
 
     @Override
@@ -101,10 +101,12 @@ public class MediaScreen extends DrawableObject {
             break;
         case "next_source":
             sourceList.forwardAction();
+            updateTrackList();
             updateAudio(true);
             break;
         case "previous_source":
             sourceList.backwardAction();
+            updateTrackList();
             updateAudio(false);
             break;
         case "play":
@@ -121,12 +123,18 @@ public class MediaScreen extends DrawableObject {
     @Override
     public void backwardAction() {
         selected.backwardAction();
+        if (selected == sourceList) {
+            updateTrackList();
+        }
         updateAudio(false);
     }
 
     @Override
     public void forwardAction() {
         selected.forwardAction();
+        if (selected == sourceList) {
+            updateTrackList();
+        }
         updateAudio(true);
     }
 
