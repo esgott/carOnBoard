@@ -39,8 +39,8 @@ public class MediaPlayerDevice {
         mediaFiles.add("Strange Love.mp3");
         mediaFiles.add("Sweet child o'mine.mp3");
 
-        radioFiles.add("Sultans of swing.mp3");
-        // TODO add radio files
+        radioFiles.add("jazzy.mp3");
+        radioFiles.add("totalcar.mp3");
 
         initJavaFX();
     }
@@ -54,8 +54,10 @@ public class MediaPlayerDevice {
         return Source.values();
     }
 
-    public List<String> getMediaFilesForSource(Source source) {
-        switch (source) {
+    public List<String> getMediaFilesForSource(String source) {
+        Source sourceEnum = Source.valueOf(Source.class, source);
+        ;
+        switch (sourceEnum) {
         case RADIO:
             return radioFiles;
         case MEDIA:
@@ -79,14 +81,14 @@ public class MediaPlayerDevice {
             disposePlayer();
         }
 
-        Source activeSource = Source.valueOf(Source.class, source);
-        List<String> fileList = getMediaFilesForSource(activeSource);
+        List<String> fileList = getMediaFilesForSource(source);
         String mediaFile = fileList.get(num);
         Media media = new Media(new File(mediaFile).toURI().toString());
         player = new MediaPlayer(media);
 
         if (playing) {
             player.play();
+            log.info("Playing " + mediaFile + " (" + num + ") from " + source);
         }
     }
 

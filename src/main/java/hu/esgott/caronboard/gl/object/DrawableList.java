@@ -130,6 +130,7 @@ public class DrawableList extends DrawableObject {
     }
 
     public void setElements(List<String> elements) {
+        itemHandler.clearItems();
         itemHandler.addItems(elements);
 
         Iterator<Float> pos = positions.iterator();

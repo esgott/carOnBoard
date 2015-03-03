@@ -1,7 +1,6 @@
 package hu.esgott.caronboard.gl.object;
 
 import hu.esgott.caronboard.devices.MediaPlayerDevice;
-import hu.esgott.caronboard.devices.MediaPlayerDevice.Source;
 import hu.esgott.caronboard.gl.Textures;
 import hu.esgott.caronboard.leap.AudioFeedback;
 
@@ -36,8 +35,8 @@ public class MediaScreen extends DrawableObject {
         playbackControl.setNeighbours(sourceList, trackList);
 
         sourceList.setElements(playerDevice.getSourceNames());
-        trackList
-                .setElements(playerDevice.getMediaFilesForSource(Source.MEDIA));
+        trackList.setElements(playerDevice.getMediaFilesForSource(sourceList
+                .getSelectedName()));
 
         select(trackList);
         updateAudio(true);
@@ -58,10 +57,11 @@ public class MediaScreen extends DrawableObject {
                 || (selected == trackList && trackList.changed())) {
             String source = sourceList.getSelectedName();
             int track = trackList.getSelectedNum();
-            if (!source.equals("MEDIA")) {
-                track = 0;
-            }
             playerDevice.select(source, track);
+            if (selected == sourceList) {
+                trackList.setElements(playerDevice
+                        .getMediaFilesForSource(source));
+            }
         } else if (selected == playbackControl) {
             if (forward) {
                 playerDevice.seek(SEEK_MILLISEC);
