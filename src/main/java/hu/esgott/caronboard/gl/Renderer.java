@@ -79,9 +79,11 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case RECORDING_ON:
             recordingActive.setVisible(true);
+            mediaScreen.setRecorderVolume();
             break;
         case RECORDING_OFF:
             recordingActive.setVisible(false);
+            mediaScreen.setSavedVolume();
             break;
         case CONSUME_MATCH:
             mediaScreen.processMatch(queue.nextMatch());

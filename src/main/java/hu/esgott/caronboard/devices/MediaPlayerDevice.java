@@ -26,6 +26,7 @@ public class MediaPlayerDevice {
     private final List<String> mediaFiles = new ArrayList<>();
     private final List<String> radioFiles = new ArrayList<>();
     private MediaPlayer player;
+    private double oldVolume;
 
     public MediaPlayerDevice() {
         mediaFiles.add("Sultans of swing.mp3");
@@ -148,6 +149,17 @@ public class MediaPlayerDevice {
     private void setVolume(double newVolume) {
         player.setVolume(newVolume);
         log.info("Volume set to " + newVolume);
+    }
+
+    public void setRecordingVolume() {
+        oldVolume = player.getVolume();
+        player.setVolume(0.1);
+        log.info("Recording volume set, old volme stored " + oldVolume);
+    }
+
+    public void setSavedVolume() {
+        player.setVolume(oldVolume);
+        log.info("Saved volume reset");
     }
 
     public void dispose() {
