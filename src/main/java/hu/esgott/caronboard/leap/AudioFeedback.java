@@ -21,7 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class AudioFeedback {
 
     public enum A {
-        BTN_BEEP, CORRECT, CLICK
+        BTN_BEEP, CORRECT, CLICK, VOLUME, TICK
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -41,6 +41,8 @@ public class AudioFeedback {
             addClip(A.BTN_BEEP, "btn_beep.wav");
             addClip(A.CORRECT, "correct.wav");
             addClip(A.CLICK, "click.wav");
+            addClip(A.VOLUME, "volume.wav");
+            addClip(A.TICK, "tick.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }
