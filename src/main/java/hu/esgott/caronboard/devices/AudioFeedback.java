@@ -90,16 +90,17 @@ public class AudioFeedback {
         log.info("Create player for media " + media);
         player = new MediaPlayer(media);
         setVolume();
-        player.play();
         player.setOnEndOfMedia(() -> {
-            log.info("disposing");
-            player.dispose();
-            player = null;
+            if (player != null) {
+                player.dispose();
+                player = null;
+            }
             if (ttsClip(media)) {
                 CommandQueue.getInstance().notifyGui(GuiCommand.TTS_OFF);
             }
             log.info("Clip stopped");
         });
+        player.play();
         log.info("Clip started");
     }
 
@@ -145,8 +146,8 @@ public class AudioFeedback {
     private void stop() {
         running = false;
         if (player != null) {
-            player.stop();
             player.dispose();
+            player = null;
         }
     }
 
