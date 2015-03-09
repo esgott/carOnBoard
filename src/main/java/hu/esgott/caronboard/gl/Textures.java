@@ -26,13 +26,15 @@ public class Textures {
     public void loadTextures(GL2 gl) {
         gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE,
                 GL2.GL_REPLACE);
-        load("FabricPlain0073_S.jpg", TextureIO.JPG, ID.PLASTIC);
+        load("resources/texture/FabricPlain0073_S.jpg", TextureIO.JPG,
+                ID.PLASTIC);
         setRepeat(ID.PLASTIC, gl);
-        load("MetalBare0191_17_S.jpg", TextureIO.JPG, ID.METAL);
+        load("resources/texture/MetalBare0191_17_S.jpg", TextureIO.JPG,
+                ID.METAL);
         setRepeat(ID.METAL, gl);
-        load("WoodFine0019_S.jpg", TextureIO.JPG, ID.WOOD);
+        load("resources/texture/WoodFine0019_S.jpg", TextureIO.JPG, ID.WOOD);
         setRepeat(ID.WOOD, gl);
-        load("Gravel0075_5_S.jpg", TextureIO.JPG, ID.GRAVEL);
+        load("resources/texture/Gravel0075_5_S.jpg", TextureIO.JPG, ID.GRAVEL);
         setRepeat(ID.GRAVEL, gl);
     }
 

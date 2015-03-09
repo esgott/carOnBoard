@@ -38,11 +38,11 @@ public class AudioFeedback {
 
     private AudioFeedback() {
         try {
-            addClip(A.BTN_BEEP, "btn_beep.wav");
-            addClip(A.CORRECT, "correct.wav");
-            addClip(A.CLICK, "click.wav");
-            addClip(A.VOLUME, "volume.wav");
-            addClip(A.TICK, "tick.wav");
+            addClip(A.BTN_BEEP, "resources/audiofeedback/btn_beep.wav");
+            addClip(A.CORRECT, "resources/audiofeedback/correct.wav");
+            addClip(A.CLICK, "resources/audiofeedback/click.wav");
+            addClip(A.VOLUME, "resources/audiofeedback/volume.wav");
+            addClip(A.TICK, "resources/audiofeedback/tick.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }

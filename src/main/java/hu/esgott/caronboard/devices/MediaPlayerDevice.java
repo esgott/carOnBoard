@@ -19,28 +19,47 @@ public class MediaPlayerDevice {
         RADIO, MEDIA
     }
 
+    private class Playable {
+        public String uri;
+        public String name;
+
+        public Playable(String fileName, String name) {
+            this.name = name;
+            uri = new File(fileName).toURI().toString();
+        }
+    }
+
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final double VOLUME_STEP = 0.1;
 
-    private final List<String> mediaFiles = new ArrayList<>();
-    private final List<String> radioFiles = new ArrayList<>();
+    private final List<Playable> mediaFiles = new ArrayList<>();
+    private final List<Playable> radioFiles = new ArrayList<>();
     private MediaPlayer player;
     private double oldVolume;
 
     public MediaPlayerDevice() {
-        mediaFiles.add("Sultans of swing.mp3");
-        mediaFiles.add("Dani California.mp3");
-        mediaFiles.add("Feeling this.mp3");
-        mediaFiles.add("Highway To Hell.mp3");
-        mediaFiles.add("Layla.mp3");
-        mediaFiles.add("Living Loving Maid.mp3");
-        mediaFiles.add("Piece of my Heart.mp3");
-        mediaFiles.add("Strange Love.mp3");
-        mediaFiles.add("Sweet child o'mine.mp3");
+        mediaFiles.add(new Playable("resources/music/Sultans of swing.mp3",
+                "Sultans of Swing"));
+        mediaFiles.add(new Playable("resources/music/Dani California.mp3",
+                "Dani California"));
+        mediaFiles.add(new Playable("resources/music/Feeling this.mp3",
+                "Feeling this"));
+        mediaFiles.add(new Playable("resources/music/Highway To Hell.mp3",
+                "Highway To Hell"));
+        mediaFiles.add(new Playable("resources/music/Layla.mp3", "Layla"));
+        mediaFiles.add(new Playable("resources/music/Living Loving Maid.mp3",
+                "Living Loving Maid"));
+        mediaFiles.add(new Playable("resources/music/Piece of my Heart.mp3",
+                "Piece of my Heart"));
+        mediaFiles.add(new Playable("resources/music/Strange Love.mp3",
+                "Strange Love"));
+        mediaFiles.add(new Playable("resources/music/Sweet child o'mine.mp3",
+                "Sweet Child O' Mine"));
 
-        radioFiles.add("jazzy.mp3");
-        radioFiles.add("totalcar.mp3");
+        radioFiles.add(new Playable("resources/music/jazzy.mp3", "Jazzy"));
+        radioFiles
+                .add(new Playable("resources/music/totalcar.mp3", "Totalcar"));
 
         initJavaFX();
     }
@@ -55,16 +74,20 @@ public class MediaPlayerDevice {
     }
 
     public List<String> getMediaFilesForSource(String source) {
-        Source sourceEnum = Source.valueOf(Source.class, source);
-        ;
-        switch (sourceEnum) {
+        switch (enumValue(source)) {
         case RADIO:
-            return radioFiles;
+            return radioFiles.stream().map(element -> element.name)
+                    .collect(Collectors.toList());
         case MEDIA:
-            return mediaFiles;
+            return mediaFiles.stream().map(element -> element.name)
+                    .collect(Collectors.toList());
         default:
             return null;
         }
+    }
+
+    private Source enumValue(String source) {
+        return Source.valueOf(Source.class, source);
     }
 
     public List<String> getSourceNames() {
@@ -83,9 +106,8 @@ public class MediaPlayerDevice {
             disposePlayer();
         }
 
-        List<String> fileList = getMediaFilesForSource(source);
-        String mediaFile = fileList.get(num);
-        Media media = new Media(new File(mediaFile).toURI().toString());
+        String mediaFile = getList(source).get(num).uri;
+        Media media = new Media(mediaFile);
         player = new MediaPlayer(media);
         setVolume(volume);
 
@@ -93,6 +115,16 @@ public class MediaPlayerDevice {
             player.play();
             log.info("Playing " + mediaFile + " (" + num + ") from " + source);
         }
+    }
+
+    private List<Playable> getList(String source) {
+        switch (enumValue(source)) {
+        case MEDIA:
+            return mediaFiles;
+        case RADIO:
+            return radioFiles;
+        }
+        return null;
     }
 
     public void togglePause() {
