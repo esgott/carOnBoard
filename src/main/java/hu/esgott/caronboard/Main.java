@@ -12,6 +12,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import javafx.embed.swing.JFXPanel;
+
 import com.leapmotion.leap.Controller;
 
 final class Main {
@@ -49,6 +51,7 @@ final class Main {
     }
 
     private static void startServices() {
+        new JFXPanel(); // init JavaFX
         logger.info("Starting Services");
         controller = new Controller();
         listener = new LeapListener();

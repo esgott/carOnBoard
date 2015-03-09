@@ -1,7 +1,6 @@
 package hu.esgott.caronboard.devices;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -11,13 +10,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent.Type;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class AudioFeedback {
 
@@ -33,10 +27,10 @@ public class AudioFeedback {
     private static final AudioFeedback instance = new AudioFeedback();
     private final BlockingQueue<A> queue = new LinkedBlockingQueue<>();
     private boolean running = true;
-    private boolean playing = false;
-    private final Map<A, Clip> samples = new HashMap<>();
+    private final Map<A, Media> samples = new HashMap<>();
     private final Lock lock = new ReentrantLock();
     private int volume = MAX_LEVEL;
+    private MediaPlayer player = null;
 
     private AudioFeedback() {
         try {
@@ -72,16 +66,9 @@ public class AudioFeedback {
     }
 
     private void addClip(A key, String fileName) {
-        try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File(
-                    "resources/" + fileName));
-            Clip clip = AudioSystem.getClip();
-            clip.open(stream);
-            samples.put(key, clip);
-        } catch (LineUnavailableException | UnsupportedAudioFileException
-                | IOException e) {
-            e.printStackTrace();
-        }
+        Media media = new Media(new File("resources/" + fileName).toURI()
+                .toString());
+        samples.put(key, media);
     }
 
     private void threadMain() {
@@ -89,9 +76,9 @@ public class AudioFeedback {
             while (running) {
                 A next = queue.poll(100, TimeUnit.MILLISECONDS);
                 if (next != null) {
-                    Clip clip = samples.get(next);
-                    resetAndPlayClip(clip);
-                    waitUntilPlayed(clip);
+                    Media media = samples.get(next);
+                    playMedia(media);
+                    waitUntilPlayed(media);
                 }
             }
         } catch (Exception e) {
@@ -99,24 +86,22 @@ public class AudioFeedback {
         }
     }
 
-    private void resetAndPlayClip(Clip clip) {
-        try {
-            lock.lock();
-            clip.setFramePosition(0);
-            playing = true;
-            clip.addLineListener(event -> {
-                if (event.getType() == Type.STOP) {
-                    playing = false;
-                }
-            });
-            clip.start();
-        } finally {
-            lock.unlock();
-        }
+    private void playMedia(Media media) {
+        log.info("Create player for media " + media);
+        player = new MediaPlayer(media);
+        setVolume();
+        player.play();
+        player.setOnEndOfMedia(() -> {
+            log.info("disposing");
+            player.dispose();
+            player = null;
+            log.info("Clip stopped");
+        });
+        log.info("Clip started");
     }
 
-    private void waitUntilPlayed(Clip clip) throws InterruptedException {
-        while (playing) {
+    private void waitUntilPlayed(Media media) throws InterruptedException {
+        while (player != null) {
             Thread.sleep(100);
         }
     }
@@ -136,7 +121,7 @@ public class AudioFeedback {
                 return;
             }
             volume++;
-            setVolume(volume);
+            setVolume();
         } finally {
             lock.unlock();
         }
@@ -149,22 +134,17 @@ public class AudioFeedback {
                 return;
             }
             volume--;
-            setVolume(volume);
+            setVolume();
         } finally {
             lock.unlock();
         }
     }
 
-    private void setVolume(int volume) {
-        double gain = volume / 10.0D;
-        float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
-        samples.forEach((key, clip) -> {
-            FloatControl gainControl = (FloatControl) clip
-                    .getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(dB);
-        });
-        log.info("Feedback volume set to " + volume + " (gain=" + gain + " dB="
-                + dB + ")");
+    private void setVolume() {
+        if (player != null) {
+            player.setVolume(volume / (double) MAX_LEVEL);
+            log.info("Feedback volume set to " + volume);
+        }
     }
 
     public static void dispose() {
@@ -173,9 +153,10 @@ public class AudioFeedback {
 
     private void stop() {
         running = false;
-        samples.values().forEach(clip -> {
-            clip.close();
-        });
+        if (player != null) {
+            player.stop();
+            player.dispose();
+        }
     }
 
 }
