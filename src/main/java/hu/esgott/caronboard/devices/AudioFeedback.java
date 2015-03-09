@@ -15,6 +15,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent.Type;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -32,6 +33,7 @@ public class AudioFeedback {
     private static final AudioFeedback instance = new AudioFeedback();
     private final BlockingQueue<A> queue = new LinkedBlockingQueue<>();
     private boolean running = true;
+    private boolean playing = false;
     private final Map<A, Clip> samples = new HashMap<>();
     private final Lock lock = new ReentrantLock();
     private int volume = MAX_LEVEL;
@@ -88,8 +90,7 @@ public class AudioFeedback {
                 A next = queue.poll(100, TimeUnit.MILLISECONDS);
                 if (next != null) {
                     Clip clip = samples.get(next);
-                    resetClip(clip);
-                    waitUntilStarted(clip);
+                    resetAndPlayClip(clip);
                     waitUntilPlayed(clip);
                 }
             }
@@ -98,35 +99,26 @@ public class AudioFeedback {
         }
     }
 
-    private void resetClip(Clip clip) {
+    private void resetAndPlayClip(Clip clip) {
         try {
             lock.lock();
             clip.setFramePosition(0);
+            playing = true;
+            clip.addLineListener(event -> {
+                if (event.getType() == Type.STOP) {
+                    playing = false;
+                }
+            });
             clip.start();
         } finally {
             lock.unlock();
         }
     }
 
-    private void waitUntilStarted(Clip clip) throws InterruptedException {
-        Thread.sleep(10);
-    }
-
     private void waitUntilPlayed(Clip clip) throws InterruptedException {
-        while (playing(clip)) {
+        while (playing) {
             Thread.sleep(100);
         }
-    }
-
-    private boolean playing(Clip clip) {
-        boolean playing = false;
-        try {
-            lock.lock();
-            playing = clip.isRunning();
-        } finally {
-            lock.unlock();
-        }
-        return playing;
     }
 
     public void play(A next) {
