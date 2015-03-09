@@ -21,6 +21,7 @@ public class DrawableList extends DrawableObject {
     private final ItemHandler itemHandler;
     private List<Float> positions = new ArrayList<>();
     private boolean changed = true;
+    private boolean circular = false;
     private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     public DrawableList(final String name, final float width,
@@ -34,6 +35,14 @@ public class DrawableList extends DrawableObject {
         for (int i = -1; i < 4; i++) {
             positions.add(lineOffset - (i * diffBetweenLines));
         }
+    }
+
+    public DrawableList(final String name, final float width,
+            final float height, final int fontSize,
+            final float diffBetweenLines, final float lineOffset,
+            final boolean circular) {
+        this(name, width, height, fontSize, diffBetweenLines, lineOffset);
+        this.circular = circular;
     }
 
     @Override
@@ -110,21 +119,41 @@ public class DrawableList extends DrawableObject {
 
     @Override
     public void forwardAction() {
-        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
-        changed = !itemHandler.lastItem();
-        Text newItem = itemHandler.next();
-        float lastPosition = positions.get(positions.size() - 1);
-        newItem.moveTo(0.2f, lastPosition);
-        log.info("In list " + getName() + " selected "
-                + itemHandler.getCurrentString());
+        boolean lastItem = itemHandler.lastItem();
+        if (lastItem && circular) {
+            itemHandler.goToFirst();
+            resetPositions();
+            changed = true;
+        } else if (!lastItem) {
+            Text newItem = itemHandler.next();
+            float lastPosition = positions.get(positions.size() - 1);
+            newItem.moveTo(0.2f, lastPosition);
+            changed = true;
+        } else {
+            changed = false;
+        }
+        feedback();
     }
 
     @Override
     public void backwardAction() {
+        boolean firstItem = itemHandler.firstItem();
+        if (firstItem && circular) {
+            itemHandler.goToLast();
+            resetPositions();
+            changed = true;
+        } else if (!firstItem) {
+            Text newItem = itemHandler.prev();
+            newItem.moveTo(0.2f, positions.get(0));
+            changed = true;
+        } else {
+            changed = false;
+        }
+        feedback();
+    }
+
+    private void feedback() {
         audioFeedback.play(AudioFeedback.A.BTN_BEEP);
-        changed = !itemHandler.firstItem();
-        Text newItem = itemHandler.prev();
-        newItem.moveTo(0.2f, positions.get(0));
         log.info("In list " + getName() + " selected "
                 + itemHandler.getCurrentString());
     }
@@ -133,9 +162,13 @@ public class DrawableList extends DrawableObject {
         itemHandler.clearItems();
         itemHandler.addItems(elements);
 
+        resetPositions();
+    }
+
+    private void resetPositions() {
         Iterator<Float> pos = positions.iterator();
         itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
-            item.move(0.2f, pos.next());
+            item.moveTo(0.2f, pos.next());
         });
     }
 

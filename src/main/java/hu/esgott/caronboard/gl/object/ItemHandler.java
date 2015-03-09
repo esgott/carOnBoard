@@ -88,4 +88,15 @@ public class ItemHandler {
     public boolean firstItem() {
         return currentItem == 0;
     }
+
+    public void goToFirst() {
+        currentItem = 0;
+        refreshRenderedList();
+    }
+
+    public void goToLast() {
+        currentItem = menuItems.size() - 1;
+        refreshRenderedList();
+    }
+
 }

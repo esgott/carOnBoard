@@ -15,7 +15,7 @@ public class MediaScreen extends DrawableObject {
     private static final int SEEK_MILLISEC = 2000;
 
     private final DrawableList sourceList = new DrawableList("SourceList",
-            3.4f, 0.35f, 200, 0.25f, 0.35f);
+            3.4f, 0.35f, 200, 0.25f, 0.35f, true);
     private final DrawableList trackList = new DrawableList("TrackList", 3.4f,
             0.9f, 200, 0.25f, 0.62f);
     private final PlaybackControl playbackControl;
