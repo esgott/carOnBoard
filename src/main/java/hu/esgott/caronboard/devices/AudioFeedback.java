@@ -21,7 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class AudioFeedback {
 
     public enum A {
-        BTN_BEEP, CORRECT, CLICK, VOLUME, TICK
+        BTN_BEEP, CORRECT, CLICK, VOLUME, TICK, DANI, FEELING, HIGHWAY, JAZZY, LAYLA, LIVIN, MEDIA, PIECE, RADIO, STRANGE, SULTANS, SWEETCHILD, TOTALCAR
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -38,11 +38,24 @@ public class AudioFeedback {
 
     private AudioFeedback() {
         try {
-            addClip(A.BTN_BEEP, "resources/audiofeedback/btn_beep.wav");
-            addClip(A.CORRECT, "resources/audiofeedback/correct.wav");
-            addClip(A.CLICK, "resources/audiofeedback/click.wav");
-            addClip(A.VOLUME, "resources/audiofeedback/volume.wav");
-            addClip(A.TICK, "resources/audiofeedback/tick.wav");
+            addClip(A.BTN_BEEP, "audiofeedback/btn_beep.wav");
+            addClip(A.CORRECT, "audiofeedback/correct.wav");
+            addClip(A.CLICK, "audiofeedback/click.wav");
+            addClip(A.VOLUME, "audiofeedback/volume.wav");
+            addClip(A.TICK, "audiofeedback/tick.wav");
+            addClip(A.DANI, "tts/dani.wav");
+            addClip(A.FEELING, "tts/feeling.wav");
+            addClip(A.HIGHWAY, "tts/highway.wav");
+            addClip(A.JAZZY, "tts/jazzy.wav");
+            addClip(A.LAYLA, "tts/layla.wav");
+            addClip(A.LIVIN, "tts/livin.wav");
+            addClip(A.MEDIA, "tts/media.wav");
+            addClip(A.PIECE, "tts/piece.wav");
+            addClip(A.RADIO, "tts/radio.wav");
+            addClip(A.STRANGE, "tts/strange.wav");
+            addClip(A.SULTANS, "tts/sultans.wav");
+            addClip(A.SWEETCHILD, "tts/sweetchild.wav");
+            addClip(A.TOTALCAR, "tts/totalcar.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,7 +72,7 @@ public class AudioFeedback {
     private void addClip(A key, String fileName) {
         try {
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File(
-                    fileName));
+                    "resources/" + fileName));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             samples.put(key, clip);
