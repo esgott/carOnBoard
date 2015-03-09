@@ -146,13 +146,13 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void selectNext() {
-        audioFeedback.play(AudioFeedback.A.CORRECT);
+        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         select(selected.getNext());
     }
 
     @Override
     public void selectPrevious() {
-        audioFeedback.play(AudioFeedback.A.CORRECT);
+        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         select(selected.getPrevious());
     }
 
