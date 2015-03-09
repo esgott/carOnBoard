@@ -100,8 +100,10 @@ public class AudioFeedback {
             }
             log.info("Clip stopped");
         });
-        player.play();
-        log.info("Clip started");
+        player.setOnReady(() -> {
+            log.info("Clip started");
+            player.play();
+        });
     }
 
     private void waitUntilPlayed(Media media) throws InterruptedException {
