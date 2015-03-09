@@ -12,6 +12,9 @@ public class Circle implements GestureWrapper {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    private final static float MAX_RADIUS = 80.0f;
+    public final static float MIN_RADIUS = 20.0f;
+
     private CircleGesture gesture;
     private float lastProgress;
     private boolean executed = false;
@@ -57,11 +60,17 @@ public class Circle implements GestureWrapper {
     }
 
     public void execute() {
-        log.info("Executing gesture " + this);
-        if (clockwise()) {
-            queue.notifyGui(GuiCommand.STEP_FORWARD);
+        float radius = gesture.radius();
+        if (MIN_RADIUS < radius && radius < MAX_RADIUS) {
+            log.info("Executing circle gesture " + this + " with radius "
+                    + radius);
+            if (clockwise()) {
+                queue.notifyGui(GuiCommand.STEP_FORWARD);
+            } else {
+                queue.notifyGui(GuiCommand.STEP_BACKWARD);
+            }
         } else {
-            queue.notifyGui(GuiCommand.STEP_BACKWARD);
+            log.info("Discarding circle with radius " + radius);
         }
     }
 
