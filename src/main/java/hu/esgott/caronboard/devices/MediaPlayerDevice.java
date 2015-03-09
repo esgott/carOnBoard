@@ -34,12 +34,10 @@ public class MediaPlayerDevice {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private static final double VOLUME_STEP = 0.1;
-
     private final List<Playable> mediaFiles = new ArrayList<>();
     private final List<Playable> radioFiles = new ArrayList<>();
     private MediaPlayer player;
-    private double oldVolume;
+    private final VolumeLevel volume = new VolumeLevel();
     private boolean recordingActive = false;
     private boolean ttsActive = false;
 
@@ -99,17 +97,15 @@ public class MediaPlayerDevice {
 
     public void select(String source, int num) {
         boolean playing = false;
-        double volume = 1.0;
         if (player != null) {
             playing = player.getStatus() == MediaPlayer.Status.PLAYING;
-            volume = player.getVolume();
             disposePlayer();
         }
 
         String mediaFile = getList(source).get(num).uri;
         Media media = new Media(mediaFile);
         player = new MediaPlayer(media);
-        setVolume(volume);
+        setVolume();
 
         if (playing) {
             player.play();
@@ -186,22 +182,20 @@ public class MediaPlayerDevice {
     }
 
     public void increaseVolume() {
-        double current = player.getVolume();
-        if (current < 1.0) {
-            setVolume(current + VOLUME_STEP);
-        }
+        volume.increase();
+        setVolume();
     }
 
     public void decreaseVolume() {
-        double current = player.getVolume();
-        if (current > 0.0) {
-            setVolume(current - VOLUME_STEP);
-        }
+        volume.decrease();
+        setVolume();
     }
 
-    private void setVolume(double newVolume) {
-        player.setVolume(newVolume);
-        log.info("Volume set to " + newVolume);
+    private void setVolume() {
+        if (player != null) {
+            player.setVolume(volume.getVolume());
+        }
+        log.info("Volume set to " + volume);
     }
 
     public void setRecordingState(boolean on) {
@@ -214,14 +208,15 @@ public class MediaPlayerDevice {
     }
 
     private void storeVolume() {
-        oldVolume = player.getVolume();
-        player.setVolume(0.1);
-        log.info("Recording volume set, old volme stored " + oldVolume);
+        log.info("Recording volume set, old volme stored " + volume);
+        volume.storeVolume();
+        player.setVolume(volume.getVolume());
     }
 
     private void loadVolume() {
-        player.setVolume(oldVolume);
-        log.info("Saved volume reset " + oldVolume);
+        volume.restoreVolume();
+        player.setVolume(volume.getVolume());
+        log.info("Saved volume reset " + volume);
     }
 
     public void setTtsState(boolean on) {

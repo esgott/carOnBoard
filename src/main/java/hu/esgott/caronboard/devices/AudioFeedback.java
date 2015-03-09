@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import javafx.scene.media.Media;
@@ -24,15 +22,11 @@ public class AudioFeedback {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private static final int MAX_LEVEL = 10;
-    private static final int MIN_LEVEL = 0;
-
     private static final AudioFeedback instance = new AudioFeedback();
     private final BlockingQueue<A> queue = new LinkedBlockingQueue<>();
     private boolean running = true;
     private final Map<A, Media> samples = new HashMap<>();
-    private final Lock lock = new ReentrantLock();
-    private int volume = MAX_LEVEL;
+    private final VolumeLevel volume = new VolumeLevel();
     private MediaPlayer player = null;
 
     private AudioFeedback() {
@@ -128,34 +122,18 @@ public class AudioFeedback {
     }
 
     public void increaseVolume() {
-        try {
-            lock.lock();
-            if (volume >= MAX_LEVEL) {
-                return;
-            }
-            volume++;
-            setVolume();
-        } finally {
-            lock.unlock();
-        }
+        volume.increase();
+        setVolume();
     }
 
     public void decreaseVolume() {
-        try {
-            lock.lock();
-            if (volume <= MIN_LEVEL) {
-                return;
-            }
-            volume--;
-            setVolume();
-        } finally {
-            lock.unlock();
-        }
+        volume.decrease();
+        setVolume();
     }
 
     private void setVolume() {
         if (player != null) {
-            player.setVolume(volume / (double) MAX_LEVEL);
+            player.setVolume(volume.getVolume());
             log.info("Feedback volume set to " + volume);
         }
     }
