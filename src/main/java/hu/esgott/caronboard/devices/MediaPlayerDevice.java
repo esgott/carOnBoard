@@ -76,8 +76,10 @@ public class MediaPlayerDevice {
 
     public void select(String source, int num) {
         boolean playing = false;
+        double volume = 1.0;
         if (player != null) {
             playing = player.getStatus() == MediaPlayer.Status.PLAYING;
+            volume = player.getVolume();
             disposePlayer();
         }
 
@@ -85,6 +87,7 @@ public class MediaPlayerDevice {
         String mediaFile = fileList.get(num);
         Media media = new Media(new File(mediaFile).toURI().toString());
         player = new MediaPlayer(media);
+        setVolume(volume);
 
         if (playing) {
             player.play();
