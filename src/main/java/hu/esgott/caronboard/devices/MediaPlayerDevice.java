@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -230,7 +229,6 @@ public class MediaPlayerDevice {
 
     public void dispose() {
         disposePlayer();
-        disposeJavaFX();
     }
 
     private void disposePlayer() {
@@ -239,10 +237,6 @@ public class MediaPlayerDevice {
             player.dispose();
             player = null;
         }
-    }
-
-    private void disposeJavaFX() {
-        Platform.exit();
     }
 
 }

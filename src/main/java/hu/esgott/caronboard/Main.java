@@ -12,6 +12,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
 import com.leapmotion.leap.Controller;
@@ -81,6 +82,7 @@ final class Main {
         recognizer.dispose();
         queue.notifyRecorder(RecorderCommand.KILL);
         logger.info("Speech recognition stopped");
+        Platform.exit(); // dispose JavaFX
     }
 
 }
