@@ -1,7 +1,5 @@
 package hu.esgott.caronboard.gl.object;
 
-import hu.esgott.caronboard.devices.AudioFeedback;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +20,6 @@ public class DrawableList extends DrawableObject {
     private List<Float> positions = new ArrayList<>();
     private boolean changed = true;
     private boolean circular = false;
-    private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     public DrawableList(final String name, final float width,
             final float height, final int fontSize,
@@ -153,7 +150,6 @@ public class DrawableList extends DrawableObject {
     }
 
     private void feedback() {
-        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         log.info("In list " + getName() + " selected "
                 + itemHandler.getCurrentString());
     }

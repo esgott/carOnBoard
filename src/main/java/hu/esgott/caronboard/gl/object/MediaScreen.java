@@ -57,6 +57,12 @@ public class MediaScreen extends DrawableObject {
             String source = sourceList.getSelectedName();
             int track = trackList.getSelectedNum();
             playerDevice.select(source, track);
+            if (selected == trackList) {
+                playerDevice.trackTts(source, track);
+            } else if (selected == sourceList) {
+                playerDevice.sourceTts(source);
+                playerDevice.trackTts(source, track);
+            }
         } else if (selected == playbackControl) {
             if (forward) {
                 playerDevice.seek(SEEK_MILLISEC);

@@ -1,5 +1,7 @@
 package hu.esgott.caronboard.devices;
 
+import hu.esgott.caronboard.devices.AudioFeedback.A;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +10,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -22,9 +23,11 @@ public class MediaPlayerDevice {
     private class Playable {
         public String uri;
         public String name;
+        public A tts;
 
-        public Playable(String fileName, String name) {
+        public Playable(String fileName, String name, A tts) {
             this.name = name;
+            this.tts = tts;
             uri = new File(fileName).toURI().toString();
         }
     }
@@ -40,33 +43,28 @@ public class MediaPlayerDevice {
 
     public MediaPlayerDevice() {
         mediaFiles.add(new Playable("resources/music/Sultans of swing.mp3",
-                "Sultans of Swing"));
+                "Sultans of Swing", A.SULTANS));
         mediaFiles.add(new Playable("resources/music/Dani California.mp3",
-                "Dani California"));
+                "Dani California", A.DANI));
         mediaFiles.add(new Playable("resources/music/Feeling this.mp3",
-                "Feeling this"));
+                "Feeling this", A.FEELING));
         mediaFiles.add(new Playable("resources/music/Highway To Hell.mp3",
-                "Highway To Hell"));
-        mediaFiles.add(new Playable("resources/music/Layla.mp3", "Layla"));
+                "Highway To Hell", A.HIGHWAY));
+        mediaFiles.add(new Playable("resources/music/Layla.mp3", "Layla",
+                A.LAYLA));
         mediaFiles.add(new Playable("resources/music/Living Loving Maid.mp3",
-                "Living Loving Maid"));
+                "Living Loving Maid", A.LIVIN));
         mediaFiles.add(new Playable("resources/music/Piece of my Heart.mp3",
-                "Piece of my Heart"));
+                "Piece of my Heart", A.PIECE));
         mediaFiles.add(new Playable("resources/music/Strange Love.mp3",
-                "Strange Love"));
+                "Strange Love", A.STRANGE));
         mediaFiles.add(new Playable("resources/music/Sweet child o'mine.mp3",
-                "Sweet Child O' Mine"));
+                "Sweet Child O' Mine", A.SWEETCHILD));
 
-        radioFiles.add(new Playable("resources/music/jazzy.mp3", "Jazzy"));
-        radioFiles
-                .add(new Playable("resources/music/totalcar.mp3", "Totalcar"));
-
-        initJavaFX();
-    }
-
-    private void initJavaFX() {
-        @SuppressWarnings("unused")
-        JFXPanel fxPanel = new JFXPanel();
+        radioFiles.add(new Playable("resources/music/jazzy.mp3", "Jazzy",
+                A.JAZZY));
+        radioFiles.add(new Playable("resources/music/totalcar.mp3", "Totalcar",
+                A.TOTALCAR));
     }
 
     public Source[] getSources() {
@@ -125,6 +123,22 @@ public class MediaPlayerDevice {
             return radioFiles;
         }
         return null;
+    }
+
+    public void trackTts(String source, int num) {
+        A ttsId = getList(source).get(num).tts;
+        AudioFeedback.getInstance().play(ttsId);
+    }
+
+    public void sourceTts(String source) {
+        switch (enumValue(source)) {
+        case MEDIA:
+            AudioFeedback.getInstance().play(A.MEDIA);
+            break;
+        case RADIO:
+            AudioFeedback.getInstance().play(A.RADIO);
+            break;
+        }
     }
 
     public void togglePause() {
