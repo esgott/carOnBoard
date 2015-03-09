@@ -182,12 +182,12 @@ public class MediaScreen extends DrawableObject {
         playerDevice.decreaseVolume();
     }
 
-    public void setRecorderVolume() {
-        playerDevice.setRecordingVolume();
+    public void setRecordingState(boolean on) {
+        playerDevice.setRecordingState(on);
     }
 
-    public void setSavedVolume() {
-        playerDevice.setSavedVolume();
+    public void setTtsState(boolean on) {
+        playerDevice.setTtsState(on);
     }
 
     public void dispose() {

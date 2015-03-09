@@ -1,5 +1,8 @@
 package hu.esgott.caronboard.devices;
 
+import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.GuiCommand;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,6 +90,9 @@ public class AudioFeedback {
     }
 
     private void playMedia(Media media) {
+        if (ttsClip(media)) {
+            CommandQueue.getInstance().notifyGui(GuiCommand.TTS_ON);
+        }
         log.info("Create player for media " + media);
         player = new MediaPlayer(media);
         setVolume();
@@ -95,6 +101,9 @@ public class AudioFeedback {
             log.info("disposing");
             player.dispose();
             player = null;
+            if (ttsClip(media)) {
+                CommandQueue.getInstance().notifyGui(GuiCommand.TTS_OFF);
+            }
             log.info("Clip stopped");
         });
         log.info("Clip started");
@@ -104,6 +113,10 @@ public class AudioFeedback {
         while (player != null) {
             Thread.sleep(100);
         }
+    }
+
+    private boolean ttsClip(Media media) {
+        return media.getSource().contains("/tts/");
     }
 
     public void play(A next) {

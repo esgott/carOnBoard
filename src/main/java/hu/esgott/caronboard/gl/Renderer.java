@@ -79,11 +79,11 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case RECORDING_ON:
             recordingActive.setVisible(true);
-            mediaScreen.setRecorderVolume();
+            mediaScreen.setRecordingState(true);
             break;
         case RECORDING_OFF:
             recordingActive.setVisible(false);
-            mediaScreen.setSavedVolume();
+            mediaScreen.setRecordingState(false);
             break;
         case CONSUME_MATCH:
             mediaScreen.processMatch(queue.nextMatch());
@@ -93,6 +93,12 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case VOLUME_DEC:
             mediaScreen.decreaseVolume();
+            break;
+        case TTS_ON:
+            mediaScreen.setTtsState(true);
+            break;
+        case TTS_OFF:
+            mediaScreen.setTtsState(false);
             break;
         default:
             log.warning("Unknown command");

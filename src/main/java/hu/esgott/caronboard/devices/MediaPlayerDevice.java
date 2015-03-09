@@ -40,6 +40,8 @@ public class MediaPlayerDevice {
     private final List<Playable> radioFiles = new ArrayList<>();
     private MediaPlayer player;
     private double oldVolume;
+    private boolean recordingActive = false;
+    private boolean ttsActive = false;
 
     public MediaPlayerDevice() {
         mediaFiles.add(new Playable("resources/music/Sultans of swing.mp3",
@@ -202,15 +204,33 @@ public class MediaPlayerDevice {
         log.info("Volume set to " + newVolume);
     }
 
-    public void setRecordingVolume() {
+    public void setRecordingState(boolean on) {
+        if (on && !ttsActive) {
+            storeVolume();
+        } else if (!ttsActive) {
+            loadVolume();
+        }
+        recordingActive = on;
+    }
+
+    private void storeVolume() {
         oldVolume = player.getVolume();
         player.setVolume(0.1);
         log.info("Recording volume set, old volme stored " + oldVolume);
     }
 
-    public void setSavedVolume() {
+    private void loadVolume() {
         player.setVolume(oldVolume);
-        log.info("Saved volume reset");
+        log.info("Saved volume reset " + oldVolume);
+    }
+
+    public void setTtsState(boolean on) {
+        if (on && !recordingActive) {
+            storeVolume();
+        } else if (!recordingActive) {
+            loadVolume();
+        }
+        ttsActive = on;
     }
 
     public void dispose() {
