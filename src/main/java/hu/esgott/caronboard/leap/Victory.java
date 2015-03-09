@@ -11,7 +11,7 @@ import com.leapmotion.leap.HandList;
 
 public class Victory {
 
-    private static final float SCALE = 0.1f;
+    private static final float SCALE = 0.05f;
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
