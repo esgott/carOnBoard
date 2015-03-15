@@ -11,7 +11,7 @@ import com.leapmotion.leap.HandList;
 
 public class Victory {
 
-    private static final float SCALE = 0.05f;
+    private static final float SCALE = 0.03f;
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
@@ -25,7 +25,9 @@ public class Victory {
 
     public Victory() {
         Runnable task = () -> {
-            audioFeedback.play(AudioFeedback.A.BTN_BEEP);
+            if (!audioFeedback.containsVolume()) {
+                audioFeedback.play(AudioFeedback.A.VOLUME);
+            }
             log.info("Victory");
             executing = true;
             startHeight = lastHeight;
@@ -35,7 +37,6 @@ public class Victory {
                 executing = false;
                 log.info("No victory");
                 level = 0;
-                audioFeedback.play(AudioFeedback.A.BTN_BEEP);
             }
         };
         timer = new GestureTimer(0.5f, 30, task, null, onStop);

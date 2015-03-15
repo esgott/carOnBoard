@@ -141,6 +141,10 @@ public class AudioFeedback {
         }
     }
 
+    public boolean containsVolume() {
+        return queue.contains(A.VOLUME);
+    }
+
     public static void dispose() {
         instance.stop();
     }
