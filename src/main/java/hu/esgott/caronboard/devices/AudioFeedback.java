@@ -80,6 +80,9 @@ public class AudioFeedback {
     private void threadMain() {
         try {
             while (running) {
+                if (queue.size() > 5) {
+                    log.warning("Audio feedback queue is " + queue.size());
+                }
                 A next = queue.poll(100, TimeUnit.MILLISECONDS);
                 if (next != null) {
                     Media media = samples.get(next);
