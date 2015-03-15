@@ -18,9 +18,8 @@ public class FrameWrapper {
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final int MIN_DIFF_BETWEEN_GESTURES = 750;
-    // TODO fine tune the following two
     private static final long MIN_STEADY_TIME = 500;
-    public static final float MAX_STEADY_PALM_VELOCITY = 20.0f;
+    public static final float MAX_STEADY_PALM_VELOCITY = 25.0f;
 
     public Frame f;
     private Swipe ongoingSwipe;
