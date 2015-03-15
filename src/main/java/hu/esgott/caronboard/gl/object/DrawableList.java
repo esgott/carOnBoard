@@ -20,6 +20,7 @@ public class DrawableList extends DrawableObject {
     private List<Float> positions = new ArrayList<>();
     private boolean changed = true;
     private boolean circular = false;
+    private boolean displaySelection = false;
 
     public DrawableList(final String name, final float width,
             final float height, final int fontSize,
@@ -70,6 +71,11 @@ public class DrawableList extends DrawableObject {
 
         gl.glColor3f(0.0f, 0.05f, 0.4f);
         Shapes.drawRectangle(gl, 0, 0, width, height);
+        if (displaySelection) {
+            gl.glColor3f(0.1f, 0.2f, 0.5f);
+            Shapes.drawRectangle(gl, 0.1f, positions.get(3) + 0.18f,
+                    width - 0.1f, positions.get(3) + 0.425f);
+        }
 
         itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
             gl.glPushMatrix();
@@ -178,6 +184,10 @@ public class DrawableList extends DrawableObject {
 
     public boolean changed() {
         return changed;
+    }
+
+    public void displaySelection(boolean on) {
+        displaySelection = on;
     }
 
 }

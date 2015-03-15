@@ -15,7 +15,7 @@ public class MediaScreen extends DrawableObject {
     private static final int SEEK_MILLISEC = 2000;
 
     private final DrawableList sourceList = new DrawableList("SourceList",
-            3.4f, 0.35f, 200, 0.25f, 0.35f, true);
+            3.4f, 0.4f, 200, 0.25f, 0.4f, true);
     private final DrawableList trackList = new DrawableList("TrackList", 3.4f,
             0.9f, 200, 0.25f, 0.62f);
     private final PlaybackControl playbackControl;
@@ -26,7 +26,7 @@ public class MediaScreen extends DrawableObject {
     public MediaScreen(Textures textures) {
         playbackControl = new PlaybackControl(textures, 0.2f);
 
-        sourceList.move(-1.7f, 0.6f);
+        sourceList.move(-1.7f, 0.55f);
         trackList.move(-1.7f, -0.4f);
         playbackControl.move(0.0f, -0.7f);
 
@@ -37,6 +37,7 @@ public class MediaScreen extends DrawableObject {
         sourceList.setElements(playerDevice.getSourceNames());
         updateTrackList();
 
+        trackList.displaySelection(true);
         select(trackList);
         updateAudio(true);
         selectionOff();
