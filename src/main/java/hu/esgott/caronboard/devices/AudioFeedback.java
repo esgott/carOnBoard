@@ -36,19 +36,19 @@ public class AudioFeedback {
             addClip(A.CLICK, "audiofeedback/click.wav");
             addClip(A.VOLUME, "audiofeedback/volume.wav");
             addClip(A.TICK, "audiofeedback/tick.wav");
-            addClip(A.DANI, "tts/dani.wav");
-            addClip(A.FEELING, "tts/feeling.wav");
-            addClip(A.HIGHWAY, "tts/highway.wav");
-            addClip(A.JAZZY, "tts/jazzy.wav");
-            addClip(A.LAYLA, "tts/layla.wav");
-            addClip(A.LIVIN, "tts/livin.wav");
-            addClip(A.MEDIA, "tts/media.wav");
-            addClip(A.PIECE, "tts/piece.wav");
-            addClip(A.RADIO, "tts/radio.wav");
-            addClip(A.STRANGE, "tts/strange.wav");
-            addClip(A.SULTANS, "tts/sultans.wav");
-            addClip(A.SWEETCHILD, "tts/sweetchild.wav");
-            addClip(A.TOTALCAR, "tts/totalcar.wav");
+            addClip(A.DANI, "tts/dani.mp3");
+            addClip(A.FEELING, "tts/feelin.mp3");
+            addClip(A.HIGHWAY, "tts/highway.mp3");
+            addClip(A.JAZZY, "tts/jazzy.mp3");
+            addClip(A.LAYLA, "tts/layla.mp3");
+            addClip(A.LIVIN, "tts/livin.mp3");
+            addClip(A.MEDIA, "tts/media.mp3");
+            addClip(A.PIECE, "tts/piece.mp3");
+            addClip(A.RADIO, "tts/radio.mp3");
+            addClip(A.STRANGE, "tts/strange.mp3");
+            addClip(A.SULTANS, "tts/sultans.mp3");
+            addClip(A.SWEETCHILD, "tts/sweetchild.mp3");
+            addClip(A.TOTALCAR, "tts/totalcar.mp3");
         } catch (Exception e) {
             e.printStackTrace();
         }
