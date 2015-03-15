@@ -17,7 +17,7 @@ import javafx.scene.media.MediaPlayer;
 public class AudioFeedback {
 
     public enum A {
-        BTN_BEEP, CORRECT, CLICK, VOLUME, TICK, DANI, FEELING, HIGHWAY, JAZZY, LAYLA, LIVIN, MEDIA, PIECE, RADIO, STRANGE, SULTANS, SWEETCHILD, TOTALCAR
+        BTN_BEEP, CORRECT, CLICK, VOLUME, VOLUME_5, VOLUME_10, VOLUME_15, VOLUME_20, VOLUME_25, VOLUME_30, VOLUME_35, VOLUME_40, VOLUME_45, TICK, DANI, FEELING, HIGHWAY, JAZZY, LAYLA, LIVIN, MEDIA, PIECE, RADIO, STRANGE, SULTANS, SWEETCHILD, TOTALCAR
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -35,6 +35,15 @@ public class AudioFeedback {
             addClip(A.CORRECT, "audiofeedback/correct.wav");
             addClip(A.CLICK, "audiofeedback/click.wav");
             addClip(A.VOLUME, "audiofeedback/volume.wav");
+            addClip(A.VOLUME_5, "audiofeedback/volume-5.wav");
+            addClip(A.VOLUME_10, "audiofeedback/volume-10.wav");
+            addClip(A.VOLUME_15, "audiofeedback/volume-15.wav");
+            addClip(A.VOLUME_20, "audiofeedback/volume-20.wav");
+            addClip(A.VOLUME_25, "audiofeedback/volume-25.wav");
+            addClip(A.VOLUME_30, "audiofeedback/volume-30.wav");
+            addClip(A.VOLUME_35, "audiofeedback/volume-35.wav");
+            addClip(A.VOLUME_40, "audiofeedback/volume-40.wav");
+            addClip(A.VOLUME_45, "audiofeedback/volume-45.wav");
             addClip(A.TICK, "audiofeedback/tick.wav");
             addClip(A.DANI, "tts/dani.mp3");
             addClip(A.FEELING, "tts/feelin.mp3");
