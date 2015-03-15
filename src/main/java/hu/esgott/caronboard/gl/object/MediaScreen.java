@@ -172,14 +172,10 @@ public class MediaScreen extends DrawableObject {
     }
 
     public void increaseVolume() {
-        audioFeedback.increaseVolume();
-        audioFeedback.play(AudioFeedback.A.VOLUME);
         playerDevice.increaseVolume();
     }
 
     public void decreaseVolume() {
-        audioFeedback.decreaseVolume();
-        audioFeedback.play(AudioFeedback.A.VOLUME);
         playerDevice.decreaseVolume();
     }
 

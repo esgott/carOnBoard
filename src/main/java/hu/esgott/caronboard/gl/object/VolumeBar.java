@@ -1,5 +1,6 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.devices.AudioFeedback;
 import hu.esgott.caronboard.devices.VolumeLevel;
 
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ public class VolumeBar extends DrawableObject {
     private boolean display = false;
     private long volumeTime;
     private final VolumeLevel volume = new VolumeLevel();
+    private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     public VolumeBar(final float width, final float height) {
         this.width = width;
@@ -58,11 +60,15 @@ public class VolumeBar extends DrawableObject {
 
     public void increaseVolume() {
         volume.increase();
+        audioFeedback.increaseVolume();
+        audioFeedback.play(volume.getClip());
         active();
     }
 
     public void decreaseVolume() {
         volume.decrease();
+        audioFeedback.decreaseVolume();
+        audioFeedback.play(volume.getClip());
         active();
     }
 
