@@ -73,9 +73,11 @@ public class VolumeBar extends DrawableObject {
     }
 
     public void active() {
+        if (!display) {
+            log.info("Activating volume bar");
+        }
         display = true;
         volumeTime = System.currentTimeMillis();
-        log.info("Volume bar active");
     }
 
 }
