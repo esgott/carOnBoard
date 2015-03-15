@@ -8,6 +8,7 @@ import hu.esgott.caronboard.gl.object.Background;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
 import hu.esgott.caronboard.gl.object.RecordingActive;
+import hu.esgott.caronboard.gl.object.VolumeBar;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -30,6 +31,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final Background background = new Background(textures);
     private final MediaScreen mediaScreen = new MediaScreen(textures);
     private final RecordingActive recordingActive = new RecordingActive();
+    private final VolumeBar volumeBar = new VolumeBar(3.0f, 0.4f);
     private final List<DrawableObject> objects = new ArrayList<>();
     private final Camera camera = new Camera();
     private final CommandQueue queue = CommandQueue.getInstance();
@@ -38,6 +40,8 @@ public class Renderer implements GLEventListener, KeyListener {
         objects.add(background);
         objects.add(mediaScreen);
         objects.add(recordingActive);
+        objects.add(volumeBar);
+        volumeBar.move(-1.5f, 0.0f);
     }
 
     @Override
@@ -89,10 +93,13 @@ public class Renderer implements GLEventListener, KeyListener {
             mediaScreen.processMatch(queue.nextMatch());
             break;
         case VOLUME_INC:
-            mediaScreen.increaseVolume();
+            increaseVolume();
             break;
         case VOLUME_DEC:
-            mediaScreen.decreaseVolume();
+            decreaseVolume();
+            break;
+        case VOLUME_ACTIVE:
+            volumeActive();
             break;
         case TTS_ON:
             mediaScreen.setTtsState(true);
@@ -198,14 +205,28 @@ public class Renderer implements GLEventListener, KeyListener {
             mediaScreen.playPause();
             break;
         case KeyEvent.VK_A:
-            mediaScreen.increaseVolume();
+            increaseVolume();
             break;
         case KeyEvent.VK_Z:
-            mediaScreen.decreaseVolume();
+            decreaseVolume();
             break;
         default:
             log.info("Not expected key");
         }
+    }
+
+    private void increaseVolume() {
+        volumeBar.increaseVolume();
+        mediaScreen.increaseVolume();
+    }
+
+    private void decreaseVolume() {
+        volumeBar.decreaseVolume();
+        mediaScreen.decreaseVolume();
+    }
+
+    private void volumeActive() {
+        volumeBar.active();
     }
 
     public void selectNext() {

@@ -31,6 +31,7 @@ public class Victory {
             log.info("Victory");
             executing = true;
             startHeight = lastHeight;
+            queue.notifyGui(GuiCommand.VOLUME_ACTIVE);
         };
         Runnable onStop = () -> {
             if (executing) {
