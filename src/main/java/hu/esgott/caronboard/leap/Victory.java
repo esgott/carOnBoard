@@ -10,18 +10,20 @@ import java.util.logging.Logger;
 
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.HandList;
+import com.leapmotion.leap.Vector;
 
 public class Victory {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private static final float TRESHOLD = 30.0f;
-    private static final long VOL_TIME = 500;
+    private static final float Y_TRESHOLD = 35.0f;
+    private static final float XZ_TRESHOLD = 10.0f;
+    private static final long VOL_TIME = 750;
 
     private GestureTimer timer;
     private boolean executing;
-    private float startHeight;
-    private float lastHeight;
+    private Vector startPoint;
+    private Vector lastPoint;
     private Timer upTimer = null;
     private Timer downTimer = null;
     private Timer centralTimer = null;
@@ -35,13 +37,13 @@ public class Victory {
             }
             log.info("Victory");
             executing = true;
-            startHeight = lastHeight;
+            startPoint = lastPoint;
             queue.notifyGui(GuiCommand.VOLUME_ACTIVE);
         };
         Runnable onStop = () -> {
             if (executing) {
                 executing = false;
-                disposeAllTimers();
+                startPoint = null;
                 log.info("No victory");
             }
         };
@@ -49,9 +51,9 @@ public class Victory {
     }
 
     public void update(HandList hands) {
-        if (hands.count() == 1) {
+        if (hands.count() == 1 && approximatelyStartPosition()) {
             Hand hand = hands.get(0);
-            lastHeight = hand.palmPosition().getY();
+            lastPoint = hand.palmPosition();
             if (hand.fingers().extended().count() == 2) {
                 timer.start();
                 if (executing) {
@@ -60,17 +62,31 @@ public class Victory {
                 return;
             }
         }
+        disposeAllTimers();
         timer.stop();
     }
 
+    private boolean approximatelyStartPosition() {
+        if (startPoint != null && lastPoint != null) {
+            boolean xOk = Math.abs(startPoint.getX() - lastPoint.getX()) < XZ_TRESHOLD;
+            boolean zOk = Math.abs(startPoint.getZ() - lastPoint.getZ()) < XZ_TRESHOLD;
+            return xOk && zOk;
+        } else {
+            log.fine("Assuming approximatley startpoint");
+            return true;
+        }
+    }
+
     private void execute() {
-        if (lastHeight < startHeight - TRESHOLD) {
+        float lastY = lastPoint.getY();
+        float startY = startPoint.getY();
+        if (lastY < startY - Y_TRESHOLD) {
             disposeUpTimer();
             disposeCentralTimer();
             scheduleDown(() -> {
                 queue.notifyGui(GuiCommand.VOLUME_DEC);
             });
-        } else if (lastHeight > startHeight + TRESHOLD) {
+        } else if (lastY > startY + Y_TRESHOLD) {
             disposeDownTimer();
             disposeCentralTimer();
             scheduleUp(() -> {
@@ -103,6 +119,7 @@ public class Victory {
     private void disposeTimer(Timer timer) {
         if (timer != null) {
             timer.cancel();
+            log.info("Disposing timer " + timer);
         }
     }
 
@@ -115,18 +132,21 @@ public class Victory {
     private void scheduleUp(Runnable task) {
         if (upTimer == null) {
             upTimer = schedule(task);
+            log.info("Up timer created " + upTimer);
         }
     }
 
     private void scheduleDown(Runnable task) {
         if (downTimer == null) {
             downTimer = schedule(task);
+            log.info("Down timer created " + downTimer);
         }
     }
 
     private void scheduleCentral(Runnable task) {
         if (centralTimer == null) {
             centralTimer = schedule(task);
+            log.info("Central timer created " + centralTimer);
         }
     }
 
