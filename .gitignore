@@ -16,8 +16,9 @@ target
 .project
 .settings
 
-# logile
+# logfiles
 log.txt
+logs
 
 #converted grammars
 *.dos.txt
