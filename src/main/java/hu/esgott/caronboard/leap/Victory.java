@@ -44,10 +44,11 @@ public class Victory {
             if (executing) {
                 executing = false;
                 startPoint = null;
+                disposeAllTimers();
                 log.info("No victory");
             }
         };
-        timer = new GestureTimer(0.5f, 30, task, null, onStop);
+        timer = new GestureTimer(0.5f, 50, task, null, onStop);
     }
 
     public void update(HandList hands) {
@@ -62,7 +63,6 @@ public class Victory {
                 return;
             }
         }
-        disposeAllTimers();
         timer.stop();
     }
 
