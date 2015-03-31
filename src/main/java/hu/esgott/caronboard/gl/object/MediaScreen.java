@@ -118,9 +118,11 @@ public class MediaScreen extends DrawableObject {
             break;
         case "play":
             playerDevice.play();
+            playbackControl.setPlayback(true);
             break;
         case "pause":
             playerDevice.pause();
+            playbackControl.setPlayback(false);
             break;
         default:
             log.info("Unrecognized match " + match);
@@ -169,6 +171,7 @@ public class MediaScreen extends DrawableObject {
 
     public void playPause() {
         playerDevice.togglePause();
+        playbackControl.togglePlayback();
     }
 
     public void increaseVolume() {
