@@ -8,6 +8,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+import com.leapmotion.leap.Finger;
+import com.leapmotion.leap.FingerList;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.HandList;
 import com.leapmotion.leap.Vector;
@@ -19,6 +21,7 @@ public class Victory {
     private static final float Y_TRESHOLD = 35.0f;
     private static final float XZ_TRESHOLD = 10.0f;
     private static final long VOL_TIME = 750;
+    private static final float MIN_ANGLE = 0.25f;
 
     private GestureTimer timer;
     private boolean executing;
@@ -55,12 +58,15 @@ public class Victory {
         if (hands.count() == 1 && approximatelyStartPosition()) {
             Hand hand = hands.get(0);
             lastPoint = hand.palmPosition();
-            if (hand.fingers().extended().count() == 2) {
-                timer.start();
-                if (executing) {
-                    execute();
+            FingerList extendedFingers = hand.fingers().extended();
+            if (extendedFingers.count() == 2) {
+                if (finersInAngle(extendedFingers)) {
+                    timer.start();
+                    if (executing) {
+                        execute();
+                    }
+                    return;
                 }
-                return;
             }
         }
         timer.stop();
@@ -75,6 +81,13 @@ public class Victory {
             log.fine("Assuming approximatley startpoint");
             return true;
         }
+    }
+
+    private boolean finersInAngle(FingerList fingers) {
+        Finger leftFinger = fingers.get(0);
+        Finger rightFinger = fingers.get(1);
+        float angle = leftFinger.direction().angleTo(rightFinger.direction());
+        return angle > MIN_ANGLE;
     }
 
     private void execute() {
