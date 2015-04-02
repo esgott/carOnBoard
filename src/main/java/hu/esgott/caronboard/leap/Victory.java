@@ -36,7 +36,7 @@ public class Victory {
     public Victory() {
         Runnable task = () -> {
             if (!audioFeedback.containsVolume()) {
-                audioFeedback.play(AudioFeedback.A.VOLUME);
+                audioFeedback.play(AudioFeedback.A.HANGERO);
             }
             log.info("Victory");
             executing = true;
