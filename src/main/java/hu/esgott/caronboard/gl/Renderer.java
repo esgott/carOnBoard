@@ -221,12 +221,10 @@ public class Renderer implements GLEventListener, KeyListener {
             decreaseVolume();
             break;
         case KeyEvent.VK_N:
-            camera.right(SCREEN_SIZE);
-            activeScreen = ventillationScreen;
+            previousScreen();
             break;
         case KeyEvent.VK_M:
-            camera.left(SCREEN_SIZE);
-            activeScreen = mediaScreen;
+            nextScreen();
             break;
         default:
             log.info("Not expected key");
@@ -273,6 +271,22 @@ public class Renderer implements GLEventListener, KeyListener {
         objects.forEach(item -> {
             item.selectionOff();
         });
+    }
+
+    public void nextScreen() {
+        if (activeScreen != mediaScreen) {
+            activeScreen = mediaScreen;
+            camera.left(SCREEN_SIZE);
+            log.info("Screen changed to MEDIA");
+        }
+    }
+
+    public void previousScreen() {
+        if (activeScreen != ventillationScreen) {
+            activeScreen = ventillationScreen;
+            camera.right(SCREEN_SIZE);
+            log.info("Screen changed to VENTILLATION");
+        }
     }
 
     @Override
