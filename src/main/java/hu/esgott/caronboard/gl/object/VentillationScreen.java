@@ -11,6 +11,7 @@ public class VentillationScreen extends DrawableObject {
     private final DrawableList trackList = new DrawableList("SmallTrackList",
             3.4f, 0.4f, 200, 0.25f, 0.4f, true);
     private final TemperatureDisplay temp1 = new TemperatureDisplay(0.4f);
+    private final TemperatureDisplay temp2 = new TemperatureDisplay(0.4f);
     private DrawableObject selected = trackList;
     private final MediaScreen mediaScreen;
 
@@ -19,9 +20,11 @@ public class VentillationScreen extends DrawableObject {
 
         trackList.move(-5.7f, -0.3f);
         temp1.move(-5.1f, 0.55f);
+        temp2.move(-2.9f, 0.55f);
 
-        trackList.setNeighbours(temp1, temp1);
-        temp1.setNeighbours(trackList, trackList);
+        trackList.setNeighbours(temp1, temp2);
+        temp1.setNeighbours(temp2, trackList);
+        temp2.setNeighbours(trackList, temp1);
     }
 
     @Override
@@ -38,6 +41,7 @@ public class VentillationScreen extends DrawableObject {
     public void draw(GL2 gl) {
         trackList.draw(gl);
         temp1.draw(gl);
+        temp2.draw(gl);
     }
 
     @Override
