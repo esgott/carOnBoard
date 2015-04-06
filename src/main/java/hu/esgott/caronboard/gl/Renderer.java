@@ -8,6 +8,7 @@ import hu.esgott.caronboard.gl.object.Background;
 import hu.esgott.caronboard.gl.object.DrawableObject;
 import hu.esgott.caronboard.gl.object.MediaScreen;
 import hu.esgott.caronboard.gl.object.RecordingActive;
+import hu.esgott.caronboard.gl.object.VentillationScreen;
 import hu.esgott.caronboard.gl.object.VolumeBar;
 
 import java.awt.event.KeyEvent;
@@ -30,6 +31,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final Textures textures = new Textures();
     private final Background background = new Background(textures);
     private final MediaScreen mediaScreen = new MediaScreen(textures);
+    private final VentillationScreen ventillationScreen = new VentillationScreen();
     private final RecordingActive recordingActive = new RecordingActive();
     private final VolumeBar volumeBar = new VolumeBar(3.0f, 0.4f);
     private final List<DrawableObject> objects = new ArrayList<>();
@@ -39,6 +41,7 @@ public class Renderer implements GLEventListener, KeyListener {
     public Renderer() {
         objects.add(background);
         objects.add(mediaScreen);
+        objects.add(ventillationScreen);
         objects.add(recordingActive);
         objects.add(volumeBar);
         volumeBar.move(-1.5f, 0.0f);
