@@ -51,7 +51,7 @@ public class Victory {
                 log.info("No victory");
             }
         };
-        timer = new GestureTimer(0.5f, 75, task, null, onStop);
+        timer = new GestureTimer(1.0f, 100, task, null, onStop);
     }
 
     public void update(HandList hands) {
