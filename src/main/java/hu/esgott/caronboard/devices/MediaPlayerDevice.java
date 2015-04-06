@@ -243,7 +243,11 @@ public class MediaPlayerDevice {
     }
 
     public String getCurrentTime() {
-        return convertDurationToString(player.getCurrentTime());
+        if (player != null) {
+            return convertDurationToString(player.getCurrentTime());
+        } else {
+            return "--:--";
+        }
     }
 
     private String convertDurationToString(Duration duration) {
@@ -260,7 +264,11 @@ public class MediaPlayerDevice {
     }
 
     public String getTotalTime() {
-        return convertDurationToString(player.getMedia().getDuration());
+        if (player != null) {
+            return convertDurationToString(player.getMedia().getDuration());
+        } else {
+            return "--:--";
+        }
     }
 
     public void dispose() {
