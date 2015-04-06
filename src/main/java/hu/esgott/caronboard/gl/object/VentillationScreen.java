@@ -74,16 +74,16 @@ public class VentillationScreen extends DrawableObject {
 
     @Override
     public void backwardAction() {
+        selected.backwardAction();
         if (selected == trackList) {
-            trackList.backwardAction();
             mediaScreen.prerviousTrack();
         }
     }
 
     @Override
     public void forwardAction() {
+        selected.forwardAction();
         if (selected == trackList) {
-            trackList.forwardAction();
             mediaScreen.nextTrack();
         }
     }
