@@ -55,6 +55,13 @@ public class GestureTimer {
         }
     }
 
+    public void stopImmediately() {
+        if (running) {
+            timerTask.cancel();
+            running = false;
+        }
+    }
+
     public void dispose() {
         timer.cancel();
     }

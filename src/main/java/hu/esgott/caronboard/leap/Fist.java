@@ -26,6 +26,10 @@ public class Fist {
     }
 
     public void update(HandList hands) {
+        if (queue.matchHappened()) {
+            timer.stopImmediately();
+        }
+
         if (hands.count() == 1) {
             Hand hand = hands.get(0);
             if ((hand.fingers().extended().count() == 0)

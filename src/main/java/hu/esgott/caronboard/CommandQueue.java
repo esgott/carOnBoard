@@ -21,6 +21,7 @@ public class CommandQueue {
     private final BlockingQueue<GuiCommand> guiQueue = new LinkedBlockingQueue<>();
     private final BlockingQueue<RecorderCommand> recorderQueue = new LinkedBlockingQueue<>();
     private final BlockingQueue<String> matchQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Object> fistStopQueue = new LinkedBlockingQueue<>();
 
     public static CommandQueue getInstance() {
         return instanse;
@@ -39,6 +40,7 @@ public class CommandQueue {
     public void addMatch(String match) {
         log.info("Incoming match");
         addToQueue(matchQueue, match, log);
+        fistStopQueue.offer(new Object());
     }
 
     private static <T> void addToQueue(BlockingQueue<T> queue, T id, Logger log) {
@@ -77,5 +79,9 @@ public class CommandQueue {
         String nextMatch = matchQueue.poll();
         log.info("Processing match " + nextMatch);
         return nextMatch;
+    }
+
+    public boolean matchHappened() {
+        return fistStopQueue.poll() != null;
     }
 }
