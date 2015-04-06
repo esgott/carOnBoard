@@ -36,12 +36,12 @@ public class VentillationScreen extends DrawableObject {
 
     @Override
     public void selectionOn() {
-        trackList.displaySelection(true);
+        trackList.setSelected(true);
     }
 
     @Override
     public void selectionOff() {
-        trackList.displaySelection(false);
+        trackList.setSelected(false);
     }
 
     @Override
