@@ -115,11 +115,12 @@ public class Swipe implements GestureWrapper {
     }
 
     public void execute() {
+
         if (fingers == 1) {
-            if (left()) {
+            if (left() || up()) {
                 addToQueue(true);
                 return;
-            } else if (right()) {
+            } else if (right() || down()) {
                 addToQueue(false);
                 return;
             }
