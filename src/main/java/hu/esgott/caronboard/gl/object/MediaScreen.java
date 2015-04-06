@@ -21,6 +21,7 @@ public class MediaScreen extends DrawableObject {
     private final DrawableList trackList = new DrawableList("TrackList", 3.4f,
             0.9f, 200, 0.25f, 0.62f);
     private final PlaybackControl playbackControl;
+    private final Text progress = new Text("--:--/--:--", 90);
     private DrawableObject selected;
     private final MediaPlayerDevice playerDevice = new MediaPlayerDevice();
     private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
@@ -31,6 +32,7 @@ public class MediaScreen extends DrawableObject {
         sourceList.move(-1.7f, 0.55f);
         trackList.move(-1.7f, -0.4f);
         playbackControl.move(0.0f, -0.7f);
+        progress.move(1.2f, -0.5f);
 
         sourceList.setNeighbours(trackList, playbackControl);
         trackList.setNeighbours(playbackControl, sourceList);
@@ -87,10 +89,25 @@ public class MediaScreen extends DrawableObject {
     }
 
     @Override
+    public void updateObject() {
+        String current = playerDevice.getCurrentTime();
+        String total = playerDevice.getTotalTime();
+        progress.setText(current + "/" + total);
+    }
+
+    @Override
     public void draw(GL2 gl) {
         sourceList.draw(gl);
         trackList.draw(gl);
         playbackControl.draw(gl);
+        drawProgress(gl);
+    }
+
+    private void drawProgress(GL2 gl) {
+        gl.glPushMatrix();
+        gl.glColor3f(1.0f, 1.0f, 1.0f);
+        progress.draw(gl);
+        gl.glPopMatrix();
     }
 
     @Override

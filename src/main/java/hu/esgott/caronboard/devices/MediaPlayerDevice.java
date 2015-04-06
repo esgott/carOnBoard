@@ -3,8 +3,10 @@ package hu.esgott.caronboard.devices;
 import hu.esgott.caronboard.devices.AudioFeedback.A;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -238,6 +240,27 @@ public class MediaPlayerDevice {
             loadVolume();
         }
         ttsActive = on;
+    }
+
+    public String getCurrentTime() {
+        return convertDurationToString(player.getCurrentTime());
+    }
+
+    private String convertDurationToString(Duration duration) {
+        String durationString = duration.toString();
+        int dotIndex = durationString.indexOf(".");
+        if (dotIndex != -1) {
+            String milliString = durationString.substring(0, dotIndex);
+            Date date = new Date(Long.parseLong(milliString));
+            return new SimpleDateFormat("mm:ss").format(date);
+        } else {
+            log.info("Duration string ingored: " + durationString);
+            return "--:--";
+        }
+    }
+
+    public String getTotalTime() {
+        return convertDurationToString(player.getMedia().getDuration());
     }
 
     public void dispose() {

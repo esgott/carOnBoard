@@ -29,6 +29,10 @@ public class Text extends DrawableObject {
         textRenderer.end3DRendering();
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     @Override
     public String getName() {
         return text;
