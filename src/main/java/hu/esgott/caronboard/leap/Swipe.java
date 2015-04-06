@@ -117,13 +117,12 @@ public class Swipe implements GestureWrapper {
     }
 
     public void execute() {
-
         if (fingers == 1 || stickedFingers()) {
             if (left() || up()) {
-                addToQueue(true);
+                addPreviousElementToQueue();
                 return;
             } else if (right() || down()) {
-                addToQueue(false);
+                addNextElementToQueue();
                 return;
             }
         }
@@ -146,13 +145,17 @@ public class Swipe implements GestureWrapper {
         return false;
     }
 
-    private void addToQueue(boolean left) {
+    private void addNextElementToQueue() {
+        addToQueue(GuiCommand.SELECT_NEXT_ELEMENT);
+    }
+
+    private void addPreviousElementToQueue() {
+        addToQueue(GuiCommand.SELECT_PREVIOUS_ELEMENT);
+    }
+
+    private void addToQueue(GuiCommand command) {
         log.info("Executing gesture " + this);
-        if (left) {
-            queue.notifyGui(GuiCommand.SELECT_PREVIOUS_ELEMENT);
-        } else {
-            queue.notifyGui(GuiCommand.SELECT_NEXT_ELEMENT);
-        }
+        queue.notifyGui(command);
     }
 
 }
