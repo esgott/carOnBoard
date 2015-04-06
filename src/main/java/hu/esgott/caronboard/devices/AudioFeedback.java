@@ -130,11 +130,23 @@ public class AudioFeedback {
     }
 
     public void play(A next) {
+        if (ttsEnum(next)) {
+            dropTtsInQueue();
+        }
         try {
             queue.put(next);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean ttsEnum(A a) {
+        Media media = samples.get(a);
+        return ttsClip(media);
+    }
+
+    private void dropTtsInQueue() {
+        queue.removeIf((item) -> ttsEnum(item));
     }
 
     public void increaseVolume() {
