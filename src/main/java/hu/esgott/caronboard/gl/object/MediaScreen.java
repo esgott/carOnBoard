@@ -182,14 +182,26 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void selectNext() {
-        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         select(selected.getNext());
+        playSelectionTts();
+    }
+
+    private void playSelectionTts() {
+        String source = sourceList.getSelectedName();
+        if (selected == sourceList) {
+            playerDevice.sourceTts(source);
+        } else if (selected == trackList) {
+            int track = trackList.getSelectedNum();
+            playerDevice.trackTts(source, track);
+        } else {
+            audioFeedback.play(AudioFeedback.A.BTN_BEEP);
+        }
     }
 
     @Override
     public void selectPrevious() {
-        audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         select(selected.getPrevious());
+        playSelectionTts();
     }
 
     public void selectionOn() {
