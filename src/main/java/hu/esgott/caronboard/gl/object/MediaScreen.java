@@ -131,7 +131,7 @@ public class MediaScreen extends DrawableObject {
     public void processMatch(String match) {
         switch (match) {
         case "next_track":
-            nextTrarck();
+            nextTrack();
             CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
             break;
         case "previous_track":
@@ -175,7 +175,7 @@ public class MediaScreen extends DrawableObject {
         }
     }
 
-    public void nextTrarck() {
+    public void nextTrack() {
         trackList.forwardAction();
         updateAudio(true);
     }

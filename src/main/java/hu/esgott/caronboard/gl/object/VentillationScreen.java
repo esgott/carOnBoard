@@ -53,7 +53,7 @@ public class VentillationScreen extends DrawableObject {
     @Override
     public void forwardAction() {
         trackList.forwardAction();
-        mediaScreen.nextTrarck();
+        mediaScreen.nextTrack();
     }
 
 }
