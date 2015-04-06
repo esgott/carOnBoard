@@ -217,11 +217,13 @@ public class MediaScreen extends DrawableObject {
         playSelectionTts();
     }
 
+    @Override
     public void selectionOn() {
         selected.setSelected(true);
         log.info("Selection ON");
     }
 
+    @Override
     public void selectionOff() {
         selected.setSelected(false);
         log.info("Selection OFF");

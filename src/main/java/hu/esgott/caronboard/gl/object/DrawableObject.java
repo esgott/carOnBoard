@@ -100,6 +100,12 @@ public abstract class DrawableObject {
     public void selectPrevious() {
     }
 
+    public void selectionOn() {
+    }
+
+    public void selectionOff() {
+    }
+
     public void setNeighbours(final DrawableObject next,
             final DrawableObject previous) {
         this.next = next;
