@@ -60,7 +60,7 @@ public class Victory {
             lastPoint = hand.palmPosition();
             FingerList extendedFingers = hand.fingers().extended();
             if (extendedFingers.count() == 2) {
-                if (finersInAngle(extendedFingers)) {
+                if (fingersInAngle(extendedFingers)) {
                     timer.start();
                     if (executing) {
                         execute();
@@ -83,7 +83,7 @@ public class Victory {
         }
     }
 
-    private boolean finersInAngle(FingerList fingers) {
+    private boolean fingersInAngle(FingerList fingers) {
         Finger leftFinger = fingers.get(0);
         Finger rightFinger = fingers.get(1);
         float angle = leftFinger.direction().angleTo(rightFinger.direction());
