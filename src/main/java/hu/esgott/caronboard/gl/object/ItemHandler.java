@@ -3,9 +3,12 @@ package hu.esgott.caronboard.gl.object;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ItemHandler {
+
+    private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final Text EMTPY_ITEM = new Text("", 0);
 
@@ -71,6 +74,19 @@ public class ItemHandler {
             refreshRenderedList();
         }
         return renderedItems.get(0);
+    }
+
+    public boolean select(int index) {
+        if (index >= 0 && index < menuItems.size()) {
+            if (currentItem != index) {
+                currentItem = index;
+                refreshRenderedList();
+                return true;
+            }
+        } else {
+            log.warning("Index " + index + " out of range");
+        }
+        return false;
     }
 
     public int getCurrentNum() {

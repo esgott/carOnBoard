@@ -133,11 +133,7 @@ public class AudioFeedback {
         if (ttsEnum(next)) {
             dropTtsInQueue();
         }
-        try {
-            queue.put(next);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        playWithoutCheck(next);
     }
 
     private boolean ttsEnum(A a) {
@@ -147,6 +143,14 @@ public class AudioFeedback {
 
     private void dropTtsInQueue() {
         queue.removeIf((item) -> ttsEnum(item));
+    }
+
+    public void playWithoutCheck(A next) {
+        try {
+            queue.put(next);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void increaseVolume() {

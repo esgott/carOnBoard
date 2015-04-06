@@ -35,6 +35,7 @@ public class MediaPlayerDevice {
 
     private final List<Playable> mediaFiles = new ArrayList<>();
     private final List<Playable> radioFiles = new ArrayList<>();
+    private AudioFeedback audioFeedback;
     private MediaPlayer player;
     private final VolumeLevel volume = new VolumeLevel();
     private boolean recordingActive = false;
@@ -123,19 +124,31 @@ public class MediaPlayerDevice {
     }
 
     public void trackTts(String source, int num) {
+        audioFeedback = AudioFeedback.getInstance();
         A ttsId = getList(source).get(num).tts;
-        AudioFeedback.getInstance().play(ttsId);
+        audioFeedback.play(ttsId);
     }
 
     public void sourceTts(String source) {
+        audioFeedback = AudioFeedback.getInstance();
+        audioFeedback.play(sourceToTts(source));
+    }
+
+    private A sourceToTts(String source) {
         switch (enumValue(source)) {
         case MEDIA:
-            AudioFeedback.getInstance().play(A.MEDIA);
-            break;
+            return A.MEDIA;
         case RADIO:
-            AudioFeedback.getInstance().play(A.RADIO);
-            break;
+        default:
+            return A.RADIO;
         }
+    }
+
+    public void sourceAndTrackTts(String source, int track) {
+        audioFeedback = AudioFeedback.getInstance();
+        A ttsId = getList(source).get(track).tts;
+        audioFeedback.play(sourceToTts(source));
+        audioFeedback.playWithoutCheck(ttsId);
     }
 
     public void togglePause() {

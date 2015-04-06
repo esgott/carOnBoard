@@ -155,6 +155,14 @@ public class DrawableList extends DrawableObject {
         feedback();
     }
 
+    public void select(int index) {
+        changed = itemHandler.select(index);
+        if (changed) {
+            resetPositions();
+            feedback();
+        }
+    }
+
     private void feedback() {
         log.info("In list " + getName() + " selected "
                 + itemHandler.getCurrentString());

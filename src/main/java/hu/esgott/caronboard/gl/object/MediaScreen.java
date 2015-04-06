@@ -2,8 +2,10 @@ package hu.esgott.caronboard.gl.object;
 
 import hu.esgott.caronboard.devices.AudioFeedback;
 import hu.esgott.caronboard.devices.MediaPlayerDevice;
+import hu.esgott.caronboard.devices.MediaPlayerDevice.Source;
 import hu.esgott.caronboard.gl.Textures;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
@@ -53,17 +55,15 @@ public class MediaScreen extends DrawableObject {
     }
 
     private void updateAudio(boolean forward) {
-        if ((selected == sourceList && sourceList.changed())
-                || (selected == trackList && trackList.changed())) {
-            String source = sourceList.getSelectedName();
-            int track = trackList.getSelectedNum();
+        String source = sourceList.getSelectedName();
+        int track = trackList.getSelectedNum();
+        if (sourceList.changed()) {
+            playerDevice.sourceAndTrackTts(source, track);
+        } else if (trackList.changed()) {
+            playerDevice.trackTts(source, track);
+        }
+        if (sourceList.changed() || trackList.changed()) {
             playerDevice.select(source, track);
-            if (selected == trackList) {
-                playerDevice.trackTts(source, track);
-            } else if (selected == sourceList) {
-                playerDevice.sourceTts(source);
-                playerDevice.trackTts(source, track);
-            }
         } else if (selected == playbackControl) {
             if (forward) {
                 playerDevice.seek(SEEK_MILLISEC);
@@ -74,8 +74,10 @@ public class MediaScreen extends DrawableObject {
     }
 
     private void updateTrackList() {
-        trackList.setElements(playerDevice.getMediaFilesForSource(sourceList
-                .getSelectedName()));
+        if (sourceList.changed()) {
+            trackList.setElements(playerDevice
+                    .getMediaFilesForSource(sourceList.getSelectedName()));
+        }
     }
 
     @Override
@@ -123,6 +125,20 @@ public class MediaScreen extends DrawableObject {
         case "pause":
             playerDevice.pause();
             playbackControl.setPlayback(false);
+            break;
+        case "media":
+            int mediaIndex = Arrays.asList(playerDevice.getSources()).indexOf(
+                    Source.MEDIA);
+            sourceList.select(mediaIndex);
+            updateTrackList();
+            updateAudio(false);
+            break;
+        case "radio":
+            int radioIndex = Arrays.asList(playerDevice.getSources()).indexOf(
+                    Source.RADIO);
+            sourceList.select(radioIndex);
+            updateTrackList();
+            updateAudio(false);
             break;
         default:
             log.info("Unrecognized match " + match);
