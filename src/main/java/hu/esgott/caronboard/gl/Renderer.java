@@ -61,6 +61,7 @@ public class Renderer implements GLEventListener, KeyListener {
 
     private void update(final long time) {
         processNextCommmand();
+        camera.update(time);
         objects.stream().forEach(object -> object.update(time));
     }
 
