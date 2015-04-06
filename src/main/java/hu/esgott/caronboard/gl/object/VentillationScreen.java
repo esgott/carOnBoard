@@ -1,17 +1,27 @@
 package hu.esgott.caronboard.gl.object;
 
+import java.util.logging.Logger;
+
 import javax.media.opengl.GL2;
 
 public class VentillationScreen extends DrawableObject {
 
+    private final Logger log = Logger.getLogger(getClass().getName());
+
     private final DrawableList trackList = new DrawableList("SmallTrackList",
             3.4f, 0.4f, 200, 0.25f, 0.4f, true);
+    private final TemperatureDisplay temp1 = new TemperatureDisplay(0.4f);
+    private DrawableObject selected = trackList;
     private final MediaScreen mediaScreen;
 
     public VentillationScreen(MediaScreen mediaScreen) {
         this.mediaScreen = mediaScreen;
 
         trackList.move(-5.7f, -0.3f);
+        temp1.move(-5.1f, 0.55f);
+
+        trackList.setNeighbours(temp1, temp1);
+        temp1.setNeighbours(trackList, trackList);
     }
 
     @Override
@@ -27,6 +37,7 @@ public class VentillationScreen extends DrawableObject {
     @Override
     public void draw(GL2 gl) {
         trackList.draw(gl);
+        temp1.draw(gl);
     }
 
     @Override
@@ -36,24 +47,45 @@ public class VentillationScreen extends DrawableObject {
 
     @Override
     public void selectionOn() {
-        trackList.setSelected(true);
+        selected.setSelected(true);
     }
 
     @Override
     public void selectionOff() {
-        trackList.setSelected(false);
+        selected.setSelected(false);
+    }
+
+    @Override
+    public void selectNext() {
+        select(selected.getNext());
+    }
+
+    private void select(DrawableObject selected) {
+        this.selected.setSelected(false);
+        selected.setSelected(true);
+        this.selected = selected;
+        log.info("Selected: " + selected.getName());
+    }
+
+    @Override
+    public void selectPrevious() {
+        select(selected.getPrevious());
     }
 
     @Override
     public void backwardAction() {
-        trackList.backwardAction();
-        mediaScreen.prerviousTrack();
+        if (selected == trackList) {
+            trackList.backwardAction();
+            mediaScreen.prerviousTrack();
+        }
     }
 
     @Override
     public void forwardAction() {
-        trackList.forwardAction();
-        mediaScreen.nextTrack();
+        if (selected == trackList) {
+            trackList.forwardAction();
+            mediaScreen.nextTrack();
+        }
     }
 
 }
