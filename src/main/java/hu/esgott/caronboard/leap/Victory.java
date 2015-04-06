@@ -21,7 +21,7 @@ public class Victory {
     private static final float Y_TRESHOLD = 35.0f;
     private static final float XZ_TRESHOLD = 10.0f;
     private static final long VOL_TIME = 750;
-    private static final float MIN_ANGLE = 0.25f;
+    public static final float MIN_ANGLE = 0.25f;
 
     private GestureTimer timer;
     private boolean executing;

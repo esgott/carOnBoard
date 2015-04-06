@@ -5,6 +5,8 @@ import hu.esgott.caronboard.CommandQueue.GuiCommand;
 
 import java.util.logging.Logger;
 
+import com.leapmotion.leap.Finger;
+import com.leapmotion.leap.FingerList;
 import com.leapmotion.leap.Gesture;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.HandList;
@@ -116,7 +118,7 @@ public class Swipe implements GestureWrapper {
 
     public void execute() {
 
-        if (fingers == 1) {
+        if (fingers == 1 || stickedFingers()) {
             if (left() || up()) {
                 addToQueue(true);
                 return;
@@ -126,6 +128,22 @@ public class Swipe implements GestureWrapper {
             }
         }
         log.info("Discarded gesture " + this);
+    }
+
+    private boolean stickedFingers() {
+        HandList hands = gesture.hands();
+        if (hands.count() == 1) {
+            Hand hand = hands.get(0);
+            FingerList extendedFingers = hand.fingers().extended();
+            if (extendedFingers.count() == 2) {
+                Finger leftFinger = extendedFingers.get(0);
+                Finger rightFinger = extendedFingers.get(1);
+                float angle = leftFinger.direction().angleTo(
+                        rightFinger.direction());
+                return angle <= Victory.MIN_ANGLE;
+            }
+        }
+        return false;
     }
 
     private void addToQueue(boolean left) {
