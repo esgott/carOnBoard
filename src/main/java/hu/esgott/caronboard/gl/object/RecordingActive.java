@@ -1,5 +1,8 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.devices.AudioFeedback;
+import hu.esgott.caronboard.devices.AudioFeedback.A;
+
 import javax.media.opengl.GL2;
 
 public class RecordingActive extends DrawableObject {
@@ -27,6 +30,9 @@ public class RecordingActive extends DrawableObject {
     }
 
     public void setVisible(boolean visible) {
+        if (!this.visible && visible) {
+            AudioFeedback.getInstance().play(A.CORRECT);
+        }
         this.visible = visible;
     }
 
