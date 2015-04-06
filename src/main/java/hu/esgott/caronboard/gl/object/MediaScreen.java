@@ -1,11 +1,14 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.CommandQueue;
+import hu.esgott.caronboard.CommandQueue.GuiCommand;
 import hu.esgott.caronboard.devices.AudioFeedback;
 import hu.esgott.caronboard.devices.MediaPlayerDevice;
 import hu.esgott.caronboard.devices.MediaPlayerDevice.Source;
 import hu.esgott.caronboard.gl.Textures;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
@@ -66,6 +69,7 @@ public class MediaScreen extends DrawableObject {
         }
         if (sourceList.changed() || trackList.changed()) {
             playerDevice.select(source, track);
+            CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
         } else if (selected == playbackControl) {
             if (forward) {
                 playerDevice.seek(SEEK_MILLISEC);
@@ -80,6 +84,15 @@ public class MediaScreen extends DrawableObject {
             trackList.setElements(playerDevice
                     .getMediaFilesForSource(sourceList.getSelectedName()));
         }
+    }
+
+    public List<String> getTracks() {
+        return playerDevice
+                .getMediaFilesForSource(sourceList.getSelectedName());
+    }
+
+    public int getSelectedTrack() {
+        return trackList.getSelectedNum();
     }
 
     @Override

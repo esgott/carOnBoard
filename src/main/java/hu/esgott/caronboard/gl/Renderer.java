@@ -33,7 +33,8 @@ public class Renderer implements GLEventListener, KeyListener {
     private final Textures textures = new Textures();
     private final Background background = new Background(textures);
     private final MediaScreen mediaScreen = new MediaScreen(textures);
-    private final VentillationScreen ventillationScreen = new VentillationScreen();
+    private final VentillationScreen ventillationScreen = new VentillationScreen(
+            mediaScreen);
     private final RecordingActive recordingActive = new RecordingActive();
     private final VolumeBar volumeBar = new VolumeBar(3.0f, 0.4f);
     private final List<DrawableObject> objects = new ArrayList<>();
@@ -111,6 +112,9 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case TTS_OFF:
             mediaScreen.setTtsState(false);
+            break;
+        case TRACK_CHANGED:
+            ventillationScreen.syncTrackList();
             break;
         default:
             log.warning("Unknown command");
