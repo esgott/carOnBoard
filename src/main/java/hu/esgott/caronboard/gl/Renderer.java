@@ -27,6 +27,8 @@ public class Renderer implements GLEventListener, KeyListener {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    private static final float SCREEN_SIZE = 4.0f;
+
     private final GLU glu = new GLU();
     private final Textures textures = new Textures();
     private final Background background = new Background(textures);
@@ -175,16 +177,16 @@ public class Renderer implements GLEventListener, KeyListener {
             MainWindow.exit();
             break;
         case KeyEvent.VK_LEFT:
-            camera.left();
-            break;
-        case KeyEvent.VK_RIGHT:
             camera.right();
             break;
+        case KeyEvent.VK_RIGHT:
+            camera.left();
+            break;
         case KeyEvent.VK_UP:
-            camera.up();
+            camera.down();
             break;
         case KeyEvent.VK_DOWN:
-            camera.down();
+            camera.up();
             break;
         case KeyEvent.VK_L:
             selectNext();
@@ -212,6 +214,12 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case KeyEvent.VK_Z:
             decreaseVolume();
+            break;
+        case KeyEvent.VK_N:
+            camera.right(SCREEN_SIZE);
+            break;
+        case KeyEvent.VK_M:
+            camera.left(SCREEN_SIZE);
             break;
         default:
             log.info("Not expected key");

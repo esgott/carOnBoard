@@ -25,8 +25,16 @@ public class Camera {
         x -= CAMERA_SPEED;
     }
 
+    public void left(float distance) {
+        x -= distance;
+    }
+
     public void right() {
         x += CAMERA_SPEED;
+    }
+
+    public void right(float distance) {
+        x += distance;
     }
 
 }
