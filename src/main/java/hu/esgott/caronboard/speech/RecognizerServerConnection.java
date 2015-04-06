@@ -6,7 +6,7 @@ public class RecognizerServerConnection {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private final static String GRAMMAR_FILE = "lex_sp_00150.flx";
+    private final static String GRAMMAR_FILE = "lex_sp_00151.flx";
     private SocketThread socketThread;
     private Thread thread;
 

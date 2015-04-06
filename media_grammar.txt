@@ -1,6 +1,11 @@
 next_track	következöszám
+next_track	következöcsatorna
 previous_track	elözöszám
+previous_track	elözöcsatorna
 next_source	következöforrás
 previous_source	elözöforrás
+media	média
+radio	rádió
 play	lejátszás
-pause	leállit
+play	inditás
+pause	leállitás
