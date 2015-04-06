@@ -119,10 +119,20 @@ public class Swipe implements GestureWrapper {
     public void execute() {
         if (fingers == 1 || stickedFingers()) {
             if (left() || up()) {
+                addNextElementToQueue();
+                return;
+            }
+            if (right() || down()) {
                 addPreviousElementToQueue();
                 return;
-            } else if (right() || down()) {
-                addNextElementToQueue();
+            }
+        } else if (fingers > 3) {
+            if (left()) {
+                addNextScreenToQueue();
+                return;
+            }
+            if (right()) {
+                addPreviousScreenToQueue();
                 return;
             }
         }
@@ -151,6 +161,14 @@ public class Swipe implements GestureWrapper {
 
     private void addPreviousElementToQueue() {
         addToQueue(GuiCommand.SELECT_PREVIOUS_ELEMENT);
+    }
+
+    private void addNextScreenToQueue() {
+        addToQueue(GuiCommand.SELECT_NEXT_SCREEN);
+    }
+
+    private void addPreviousScreenToQueue() {
+        addToQueue(GuiCommand.SELECT_PREVIOUS_SCREEN);
     }
 
     private void addToQueue(GuiCommand command) {
