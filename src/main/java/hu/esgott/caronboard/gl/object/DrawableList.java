@@ -52,6 +52,7 @@ public class DrawableList extends DrawableObject {
 
     @Override
     public void updateObject() {
+        changed = false;
         Iterator<Float> pos = positions.iterator();
         itemHandler.getRenderedItems().stream().forEachOrdered(item -> {
             item.moveTowards(0.2f, pos.next());
