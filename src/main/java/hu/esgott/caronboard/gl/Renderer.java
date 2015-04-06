@@ -33,6 +33,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final Textures textures = new Textures();
     private final Background background = new Background(textures);
     private final MediaScreen mediaScreen = new MediaScreen(textures);
+    private DrawableObject activeScreen = mediaScreen;
     private final VentillationScreen ventillationScreen = new VentillationScreen(
             mediaScreen);
     private final RecordingActive recordingActive = new RecordingActive();
@@ -221,9 +222,11 @@ public class Renderer implements GLEventListener, KeyListener {
             break;
         case KeyEvent.VK_N:
             camera.right(SCREEN_SIZE);
+            activeScreen = ventillationScreen;
             break;
         case KeyEvent.VK_M:
             camera.left(SCREEN_SIZE);
+            activeScreen = mediaScreen;
             break;
         default:
             log.info("Not expected key");
@@ -245,27 +248,31 @@ public class Renderer implements GLEventListener, KeyListener {
     }
 
     public void selectNext() {
-        mediaScreen.selectNext();
+        activeScreen.selectNext();
     }
 
     public void selectPrevious() {
-        mediaScreen.selectPrevious();
+        activeScreen.selectPrevious();
     }
 
     public void forwardAction() {
-        mediaScreen.forwardAction();
+        activeScreen.forwardAction();
     }
 
     public void backwardAction() {
-        mediaScreen.backwardAction();
+        activeScreen.backwardAction();
     }
 
     public void selectionOn() {
-        mediaScreen.selectionOn();
+        objects.forEach(item -> {
+            item.selectionOn();
+        });
     }
 
     public void selectionOff() {
-        mediaScreen.selectionOff();
+        objects.forEach(item -> {
+            item.selectionOff();
+        });
     }
 
     @Override

@@ -44,4 +44,16 @@ public class VentillationScreen extends DrawableObject {
         trackList.displaySelection(false);
     }
 
+    @Override
+    public void backwardAction() {
+        trackList.backwardAction();
+        mediaScreen.prerviousTrack();
+    }
+
+    @Override
+    public void forwardAction() {
+        trackList.forwardAction();
+        mediaScreen.nextTrarck();
+    }
+
 }

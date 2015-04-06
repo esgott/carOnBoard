@@ -47,6 +47,7 @@ public class MediaScreen extends DrawableObject {
         trackList.displaySelection(true);
         select(trackList);
         updateAudio(true);
+        CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
         selectionOff();
     }
 
@@ -69,7 +70,6 @@ public class MediaScreen extends DrawableObject {
         }
         if (sourceList.changed() || trackList.changed()) {
             playerDevice.select(source, track);
-            CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
         } else if (selected == playbackControl) {
             if (forward) {
                 playerDevice.seek(SEEK_MILLISEC);
@@ -131,12 +131,12 @@ public class MediaScreen extends DrawableObject {
     public void processMatch(String match) {
         switch (match) {
         case "next_track":
-            trackList.forwardAction();
-            updateAudio(true);
+            nextTrarck();
+            CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
             break;
         case "previous_track":
-            trackList.backwardAction();
-            updateAudio(false);
+            prerviousTrack();
+            CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
             break;
         case "next_source":
             sourceList.forwardAction();
@@ -175,11 +175,24 @@ public class MediaScreen extends DrawableObject {
         }
     }
 
+    public void nextTrarck() {
+        trackList.forwardAction();
+        updateAudio(true);
+    }
+
+    public void prerviousTrack() {
+        trackList.backwardAction();
+        updateAudio(false);
+    }
+
     @Override
     public void backwardAction() {
         selected.backwardAction();
         if (selected == sourceList) {
             updateTrackList();
+        }
+        if (selected != playbackControl) {
+            CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
         }
         updateAudio(false);
     }
@@ -189,6 +202,9 @@ public class MediaScreen extends DrawableObject {
         selected.forwardAction();
         if (selected == sourceList) {
             updateTrackList();
+        }
+        if (selected != playbackControl) {
+            CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
         }
         updateAudio(true);
     }
