@@ -26,27 +26,26 @@ public class Textures {
     public void loadTextures(GL2 gl) {
         gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE,
                 GL2.GL_REPLACE);
-        load("resources/texture/FabricPlain0073_S.jpg", TextureIO.JPG,
-                ID.PLASTIC);
+        load("FabricPlain0073_S.jpg", TextureIO.JPG, ID.PLASTIC);
         setRepeat(ID.PLASTIC, gl);
-        load("resources/texture/MetalBare0191_17_S.jpg", TextureIO.JPG,
-                ID.METAL);
+        load("MetalBare0191_17_S.jpg", TextureIO.JPG, ID.METAL);
         setRepeat(ID.METAL, gl);
-        load("resources/texture/WoodFine0019_S.jpg", TextureIO.JPG, ID.WOOD);
+        load("WoodFine0019_S.jpg", TextureIO.JPG, ID.WOOD);
         setRepeat(ID.WOOD, gl);
-        load("resources/texture/Gravel0075_5_S.jpg", TextureIO.JPG, ID.GRAVEL);
+        load("Gravel0075_5_S.jpg", TextureIO.JPG, ID.GRAVEL);
         setRepeat(ID.GRAVEL, gl);
-        load("resources/texture/defrost.png", TextureIO.PNG, ID.DEFROST);
-        load("resources/texture/up.png", TextureIO.PNG, ID.UP);
-        load("resources/texture/down.png", TextureIO.PNG, ID.DOWN);
-        load("resources/texture/updown.png", TextureIO.PNG, ID.UPDOWN);
-        load("resources/texture/downdefrost.png", TextureIO.PNG, ID.DOWNDEFROST);
-        load("resources/texture/map.png", TextureIO.PNG, ID.MAP);
+        load("defrost.png", TextureIO.PNG, ID.DEFROST);
+        load("up.png", TextureIO.PNG, ID.UP);
+        load("down.png", TextureIO.PNG, ID.DOWN);
+        load("updown.png", TextureIO.PNG, ID.UPDOWN);
+        load("downdefrost.png", TextureIO.PNG, ID.DOWNDEFROST);
+        load("map.png", TextureIO.PNG, ID.MAP);
     }
 
     private void load(final String file, final String suffix, final ID id) {
         try {
-            InputStream stream = new FileInputStream(file);
+            InputStream stream = new FileInputStream("resources/texture/"
+                    + file);
             Texture texture = TextureIO.newTexture(stream, false, suffix);
             textures.put(id, texture);
             log.info("Texture loaded " + file + " to " + id);
