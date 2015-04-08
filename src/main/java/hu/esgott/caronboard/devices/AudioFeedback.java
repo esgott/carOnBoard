@@ -101,7 +101,13 @@ public class AudioFeedback {
             CommandQueue.getInstance().notifyGui(GuiCommand.TTS_ON);
         }
         log.info("Create player for media " + media);
-        player = new MediaPlayer(media);
+        try {
+            player = new MediaPlayer(media);
+        } catch (NullPointerException e) {
+            log.severe("Error during creation of MediaPlayer. TTS will not play");
+            player = null;
+            return;
+        }
         setVolume();
         player.setOnEndOfMedia(() -> {
             if (player != null) {
@@ -116,6 +122,9 @@ public class AudioFeedback {
         player.setOnReady(() -> {
             log.info("Clip started");
             player.play();
+        });
+        player.setOnError(() -> {
+            log.warning("Error in MediaPlayer");
         });
     }
 
