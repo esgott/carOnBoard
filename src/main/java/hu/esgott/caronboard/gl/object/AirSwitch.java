@@ -7,6 +7,9 @@ import javax.media.opengl.GL2;
 
 public class AirSwitch extends DrawableObject {
 
+    private static final float PICTOGRAM_SIZE = 0.2f;
+    private static final float PICTOGRAM_RELATIVE_RADIUS = 0.09f;
+
     private final float radius;
     private final Textures textures;
 
@@ -39,12 +42,26 @@ public class AirSwitch extends DrawableObject {
     }
 
     private void drawPictograms(GL2 gl) {
-        drawTexture(gl, ID.DEFROST, 0.2f);
+        drawCircular(gl, ID.DEFROST, PICTOGRAM_RELATIVE_RADIUS, 210.0f);
+        drawCircular(gl, ID.UP, PICTOGRAM_RELATIVE_RADIUS, -30.0f);
     }
 
-    private void drawTexture(GL2 gl, ID textureId, float size) {
+    private void drawCircular(GL2 gl, ID textureId, float relativeRadius,
+            float angle) {
+        double radian = Math.toRadians(angle);
+        float r = radius + relativeRadius;
+        double x = Math.cos(radian) * r;
+        double y = Math.sin(radian) * r;
+
+        gl.glPushMatrix();
+        gl.glTranslatef((float) x, (float) y, 0.0f);
+        drawTexture(gl, textureId);
+        gl.glPopMatrix();
+    }
+
+    private void drawTexture(GL2 gl, ID textureId) {
         gl.glColor4f(0.0f, 0.0f, 0.0f, 0.0f);
-        float half = size / 2;
+        final float half = PICTOGRAM_SIZE / 2;
 
         textures.enableTexture(textureId, gl);
         gl.glBegin(GL2.GL_QUADS);
