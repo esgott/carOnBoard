@@ -39,10 +39,30 @@ public class AirSwitch extends DrawableObject {
     }
 
     private void drawPictograms(GL2 gl) {
+        drawTexture(gl, ID.DEFROST, 0.2f);
+    }
+
+    private void drawTexture(GL2 gl, ID textureId, float size) {
         gl.glColor4f(0.0f, 0.0f, 0.0f, 0.0f);
-        textures.enableTexture(ID.DEFROST, gl);
-        Shapes.drawRectangle(gl, 0.0f, 0.0f, 2.0f, 2.0f);
-        textures.disableTexture(ID.DEFROST, gl);
+        float half = size / 2;
+
+        textures.enableTexture(textureId, gl);
+        gl.glBegin(GL2.GL_QUADS);
+
+        gl.glTexCoord2f(0.0f, 0.0f);
+        gl.glVertex2f(-half, -half);
+
+        gl.glTexCoord2f(1.0f, 0.0f);
+        gl.glVertex2f(half, -half);
+
+        gl.glTexCoord2f(1.0f, 1.0f);
+        gl.glVertex2f(half, half);
+
+        gl.glTexCoord2f(0.0f, 1.0f);
+        gl.glVertex2f(-half, half);
+
+        gl.glEnd();
+        textures.disableTexture(textureId, gl);
     }
 
     @Override
