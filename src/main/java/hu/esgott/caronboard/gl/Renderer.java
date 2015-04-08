@@ -77,10 +77,10 @@ public class Renderer implements GLEventListener, KeyListener {
         case SELECT_PREVIOUS_SCREEN:
             previousScreen();
             break;
-        case SELECT_NEXT_ELEMENT:
+        case SELECT_RIGHT:
             selectNext();
             break;
-        case SELECT_PREVIOUS_ELEMENT:
+        case SELECT_LEFT:
             selectPrevious();
             break;
         case STEP_FORWARD:
