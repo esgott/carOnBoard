@@ -83,6 +83,12 @@ public class Renderer implements GLEventListener, KeyListener {
         case SELECT_LEFT:
             selectPrevious();
             break;
+        case SELECT_UP:
+            selectUp();
+            break;
+        case SELECT_DOWN:
+            selectDown();
+            break;
         case STEP_FORWARD:
             forwardAction();
             break;
@@ -261,6 +267,14 @@ public class Renderer implements GLEventListener, KeyListener {
 
     public void selectPrevious() {
         activeScreen.selectPrevious();
+    }
+
+    public void selectUp() {
+        activeScreen.selectUp();
+    }
+
+    public void selectDown() {
+        activeScreen.selectDown();
     }
 
     public void forwardAction() {

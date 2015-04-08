@@ -84,7 +84,6 @@ public class VentillationScreen extends DrawableObject {
     @Override
     public void selectNext() {
         select(selected.getNext());
-        audioFeedback();
     }
 
     private void select(DrawableObject selected) {
@@ -92,6 +91,7 @@ public class VentillationScreen extends DrawableObject {
         selected.setSelected(true);
         this.selected = selected;
         log.info("Selected: " + selected.getName());
+        audioFeedback();
     }
 
     private void audioFeedback() {
@@ -111,7 +111,32 @@ public class VentillationScreen extends DrawableObject {
     @Override
     public void selectPrevious() {
         select(selected.getPrevious());
-        audioFeedback();
+    }
+
+    @Override
+    public void selectUp() {
+        if (upRow()) {
+            select(map);
+        } else if (selected == trackList) {
+            select(temp1);
+        } else {
+            select(trackList);
+        }
+    }
+
+    private boolean upRow() {
+        return selected == temp1 || selected == airSwitch || selected == temp2;
+    }
+
+    @Override
+    public void selectDown() {
+        if (upRow()) {
+            select(trackList);
+        } else if (selected == trackList) {
+            select(map);
+        } else {
+            select(temp1);
+        }
     }
 
     @Override

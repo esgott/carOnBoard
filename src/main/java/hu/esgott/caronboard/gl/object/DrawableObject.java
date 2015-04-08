@@ -100,6 +100,12 @@ public abstract class DrawableObject {
     public void selectPrevious() {
     }
 
+    public void selectDown() {
+    }
+
+    public void selectUp() {
+    }
+
     public void selectionOn() {
     }
 

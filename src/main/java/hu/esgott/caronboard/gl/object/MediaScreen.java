@@ -234,6 +234,16 @@ public class MediaScreen extends DrawableObject {
     }
 
     @Override
+    public void selectDown() {
+        selectNext();
+    }
+
+    @Override
+    public void selectUp() {
+        selectPrevious();
+    }
+
+    @Override
     public void selectionOn() {
         selected.setSelected(true);
         log.info("Selection ON");
