@@ -1,5 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.devices.AudioFeedback;
+import hu.esgott.caronboard.devices.AudioFeedback.A;
 import hu.esgott.caronboard.gl.Textures;
 import hu.esgott.caronboard.gl.Textures.ID;
 
@@ -23,6 +25,7 @@ public class VentillationScreen extends DrawableObject {
     private final ImageObject map;
     private DrawableObject selected = trackList;
     private final MediaScreen mediaScreen;
+    private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
     public VentillationScreen(final MediaScreen mediaScreen,
             final Textures textures) {
@@ -81,6 +84,7 @@ public class VentillationScreen extends DrawableObject {
     @Override
     public void selectNext() {
         select(selected.getNext());
+        audioFeedback();
     }
 
     private void select(DrawableObject selected) {
@@ -90,9 +94,24 @@ public class VentillationScreen extends DrawableObject {
         log.info("Selected: " + selected.getName());
     }
 
+    private void audioFeedback() {
+        if (selected == temp1) {
+            audioFeedback.play(A.LEFT_TEMP);
+        } else if (selected == airSwitch) {
+            audioFeedback.play(A.AIRSWITCH);
+        } else if (selected == temp2) {
+            audioFeedback.play(A.RIGHT_TEMP);
+        } else if (selected == trackList) {
+            // TODO
+        } else if (selected == map) {
+            audioFeedback.play(A.NAVIGATION);
+        }
+    }
+
     @Override
     public void selectPrevious() {
         select(selected.getPrevious());
+        audioFeedback();
     }
 
     @Override
