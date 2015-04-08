@@ -12,6 +12,7 @@ public class DrawableList extends DrawableObject {
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final float FRAME_THICKNESS = 0.06f;
+    private static final float SELECTION_THICKNESS = 0.01f;
 
     private final float width;
     private final float height;
@@ -67,7 +68,7 @@ public class DrawableList extends DrawableObject {
 
         if (selected()) {
             gl.glColor3f(1, 1, 0);
-            Shapes.drawFrame(gl, 0, 0, width, height, 0.01f);
+            Shapes.drawFrame(gl, 0, 0, width, height, SELECTION_THICKNESS);
         }
 
         gl.glColor3f(0.0f, 0.05f, 0.4f);
