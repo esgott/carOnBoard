@@ -43,6 +43,9 @@ public class AirSwitch extends DrawableObject {
 
     private void drawPictograms(GL2 gl) {
         drawCircular(gl, ID.DEFROST, PICTOGRAM_RELATIVE_RADIUS, 210.0f);
+        drawCircular(gl, ID.DOWNDEFROST, PICTOGRAM_RELATIVE_RADIUS, 150.0f);
+        drawCircular(gl, ID.DOWN, PICTOGRAM_RELATIVE_RADIUS, 90.0f);
+        drawCircular(gl, ID.UPDOWN, PICTOGRAM_RELATIVE_RADIUS, 30.0f);
         drawCircular(gl, ID.UP, PICTOGRAM_RELATIVE_RADIUS, -30.0f);
     }
 

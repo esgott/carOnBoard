@@ -25,10 +25,10 @@ public class VentillationScreen extends DrawableObject {
     public VentillationScreen(final MediaScreen mediaScreen,
             final Textures textures) {
         this.mediaScreen = mediaScreen;
-        airSwitch = new AirSwitch(CIRCULAR_RADIUS, textures);
+        airSwitch = new AirSwitch(CIRCULAR_RADIUS - 0.1f, textures);
 
         temp1.move(-5.1f, 0.55f);
-        airSwitch.move(-4.0f, 0.55f);
+        airSwitch.move(-4.0f, 0.50f);
         temp2.move(-2.9f, 0.55f);
         trackList.move(-5.7f, -0.3f);
 
