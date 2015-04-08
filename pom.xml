@@ -5,7 +5,7 @@
 
     <groupId>hu.esgott</groupId>
     <artifactId>caronboard</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <name>CarOnBoard</name>
 
     <dependencies>
