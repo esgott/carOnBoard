@@ -16,7 +16,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 public class Textures {
 
     public enum ID {
-        PLASTIC, METAL, WOOD, GRAVEL, DEFROST, UP, DOWN, UPDOWN, DOWNDEFROST
+        PLASTIC, METAL, WOOD, GRAVEL, DEFROST, UP, DOWN, UPDOWN, DOWNDEFROST, MAP
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -41,6 +41,7 @@ public class Textures {
         load("resources/texture/down.png", TextureIO.PNG, ID.DOWN);
         load("resources/texture/updown.png", TextureIO.PNG, ID.UPDOWN);
         load("resources/texture/downdefrost.png", TextureIO.PNG, ID.DOWNDEFROST);
+        load("resources/texture/map.png", TextureIO.PNG, ID.MAP);
     }
 
     private void load(final String file, final String suffix, final ID id) {
