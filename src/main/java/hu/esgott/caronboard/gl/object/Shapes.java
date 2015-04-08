@@ -24,6 +24,28 @@ public class Shapes {
         gl.glEnd();
     }
 
+    public static void drawRectangle(GL2 gl, final float width,
+            final float height) {
+        final float halfWidth = width / 2.0f;
+        final float halfHeight = height / 2.0f;
+
+        gl.glBegin(GL2.GL_QUADS);
+
+        gl.glTexCoord2f(0.0f, 0.0f);
+        gl.glVertex2f(-halfWidth, -halfHeight);
+
+        gl.glTexCoord2f(1.0f, 0.0f);
+        gl.glVertex2f(halfWidth, -halfHeight);
+
+        gl.glTexCoord2f(1.0f, 1.0f);
+        gl.glVertex2f(halfWidth, halfHeight);
+
+        gl.glTexCoord2f(0.0f, 1.0f);
+        gl.glVertex2f(-halfWidth, halfHeight);
+
+        gl.glEnd();
+    }
+
     // coordinates are for the rectangle that the frame is around
     public static void drawFrame(final GL2 gl, final float bottomLeftX,
             final float bottomLeftY, final float topRightX,
