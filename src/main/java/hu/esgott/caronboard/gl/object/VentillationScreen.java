@@ -24,6 +24,7 @@ public class VentillationScreen extends DrawableObject {
             3.4f, 0.4f, 200, 0.25f, 0.4f);
     private final ImageObject map;
     private DrawableObject selected = trackList;
+    private DrawableObject selectedInUpRow = temp1;
     private final MediaScreen mediaScreen;
     private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
@@ -92,6 +93,9 @@ public class VentillationScreen extends DrawableObject {
         this.selected = selected;
         log.info("Selected: " + selected.getName());
         audioFeedback();
+        if (upRow()) {
+            selectedInUpRow = selected;
+        }
     }
 
     private void audioFeedback() {
@@ -118,7 +122,7 @@ public class VentillationScreen extends DrawableObject {
         if (upRow()) {
             select(map);
         } else if (selected == trackList) {
-            select(temp1);
+            select(selectedInUpRow);
         } else {
             select(trackList);
         }
@@ -135,7 +139,7 @@ public class VentillationScreen extends DrawableObject {
         } else if (selected == trackList) {
             select(map);
         } else {
-            select(temp1);
+            select(selectedInUpRow);
         }
     }
 
