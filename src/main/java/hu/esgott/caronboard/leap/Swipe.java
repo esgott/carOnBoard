@@ -126,7 +126,7 @@ public class Swipe implements GestureWrapper {
                 addPreviousElementToQueue();
                 return;
             }
-        } else if (fingers > 3) {
+        } else if (fingers > 2) {
             if (left()) {
                 addNextScreenToQueue();
                 return;
