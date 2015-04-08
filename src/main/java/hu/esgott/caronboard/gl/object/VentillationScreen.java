@@ -8,23 +8,30 @@ public class VentillationScreen extends DrawableObject {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    private static final float CIRCULAR_RADIUS = 0.4f;
+
     private final DrawableList trackList = new DrawableList("SmallTrackList",
             3.4f, 0.4f, 200, 0.25f, 0.4f, true);
-    private final TemperatureDisplay temp1 = new TemperatureDisplay(0.4f);
-    private final TemperatureDisplay temp2 = new TemperatureDisplay(0.4f);
+    private final TemperatureDisplay temp1 = new TemperatureDisplay(
+            CIRCULAR_RADIUS);
+    private final AirSwitch airSwitch = new AirSwitch(CIRCULAR_RADIUS);
+    private final TemperatureDisplay temp2 = new TemperatureDisplay(
+            CIRCULAR_RADIUS);
     private DrawableObject selected = trackList;
     private final MediaScreen mediaScreen;
 
     public VentillationScreen(MediaScreen mediaScreen) {
         this.mediaScreen = mediaScreen;
 
-        trackList.move(-5.7f, -0.3f);
         temp1.move(-5.1f, 0.55f);
+        airSwitch.move(-4.0f, 0.55f);
         temp2.move(-2.9f, 0.55f);
+        trackList.move(-5.7f, -0.3f);
 
+        temp1.setNeighbours(airSwitch, trackList);
+        airSwitch.setNeighbours(temp2, temp1);
+        temp2.setNeighbours(trackList, airSwitch);
         trackList.setNeighbours(temp1, temp2);
-        temp1.setNeighbours(temp2, trackList);
-        temp2.setNeighbours(trackList, temp1);
     }
 
     @Override
@@ -39,9 +46,10 @@ public class VentillationScreen extends DrawableObject {
 
     @Override
     public void draw(GL2 gl) {
-        trackList.draw(gl);
         temp1.draw(gl);
+        airSwitch.draw(gl);
         temp2.draw(gl);
+        trackList.draw(gl);
     }
 
     @Override

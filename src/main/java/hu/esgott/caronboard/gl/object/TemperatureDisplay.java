@@ -8,8 +8,8 @@ public class TemperatureDisplay extends DrawableObject {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private static final float SELECTION_THICKNESS = 0.01f;
-    private static final float FRAME_THICKNESS = 0.05f;
+    public static final float SELECTION_THICKNESS = 0.01f;
+    public static final float FRAME_THICKNESS = 0.05f;
 
     private final float radius;
     private int temp = 22;
