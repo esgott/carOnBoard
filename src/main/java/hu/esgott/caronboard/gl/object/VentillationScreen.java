@@ -19,7 +19,7 @@ public class VentillationScreen extends DrawableObject {
     private final TemperatureDisplay temp2 = new TemperatureDisplay(
             CIRCULAR_RADIUS);
     private final DrawableList trackList = new DrawableList("SmallTrackList",
-            3.4f, 0.4f, 200, 0.25f, 0.4f, true);
+            3.4f, 0.4f, 200, 0.25f, 0.4f);
     private final ImageObject map;
     private DrawableObject selected = trackList;
     private final MediaScreen mediaScreen;
