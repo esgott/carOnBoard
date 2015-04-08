@@ -35,7 +35,7 @@ public class Renderer implements GLEventListener, KeyListener {
     private final MediaScreen mediaScreen = new MediaScreen(textures);
     private DrawableObject activeScreen = mediaScreen;
     private final VentillationScreen ventillationScreen = new VentillationScreen(
-            mediaScreen);
+            mediaScreen, textures);
     private final RecordingActive recordingActive = new RecordingActive();
     private final VolumeBar volumeBar = new VolumeBar(3.0f, 0.4f);
     private final List<DrawableObject> objects = new ArrayList<>();
@@ -151,7 +151,10 @@ public class Renderer implements GLEventListener, KeyListener {
 
     @Override
     public void init(final GLAutoDrawable drawable) {
-        drawable.getGL().setSwapInterval(1);
+        GL gl = drawable.getGL();
+        gl.setSwapInterval(1);
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         textures.loadTextures(drawable.getGL().getGL2());
     }
 

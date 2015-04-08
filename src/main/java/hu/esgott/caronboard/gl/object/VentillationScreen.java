@@ -1,5 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.gl.Textures;
+
 import java.util.logging.Logger;
 
 import javax.media.opengl.GL2;
@@ -14,14 +16,16 @@ public class VentillationScreen extends DrawableObject {
             3.4f, 0.4f, 200, 0.25f, 0.4f, true);
     private final TemperatureDisplay temp1 = new TemperatureDisplay(
             CIRCULAR_RADIUS);
-    private final AirSwitch airSwitch = new AirSwitch(CIRCULAR_RADIUS);
+    private final AirSwitch airSwitch;
     private final TemperatureDisplay temp2 = new TemperatureDisplay(
             CIRCULAR_RADIUS);
     private DrawableObject selected = trackList;
     private final MediaScreen mediaScreen;
 
-    public VentillationScreen(MediaScreen mediaScreen) {
+    public VentillationScreen(final MediaScreen mediaScreen,
+            final Textures textures) {
         this.mediaScreen = mediaScreen;
+        airSwitch = new AirSwitch(CIRCULAR_RADIUS, textures);
 
         temp1.move(-5.1f, 0.55f);
         airSwitch.move(-4.0f, 0.55f);
