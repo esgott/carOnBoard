@@ -13,7 +13,7 @@ public class AirSwitch extends DrawableObject {
     private static final float RELATIVE_INDEX_LENGTH = 0.2f;
 
     private final float radius;
-    private float indexAngle = 90.0f;
+    private int indexAngle = 90;
     private final Textures textures;
 
     public AirSwitch(final float radius, final Textures textures) {
@@ -116,6 +116,24 @@ public class AirSwitch extends DrawableObject {
     @Override
     public String getName() {
         return "AirSwitch";
+    }
+
+    @Override
+    public void forwardAction() {
+        if (indexAngle > -30) {
+            indexAngle -= 60;
+        } else {
+            indexAngle = 210;
+        }
+    }
+
+    @Override
+    public void backwardAction() {
+        if (indexAngle < 210) {
+            indexAngle += 60;
+        } else {
+            indexAngle = -30;
+        }
     }
 
 }
