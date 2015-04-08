@@ -11,14 +11,31 @@ public class AirSwitch extends DrawableObject {
     private static final float PICTOGRAM_RELATIVE_RADIUS = 0.09f;
     private static final float INDEX_WIDTH_DEG = 5.0f;
     private static final float RELATIVE_INDEX_LENGTH = 0.2f;
+    private static final float INDEX_SPEED = 2.0f;
 
     private final float radius;
     private int indexAngle = 90;
+    private float currentIndexAngle = indexAngle;
     private final Textures textures;
 
     public AirSwitch(final float radius, final Textures textures) {
         this.radius = radius;
         this.textures = textures;
+    }
+
+    @Override
+    public void updateObject() {
+        float indexDiff = Math.abs(indexAngle - currentIndexAngle);
+        float indexRotation = INDEX_SPEED * elapsedTime();
+        if (indexRotation < indexDiff) {
+            if (currentIndexAngle < indexAngle) {
+                currentIndexAngle += indexRotation;
+            } else {
+                currentIndexAngle -= indexRotation;
+            }
+        } else {
+            currentIndexAngle = indexAngle;
+        }
     }
 
     @Override
@@ -95,7 +112,7 @@ public class AirSwitch extends DrawableObject {
     }
 
     private void drawIndex(GL2 gl) {
-        final double angleRadian = Math.toRadians(indexAngle);
+        final double angleRadian = Math.toRadians(currentIndexAngle);
         final double widthRadian = Math.toRadians(INDEX_WIDTH_DEG);
         final double angleMax = angleRadian + widthRadian;
         final double angleMin = angleRadian - widthRadian;

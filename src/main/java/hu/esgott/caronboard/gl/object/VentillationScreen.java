@@ -40,6 +40,7 @@ public class VentillationScreen extends DrawableObject {
 
     @Override
     public void updateChildren(long time) {
+        airSwitch.update(time);
         trackList.update(time);
     };
 
