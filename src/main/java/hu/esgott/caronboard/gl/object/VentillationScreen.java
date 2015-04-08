@@ -102,7 +102,7 @@ public class VentillationScreen extends DrawableObject {
         } else if (selected == temp2) {
             audioFeedback.play(A.RIGHT_TEMP);
         } else if (selected == trackList) {
-            // TODO
+            mediaScreen.trackTts();
         } else if (selected == map) {
             audioFeedback.play(A.NAVIGATION);
         }

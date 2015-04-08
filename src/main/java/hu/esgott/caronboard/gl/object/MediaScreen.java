@@ -269,4 +269,10 @@ public class MediaScreen extends DrawableObject {
     public void dispose() {
         playerDevice.dispose();
     }
+
+    public void trackTts() {
+        String source = sourceList.getSelectedName();
+        int track = trackList.getSelectedNum();
+        playerDevice.trackTts(source, track);
+    }
 }
