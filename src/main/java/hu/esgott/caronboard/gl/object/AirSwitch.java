@@ -9,8 +9,11 @@ public class AirSwitch extends DrawableObject {
 
     private static final float PICTOGRAM_SIZE = 0.2f;
     private static final float PICTOGRAM_RELATIVE_RADIUS = 0.09f;
+    private static final float INDEX_WIDTH_DEG = 5.0f;
+    private static final float RELATIVE_INDEX_LENGTH = 0.2f;
 
     private final float radius;
+    private float indexAngle = 90.0f;
     private final Textures textures;
 
     public AirSwitch(final float radius, final Textures textures) {
@@ -39,27 +42,33 @@ public class AirSwitch extends DrawableObject {
         Shapes.drawCircle(gl, radius - TemperatureDisplay.SELECTION_THICKNESS
                 - TemperatureDisplay.FRAME_THICKNESS);
         drawPictograms(gl);
+        drawIndex(gl);
     }
 
     private void drawPictograms(GL2 gl) {
-        drawCircular(gl, ID.DEFROST, PICTOGRAM_RELATIVE_RADIUS, 210.0f);
-        drawCircular(gl, ID.DOWNDEFROST, PICTOGRAM_RELATIVE_RADIUS, 150.0f);
-        drawCircular(gl, ID.DOWN, PICTOGRAM_RELATIVE_RADIUS, 90.0f);
-        drawCircular(gl, ID.UPDOWN, PICTOGRAM_RELATIVE_RADIUS, 30.0f);
-        drawCircular(gl, ID.UP, PICTOGRAM_RELATIVE_RADIUS, -30.0f);
+        drawCircular(gl, ID.DEFROST, 210.0f);
+        drawCircular(gl, ID.DOWNDEFROST, 150.0f);
+        drawCircular(gl, ID.DOWN, 90.0f);
+        drawCircular(gl, ID.UPDOWN, 30.0f);
+        drawCircular(gl, ID.UP, -30.0f);
     }
 
-    private void drawCircular(GL2 gl, ID textureId, float relativeRadius,
-            float angle) {
+    private void drawCircular(GL2 gl, ID textureId, float angle) {
         double radian = Math.toRadians(angle);
-        float r = radius + relativeRadius;
-        double x = Math.cos(radian) * r;
-        double y = Math.sin(radian) * r;
+        float r = radius + PICTOGRAM_RELATIVE_RADIUS;
 
         gl.glPushMatrix();
-        gl.glTranslatef((float) x, (float) y, 0.0f);
+        gl.glTranslatef(xForCircle(radian, r), yForCircle(radian, r), 0.0f);
         drawTexture(gl, textureId);
         gl.glPopMatrix();
+    }
+
+    private float xForCircle(double angle, float r) {
+        return (float) (Math.cos(angle) * r);
+    }
+
+    private float yForCircle(double angle, float r) {
+        return (float) (Math.sin(angle) * r);
     }
 
     private void drawTexture(GL2 gl, ID textureId) {
@@ -83,6 +92,25 @@ public class AirSwitch extends DrawableObject {
 
         gl.glEnd();
         textures.disableTexture(textureId, gl);
+    }
+
+    private void drawIndex(GL2 gl) {
+        final double angleRadian = Math.toRadians(indexAngle);
+        final double widthRadian = Math.toRadians(INDEX_WIDTH_DEG);
+        final double angleMax = angleRadian + widthRadian;
+        final double angleMin = angleRadian - widthRadian;
+        final float rMax = radius - TemperatureDisplay.SELECTION_THICKNESS;
+        final float rMin = radius * RELATIVE_INDEX_LENGTH;
+
+        gl.glColor3f(0.0f, 0.0f, 0.2f);
+        gl.glBegin(GL2.GL_QUADS);
+
+        gl.glVertex2f(xForCircle(angleMin, rMax), yForCircle(angleMin, rMax));
+        gl.glVertex2f(xForCircle(angleMax, rMax), yForCircle(angleMax, rMax));
+        gl.glVertex2f(xForCircle(angleMax, rMin), yForCircle(angleMax, rMin));
+        gl.glVertex2f(xForCircle(angleMin, rMin), yForCircle(angleMin, rMin));
+
+        gl.glEnd();
     }
 
     @Override
