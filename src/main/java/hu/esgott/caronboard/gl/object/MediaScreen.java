@@ -25,7 +25,7 @@ public class MediaScreen extends DrawableObject {
             0.9f, 200, 0.25f, 0.62f);
     private final PlaybackControl playbackControl;
     private final Text progress = new Text("--:--/--:--", 90);
-    private DrawableObject selected;
+    private DrawableObject selected = trackList;
     private final MediaPlayerDevice playerDevice = new MediaPlayerDevice();
     private final AudioFeedback audioFeedback = AudioFeedback.getInstance();
 
@@ -45,19 +45,8 @@ public class MediaScreen extends DrawableObject {
         updateTrackList();
 
         trackList.displaySelection(true);
-        select(trackList);
         updateAudio(true);
         CommandQueue.getInstance().notifyGui(GuiCommand.TRACK_CHANGED);
-        selectionOff();
-    }
-
-    private void select(DrawableObject newSelection) {
-        if (selected != null) {
-            selected.setSelected(false);
-        }
-        newSelection.setSelected(true);
-        selected = newSelection;
-        log.info("Selected: " + selected.getName());
     }
 
     private void updateAudio(boolean forward) {
@@ -212,6 +201,15 @@ public class MediaScreen extends DrawableObject {
     @Override
     public void selectNext() {
         select(selected.getNext());
+    }
+
+    private void select(DrawableObject newSelection) {
+        if (selected != null) {
+            selected.setSelected(false);
+        }
+        newSelection.setSelected(true);
+        selected = newSelection;
+        log.info("Selected: " + selected.getName());
         playSelectionTts();
     }
 
@@ -230,7 +228,6 @@ public class MediaScreen extends DrawableObject {
     @Override
     public void selectPrevious() {
         select(selected.getPrevious());
-        playSelectionTts();
     }
 
     @Override
@@ -245,14 +242,12 @@ public class MediaScreen extends DrawableObject {
 
     @Override
     public void selectionOn() {
-        selected.setSelected(true);
-        log.info("Selection ON");
+        select(selected);
     }
 
     @Override
     public void selectionOff() {
         selected.setSelected(false);
-        log.info("Selection OFF");
     }
 
     public void playPause() {

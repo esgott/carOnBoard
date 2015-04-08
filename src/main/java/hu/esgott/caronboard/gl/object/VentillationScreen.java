@@ -75,6 +75,7 @@ public class VentillationScreen extends DrawableObject {
     @Override
     public void selectionOn() {
         selected.setSelected(true);
+        audioFeedback();
     }
 
     @Override
