@@ -84,6 +84,7 @@ public class AudioFeedback {
 
     private void threadMain() {
         try {
+            Thread.sleep(200);
             while (running) {
                 if (queue.size() > 5) {
                     log.warning("Audio feedback queue is " + queue.size());
