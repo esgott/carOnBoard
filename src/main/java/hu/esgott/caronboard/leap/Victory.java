@@ -19,9 +19,9 @@ public class Victory {
     private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final float Y_TRESHOLD = 35.0f;
-    private static final float XZ_TRESHOLD = 10.0f;
+    private static final float XZ_TRESHOLD = 30.0f;
     private static final long VOL_TIME = 750;
-    public static final float MIN_ANGLE = 0.25f;
+    public static final float MIN_ANGLE = 0.20f;
 
     private GestureTimer timer;
     private boolean executing;
