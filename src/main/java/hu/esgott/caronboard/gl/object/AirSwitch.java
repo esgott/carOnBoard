@@ -9,7 +9,7 @@ public class AirSwitch extends DrawableObject {
 
     private static final float PICTOGRAM_SIZE = 0.2f;
     private static final float PICTOGRAM_RELATIVE_RADIUS = 0.09f;
-    private static final float INDEX_WIDTH_DEG = 5.0f;
+    private static final float INDEX_WIDTH_DEG = 7.5f;
     private static final float RELATIVE_INDEX_LENGTH = 0.2f;
     private static final float INDEX_SPEED = 2.0f;
 
