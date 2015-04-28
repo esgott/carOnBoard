@@ -25,17 +25,31 @@ public class AirSwitch extends DrawableObject {
 
     @Override
     public void updateObject() {
-        float indexDiff = Math.abs(indexAngle - currentIndexAngle);
+        float normalizedIndexAngle = normalizeAngle(indexAngle);
+        float indexDiff = angleDiff(currentIndexAngle, normalizedIndexAngle);
         float indexRotation = INDEX_SPEED * elapsedTime();
-        if (indexRotation < indexDiff) {
-            if (currentIndexAngle < indexAngle) {
+        if (indexRotation < Math.abs(indexDiff)) {
+            if (indexDiff < 0) {
                 currentIndexAngle += indexRotation;
             } else {
                 currentIndexAngle -= indexRotation;
             }
+            currentIndexAngle = normalizeAngle(currentIndexAngle);
         } else {
-            currentIndexAngle = indexAngle;
+            currentIndexAngle = normalizedIndexAngle;
         }
+    }
+
+    private float angleDiff(float a, float b) {
+        float diff = Math.abs(a - b);
+        if (diff > 180) {
+            diff -= 360;
+        }
+        return Math.abs(diff);
+    }
+
+    private float normalizeAngle(float angle) {
+        return (angle %= 360) >= 0 ? angle : (angle + 360);
     }
 
     @Override
