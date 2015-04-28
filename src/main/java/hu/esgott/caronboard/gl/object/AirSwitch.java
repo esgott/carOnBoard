@@ -1,5 +1,6 @@
 package hu.esgott.caronboard.gl.object;
 
+import hu.esgott.caronboard.devices.AudioFeedback;
 import hu.esgott.caronboard.gl.Textures;
 import hu.esgott.caronboard.gl.Textures.ID;
 
@@ -12,10 +13,12 @@ public class AirSwitch extends DrawableObject {
     private static final float INDEX_WIDTH_DEG = 7.5f;
     private static final float RELATIVE_INDEX_LENGTH = 0.2f;
     private static final float INDEX_SPEED = 2.0f;
-
     private final float radius;
-    private int indexAngle = 90;
-    private float currentIndexAngle = indexAngle;
+    private final float[] angles = { 210, 150, 90, 30, -30 };
+    private final ID[] pictograms = { ID.DEFROST, ID.DOWNDEFROST, ID.DOWN,
+            ID.UPDOWN, ID.UP };
+    private int selectedAngle = 0;
+    private float currentIndexAngle = angles[selectedAngle];
     private final Textures textures;
 
     public AirSwitch(final float radius, final Textures textures) {
@@ -25,11 +28,11 @@ public class AirSwitch extends DrawableObject {
 
     @Override
     public void updateObject() {
-        float normalizedIndexAngle = normalizeAngle(indexAngle);
-        float indexDiff = angleDiff(currentIndexAngle, normalizedIndexAngle);
+        float normalizedIndexAngle = normalizeAngle(angles[selectedAngle]);
+        float indexDiff = angleDiff(normalizedIndexAngle, currentIndexAngle);
         float indexRotation = INDEX_SPEED * elapsedTime();
         if (indexRotation < Math.abs(indexDiff)) {
-            if (indexDiff < 0) {
+            if (indexDiff > 0) {
                 currentIndexAngle += indexRotation;
             } else {
                 currentIndexAngle -= indexRotation;
@@ -41,11 +44,14 @@ public class AirSwitch extends DrawableObject {
     }
 
     private float angleDiff(float a, float b) {
-        float diff = Math.abs(a - b);
+        float diff = a - b;
         if (diff > 180) {
-            diff -= 360;
+            return diff - 360;
         }
-        return Math.abs(diff);
+        if (diff < -180) {
+            return diff + 360;
+        }
+        return diff;
     }
 
     private float normalizeAngle(float angle) {
@@ -77,11 +83,9 @@ public class AirSwitch extends DrawableObject {
     }
 
     private void drawPictograms(GL2 gl) {
-        drawCircular(gl, ID.DEFROST, 210.0f);
-        drawCircular(gl, ID.DOWNDEFROST, 150.0f);
-        drawCircular(gl, ID.DOWN, 90.0f);
-        drawCircular(gl, ID.UPDOWN, 30.0f);
-        drawCircular(gl, ID.UP, -30.0f);
+        for (int i = 0; i < pictograms.length; i++) {
+            drawCircular(gl, pictograms[i], angles[i]);
+        }
     }
 
     private void drawCircular(GL2 gl, ID textureId, float angle) {
@@ -151,20 +155,25 @@ public class AirSwitch extends DrawableObject {
 
     @Override
     public void forwardAction() {
-        if (indexAngle > -30) {
-            indexAngle -= 60;
-        } else {
-            indexAngle = 210;
+        selectedAngle++;
+        if (selectedAngle >= angles.length) {
+            selectedAngle = 0;
         }
+        tts();
     }
 
     @Override
     public void backwardAction() {
-        if (indexAngle < 210) {
-            indexAngle += 60;
-        } else {
-            indexAngle = -30;
+        selectedAngle--;
+        if (selectedAngle < 0) {
+            selectedAngle = angles.length - 1;
         }
+        tts();
+    }
+
+    private void tts() {
+        final AudioFeedback audioFeedback = AudioFeedback.getInstance();
+        // TODO angle state map
     }
 
 }
