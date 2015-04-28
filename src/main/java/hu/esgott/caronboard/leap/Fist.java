@@ -22,7 +22,7 @@ public class Fist {
         Runnable onStop = () -> {
             queue.notifyRecorder(RecorderCommand.STOP_RECORDING);
         };
-        timer = new GestureTimer(0.5f, 30, task, null, onStop);
+        timer = new GestureTimer(0.5f, 100, task, null, onStop);
     }
 
     public void update(HandList hands) {
