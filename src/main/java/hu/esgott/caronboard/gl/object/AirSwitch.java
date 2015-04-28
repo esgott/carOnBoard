@@ -1,6 +1,7 @@
 package hu.esgott.caronboard.gl.object;
 
 import hu.esgott.caronboard.devices.AudioFeedback;
+import hu.esgott.caronboard.devices.AudioFeedback.A;
 import hu.esgott.caronboard.gl.Textures;
 import hu.esgott.caronboard.gl.Textures.ID;
 
@@ -171,9 +172,26 @@ public class AirSwitch extends DrawableObject {
         tts();
     }
 
+    @SuppressWarnings("incomplete-switch")
     private void tts() {
         final AudioFeedback audioFeedback = AudioFeedback.getInstance();
-        // TODO angle state map
+        switch (pictograms[selectedAngle]) {
+        case UP:
+            audioFeedback.play(A.BODY);
+            break;
+        case UPDOWN:
+            audioFeedback.play(A.FEET_BODY);
+            break;
+        case DOWN:
+            audioFeedback.play(A.FEET);
+            break;
+        case DOWNDEFROST:
+            audioFeedback.play(A.FEET_WINDSHIELD);
+            break;
+        case DEFROST:
+            audioFeedback.play(A.WINDSHIELD);
+            break;
+        }
     }
 
 }
