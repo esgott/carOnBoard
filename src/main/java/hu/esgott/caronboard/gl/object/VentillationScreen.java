@@ -40,9 +40,9 @@ public class VentillationScreen extends DrawableObject {
         trackList.move(-5.7f, -0.3f);
         map.move(-4.0f, -0.65f);
 
-        temp1.setNeighbours(airSwitch, map);
+        temp1.setNeighbours(airSwitch, temp2);
         airSwitch.setNeighbours(temp2, temp1);
-        temp2.setNeighbours(trackList, airSwitch);
+        temp2.setNeighbours(temp1, airSwitch);
         trackList.setNeighbours(map, temp2);
         map.setNeighbours(temp1, trackList);
     }
