@@ -131,11 +131,6 @@ public class MediaPlayerDevice {
         audioFeedback.play(ttsId);
     }
 
-    public void sourceTts(String source) {
-        audioFeedback = AudioFeedback.getInstance();
-        audioFeedback.play(sourceToTts(source));
-    }
-
     private A sourceToTts(String source) {
         switch (enumValue(source)) {
         case MEDIA:
