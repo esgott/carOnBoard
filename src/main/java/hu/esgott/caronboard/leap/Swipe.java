@@ -17,7 +17,7 @@ public class Swipe implements GestureWrapper {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    private static final float MAX_ANGLE_DIFF = 1.0f;
+    private static final float MAX_ANGLE_DIFF = 0.7f;
 
     private SwipeGesture gesture;
     private boolean executed = false;
@@ -134,6 +134,7 @@ public class Swipe implements GestureWrapper {
                 addDownToQueue();
                 return;
             }
+            log.info("One finger Swipe discarded due to unrecognized direction");
         } else if (fingers > 2) {
             if (left()) {
                 addNextScreenToQueue();
@@ -143,6 +144,7 @@ public class Swipe implements GestureWrapper {
                 addPreviousScreenToQueue();
                 return;
             }
+            log.info("Mutiple finger Swipe discarded due to unrecognized direction");
         }
         log.info("Discarded gesture " + this);
     }
