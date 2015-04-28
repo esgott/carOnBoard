@@ -203,8 +203,8 @@ public class MediaPlayerDevice {
     private void setVolume() {
         if (player != null) {
             player.setVolume(volume.getVolume());
+            log.info("Volume set to " + volume);
         }
-        log.info("Volume set to " + volume);
     }
 
     public void setRecordingState(boolean on) {
@@ -219,13 +219,17 @@ public class MediaPlayerDevice {
     private void storeVolume() {
         log.info("Recording volume set, old volme stored " + volume);
         volume.storeVolume();
-        player.setVolume(volume.getVolume());
+        if (player != null) {
+            player.setVolume(volume.getVolume());
+        }
     }
 
     private void loadVolume() {
-        volume.restoreVolume();
-        player.setVolume(volume.getVolume());
         log.info("Saved volume reset " + volume);
+        volume.restoreVolume();
+        if (player != null) {
+            player.setVolume(volume.getVolume());
+        }
     }
 
     public void setTtsState(boolean on) {
