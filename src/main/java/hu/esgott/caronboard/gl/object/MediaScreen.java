@@ -214,12 +214,10 @@ public class MediaScreen extends DrawableObject {
     }
 
     private void playSelectionTts() {
-        String source = sourceList.getSelectedName();
         if (selected == sourceList) {
-            playerDevice.sourceTts(source);
+            audioFeedback.play(AudioFeedback.A.SOURCE_SELECT);
         } else if (selected == trackList) {
-            int track = trackList.getSelectedNum();
-            playerDevice.trackTts(source, track);
+            trackTts();
         } else {
             audioFeedback.play(AudioFeedback.A.BTN_BEEP);
         }
@@ -276,8 +274,10 @@ public class MediaScreen extends DrawableObject {
     }
 
     public void trackTts() {
-        String source = sourceList.getSelectedName();
-        int track = trackList.getSelectedNum();
-        playerDevice.trackTts(source, track);
+        if (sourceList.getSelectedName().equals("RADIO")) {
+            audioFeedback.play(AudioFeedback.A.CHANNEL_SELECT);
+        } else {
+            audioFeedback.play(AudioFeedback.A.MUSIC_SELECT);
+        }
     }
 }
