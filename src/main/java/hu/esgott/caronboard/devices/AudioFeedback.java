@@ -17,7 +17,7 @@ import javafx.scene.media.MediaPlayer;
 public class AudioFeedback {
 
     public enum A {
-        BTN_BEEP, CORRECT, CLICK, VOLUME, VOLUME_5, VOLUME_10, VOLUME_15, VOLUME_20, VOLUME_25, VOLUME_30, VOLUME_35, VOLUME_40, VOLUME_45, TICK, DANI, FEELING, HIGHWAY, JAZZY, LAYLA, LIVIN, MEDIA, PIECE, RADIO, STRANGE, SULTANS, SWEETCHILD, TOTALCAR, HANGERO, LEFT_TEMP, RIGHT_TEMP, AIRSWITCH, NAVIGATION, CHANNEL_SELECT, MUSIC_SELECT, SOURCE_SELECT
+        BTN_BEEP, CORRECT, CLICK, VOLUME, VOLUME_5, VOLUME_10, VOLUME_15, VOLUME_20, VOLUME_25, VOLUME_30, VOLUME_35, VOLUME_40, VOLUME_45, TICK, DANI, FEELING, HIGHWAY, JAZZY, LAYLA, LIVIN, MEDIA, PIECE, RADIO, STRANGE, SULTANS, SWEETCHILD, TOTALCAR, HANGERO, LEFT_TEMP, RIGHT_TEMP, AIRSWITCH, NAVIGATION, CHANNEL_SELECT, MUSIC_SELECT, SOURCE_SELECT, BODY, FEET, FEET_BODY, FEET_WINDSHIELD, WINDSHIELD
     }
 
     private final Logger log = Logger.getLogger(getClass().getName());
@@ -66,6 +66,11 @@ public class AudioFeedback {
             addClip(A.CHANNEL_SELECT, "tts/channelselect.mp3");
             addClip(A.MUSIC_SELECT, "tts/musicselect.mp3");
             addClip(A.SOURCE_SELECT, "tts/sourceselect.mp3");
+            addClip(A.BODY, "tts/body.mp3");
+            addClip(A.FEET, "tts/feet.mp3");
+            addClip(A.FEET_BODY, "tts/feetbody.mp3");
+            addClip(A.FEET_WINDSHIELD, "tts/feetwindshield.mp3");
+            addClip(A.WINDSHIELD, "tts/windshield.mp3");
         } catch (Exception e) {
             e.printStackTrace();
         }
