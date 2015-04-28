@@ -4,7 +4,6 @@ import hu.esgott.caronboard.CommandQueue;
 import hu.esgott.caronboard.CommandQueue.RecorderCommand;
 import hu.esgott.caronboard.speech.RecognizerCommand.ResponseCallback;
 
-import java.awt.Toolkit;
 import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
@@ -36,7 +35,6 @@ public class RecorderThread implements Runnable {
     @Override
     public void run() {
         log.info("Recording started");
-        beep();
         initServer();
         openInput();
 
@@ -47,12 +45,7 @@ public class RecorderThread implements Runnable {
         }
 
         closeInput();
-        beep();
         log.info("Recording finished");
-    }
-
-    private void beep() {
-        Toolkit.getDefaultToolkit().beep();
     }
 
     private void initServer() {
